@@ -6,6 +6,7 @@ import { HiMoon, HiSun } from "react-icons/hi";
 import { MdOutlineMenu } from "react-icons/md";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { Squada_One } from "next/font/google";
+import { motion } from "framer-motion";
 
 const squada = Squada_One({
   variable: "squada",
@@ -92,12 +93,12 @@ function Navbar() {
             const pageName = el.charAt(0).toUpperCase() + el.slice(1);
             const isActive =
               (pathName === "/" && el === "home") || pathName === `/${el}`
-                ? "border-b-1 border-[var(--primary)] text-[var(--primary)]"
+                ? "border-b-2 border-[var(--primary)] text-[var(--primary)]"
                 : "";
             return (
               <Link
                 href={`/${el}`}
-                className={`hover:text-blue-500 font-semibold ${isActive} lg:tracking-widest pb-2`}
+                className={`hover:text-blue-500 hover:transition-all duration-100 ease-in font-semibold ${isActive} lg:tracking-widest pb-2`}
                 key={i}
               >
                 {pageName}
@@ -107,7 +108,7 @@ function Navbar() {
         </ul>
 
         <div className="lg:flex items-center gap-10">
-          {dark === 'light' ? (
+          {dark === "light" ? (
             <HiSun
               color="black"
               className="hover:cursor-pointer text-[2rem]"
@@ -115,18 +116,29 @@ function Navbar() {
             />
           ) : (
             <HiMoon
+              onClick={handleDarkMode}
               color="white"
               className="hover:cursor-pointer text-[2rem]"
-              onClick={handleDarkMode}
+              // onClick={handleDarkMode}
             />
           )}
-          <Link
-            href="/auth/signup"
-            type="button"
-            className="text-white lg:flex tracking-widest hidden hover:cursor-pointer bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          >
-            Start now
-          </Link>
+          <div className="flex gap-1">
+            <Link
+              href="/auth/login"
+              className="relative lg:flex tracking-widest hidden hover:cursor-pointer items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-md group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+            >
+              <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
+                Sign In
+              </span>
+            </Link>
+            <Link
+              href="/auth/signup"
+              type="button"
+              className="text-white lg:flex tracking-widest hidden hover:cursor-pointer bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-md text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              Sign Up
+            </Link>
+          </div>
         </div>
       </nav>
 
@@ -140,7 +152,7 @@ function Navbar() {
               const pageName = el.charAt(0).toUpperCase() + el.slice(1);
               return (
                 <Link
-                  onClick={()=>setIsMenu(false)}
+                  onClick={() => setIsMenu(false)}
                   className="border-b-1 w-full z-50 border-[var(--border)] hover:text-[var(--textDark)] font-semibold text-2xl py-3 px-3"
                   href={el === "signup" ? "/auth/signup" : `/${el}`}
                   key={i}
