@@ -19,17 +19,23 @@ const menuPages = ["home", "about", "features", "pricing", "signup"];
 function Navbar() {
   const pathName = usePathname();
   const [dark, setDark] = useState(false);
-  const [isMenu, setIsMenu] = useState(false);
+  const [isMenu, setIsMenu] = useState('');
   const menuRef = useRef(null); // Add a ref to detect clicks outside the menu
 
   useEffect(() => {
     // This function will toggle the menu visibility when clicking outside the menu
     function toggleMenu(e) {
       // Check if the click is outside of the menu
+      
       if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setIsMenu(false); // Close the menu if the click is outside
+        setIsMenu(state => {
+          localStorage.setItem('mode',!state ? 'dark' : 'light');
+          return !state;
+        }); // Close the menu if the click is outside
       }
     }
+
+    
 
     // Add event listener to listen for clicks on the body
     document.body.addEventListener("click", toggleMenu);
@@ -37,6 +43,18 @@ function Navbar() {
     // Clean up the event listener on component unmount
     return () => document.body.removeEventListener("click", toggleMenu);
   }, []);
+
+  useEffect(function(){
+      const isDark = localStorage.getItem("mode") || "light";
+      setDark(isDark);
+      
+    },[])
+
+    function handleDarkMode(){
+      document.documentElement.classList.toggle("dark");
+      setDark(state => state === 'light' ? 'dark' : 'light');
+      localStorage.setItem('mode',dark === 'light' ? 'dark' : 'light');
+    }
 
   return (
     <>
@@ -89,23 +107,17 @@ function Navbar() {
         </ul>
 
         <div className="lg:flex items-center gap-10">
-          {!dark ? (
+          {dark === 'light' ? (
             <HiSun
               color="black"
               className="hover:cursor-pointer text-[2rem]"
-              onClick={() => {
-                document.documentElement.classList.toggle("dark");
-                setDark(!dark);
-              }}
+              onClick={handleDarkMode}
             />
           ) : (
             <HiMoon
               color="white"
               className="hover:cursor-pointer text-[2rem]"
-              onClick={() => {
-                document.documentElement.classList.toggle("dark");
-                setDark(!dark);
-              }}
+              onClick={handleDarkMode}
             />
           )}
           <Link
