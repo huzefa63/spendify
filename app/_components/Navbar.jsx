@@ -48,7 +48,7 @@ function Navbar() {
   useEffect(function(){
       const isDark = localStorage.getItem("mode") || "light";
       setDark(isDark);
-      
+      if(isDark === 'dark') document.documentElement.classList.add('dark');
     },[])
 
     function handleDarkMode(){
