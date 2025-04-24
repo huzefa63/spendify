@@ -63,16 +63,16 @@ function Navbar() {
   return (
     <>
       <nav className="lg:h-20 z-50 h-16 lg:px-15 px-5 bg-[var(--surface)] border-b-1 border-[var(--border)] fixed top-0 w-full flex items-center justify-between">
-        <div className="rounded-full lg:hidden p-2 hover:bg-[var(--muted)] hover:cursor-pointer">
+        <div onClick={() => setIsMenu(!isMenu)} className="rounded-full lg:hidden  hover:bg-[var(--muted)] hover:cursor-pointer">
           {isMenu ? (
             <RiCloseLargeFill
-              className="text-xl text-[var(--textDark)]"
-              onClick={() => setIsMenu(!isMenu)}
+              className="text-2xl  text-[var(--textDark)]"
+              // onClick={}
             />
           ) : (
             <MdOutlineMenu
-              className="text-xl text-[var(--textDark)]"
-              onClick={() => setIsMenu(!isMenu)}
+              className="text-2xl  text-[var(--textDark)]"
+              // onClick={() => setIsMenu(!isMenu)}
             />
           )}
         </div>
