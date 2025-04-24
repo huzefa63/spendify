@@ -60,7 +60,7 @@ function Page() {
         </button>
         <div className="flex gap-2 items-center mt-3">
           <p className="text-[var(--textDark)] ">Not registered yet? </p>
-          <Link href="/auth/signup" className="text-blue-500">
+          <Link href="/signup" className="text-blue-500">
             Create account
           </Link>
         </div>

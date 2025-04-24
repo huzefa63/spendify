@@ -76,7 +76,7 @@ function Page() {
             <p className="text-[var(--textDark)] ">
               already have an account?{" "}
             </p>
-            <Link href="/auth/login" className='text-blue-500'>sign in</Link>
+            <Link href="/login" className='text-blue-500'>sign in</Link>
           </div>
         </form>
       </div>

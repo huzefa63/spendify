@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 function NavbarWrapper() {
     const pathname = usePathname();
-    const publicPages = ['home','auth','about','features','pricing'];
+    const publicPages = ['home','signup','login','about','features','pricing'];
     let isPublic = true;
     if(publicPages.includes(pathname.slice(1))) isPublic = true;
     else isPublic = false;
