@@ -6,7 +6,7 @@ import { HiMoon, HiSun } from "react-icons/hi";
 import { MdOutlineMenu } from "react-icons/md";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { Squada_One } from "next/font/google";
-import { motion } from "framer-motion";
+import { motion,AnimatePresence } from "framer-motion";
 import Button from "@/app/_ui/Button";
 const squada = Squada_One({
   variable: "squada",
@@ -123,34 +123,37 @@ function Navbar() {
             />
           )}
           <div className="flex gap-1">
-            <Button type="login">
-              Sign In
-            </Button>
+            <Button type="login">Sign In</Button>
           </div>
         </div>
       </nav>
 
       {isMenu && (
-        <div
-          ref={menuRef} // Attach the ref here to detect clicks outside
-          className="lg:hidden brightness-95 border-x-1 border-[var(--border)] z-[1000] fixed w-full top-16 bg-[var(--surface)]"
-        >
-          <ul className="flex flex-col text-[var(--text)] z-[1000]">
-            {menuPages.map((el, i) => {
-              const pageName = el.charAt(0).toUpperCase() + el.slice(1);
-              return (
-                <Link
-                  onClick={() => setIsMenu(false)}
-                  className="border-b-1 w-full z-50 border-[var(--border)] hover:text-[var(--textDark)] font-semibold text-2xl py-3 px-3"
-                  href={el === "signup" ? "/auth/signup" : `/${el}`}
-                  key={i}
-                >
-                  {pageName}
-                </Link>
-              );
-            })}
-          </ul>
-        </div>
+        <AnimatePresence>
+          <motion.div
+          initial={{height:0,opacity:0}}
+          animate={{height:'auto',opacity:1}}
+          transition={{duration:0.5,ease:'easeInOut'}}
+            ref={menuRef} // Attach the ref here to detect clicks outside
+            className="lg:hidden overflow-hidden brightness-95 border-x-1 border-[var(--border)] z-[1000] fixed w-full top-16 bg-[var(--surface)]"
+          >
+            <ul className="flex flex-col text-[var(--text)] z-[1000]">
+              {menuPages.map((el, i) => {
+                const pageName = el.charAt(0).toUpperCase() + el.slice(1);
+                return (
+                  <Link
+                    onClick={() => setIsMenu(false)}
+                    className="border-b-1 w-full z-50 border-[var(--border)] hover:text-[var(--textDark)] font-semibold text-2xl py-3 px-3"
+                    href={el === "signup" ? "/auth/signup" : `/${el}`}
+                    key={i}
+                  >
+                    {pageName}
+                  </Link>
+                );
+              })}
+            </ul>
+          </motion.div>
+        </AnimatePresence>
       )}
     </>
   );
