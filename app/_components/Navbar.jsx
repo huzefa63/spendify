@@ -7,7 +7,7 @@ import { MdOutlineMenu } from "react-icons/md";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { Squada_One } from "next/font/google";
 import { motion } from "framer-motion";
-
+import Button from "@/app/_ui/Button";
 const squada = Squada_One({
   variable: "squada",
   subsets: ["latin"],
@@ -123,21 +123,9 @@ function Navbar() {
             />
           )}
           <div className="flex gap-1">
-            <Link
-              href="/auth/login"
-              className="relative lg:flex tracking-widest hidden hover:cursor-pointer items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-md group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
-            >
-              <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
-                Sign In
-              </span>
-            </Link>
-            <Link
-              href="/auth/signup"
-              type="button"
-              className="text-white lg:flex tracking-widest hidden hover:cursor-pointer bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-md text-sm px-5 py-2.5 text-center me-2 mb-2"
-            >
-              Sign Up
-            </Link>
+            <Button type="login">
+              Sign In
+            </Button>
           </div>
         </div>
       </nav>
