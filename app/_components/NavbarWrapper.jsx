@@ -1,6 +1,7 @@
 'use client';
 import { usePathname } from "next/navigation"
 import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 function NavbarWrapper() {
     const pathname = usePathname();
@@ -11,7 +12,7 @@ function NavbarWrapper() {
 
     if(isPublic){
         return <Navbar />
-    }else return null;
+    }else return <Sidebar />;
 }
 
 export default NavbarWrapper

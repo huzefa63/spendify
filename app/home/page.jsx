@@ -1,10 +1,16 @@
-import { Poppins } from "next/font/google";
+import { Poppins,Inter } from "next/font/google";
 import Image from "next/image";
 import AnimatedButton from "@/app/_components/AnimatedButton";
 import Button from "../_ui/Button";
 import Slide from "@/app/_animation/Slide";
 const poppins = Poppins({
     variable:'poppins',
+    subsets:['latin'],
+    weight:'600'
+})
+
+const inter = Poppins({
+    variable:'inter',
     subsets:['latin'],
     weight:'600'
 })
@@ -49,12 +55,7 @@ function Page() {
                 Like never before.
               </span>
             </p>
-            <p className="text-md mt-4 tracking-wider  text-emerald-500 font-semibold dark:text-blue-400">
-              {" "}
-              <strong>Visualize</strong>, <strong>categorize</strong>, and
-              <strong> control</strong> your expenses{" "}
-              <span className="block">just like a pro.</span>
-            </p>
+           
           </div>
 
           {/* displayed image here in mobile screen */}
@@ -71,7 +72,7 @@ function Page() {
     
         </section>
 
-        <section className="w-1/2 h-full hidden lg:flex lg:justify-center  pt-16">
+        <section className={`w-1/2 ${inter.className} h-full hidden lg:flex lg:justify-center  pt-16`}>
           <div className="w-[70%] h-full relative   ">
             <div className="lg:w-full lg:h-[50%] relative">
               <Image
@@ -81,23 +82,18 @@ function Page() {
                 alt="person accounting"
               />
             </div>
-            <em className="text-[var(--textDark)] font-bold mt-4 text-4xl tracking-widest flex flex-col  gap-2">
+            <p className="text-[var(--textDark)] font-bold mt-4 text-4xl tracking-widest flex flex-col  gap-2">
               <span>
                 See Your{" "}
                 <strong className="text-blue-600 dark:text-purple-500">
                   Finances
                 </strong>
               </span>
-              <span className="text-3xl tracking-wide ">
+              <span className="text-4xl tracking-wide ">
                 Like never before.
               </span>
-            </em>
-            <p className="text-lg   mt-4 tracking-wider  text-emerald-500 font-semibold dark:text-blue-400">
-              {" "}
-              <strong>Visualize</strong>, <strong>categorize</strong>, and
-              <strong> control</strong> your expenses —{" "}
-              <span className="block">just like a pro.</span>
             </p>
+            
           </div>
         </section>
       </div>

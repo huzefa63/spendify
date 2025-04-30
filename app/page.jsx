@@ -8,6 +8,7 @@ const poppins = Poppins({
 })
 
 export default function Home() {
-  redirect('/home');
+  redirect('/transaction-history');
+  // redirect('/home');
   return (null)
 }

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/app/_components/Navbar";
 import Sidebar from "./_components/Sidebar";
 import NavbarWrapper from "./_components/NavbarWrapper";
+import AppNav from "./_components/AppNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,11 +23,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={` bg-[var(--background)] h-screen w-full antialiased`}
-      >
-        <NavbarWrapper />
-        <main className="lg:pt-20 pt-16 h-full w-full border-white">{children}</main>
+      <body className={` bg-[var(--background)] h-screen w-full antialiased`}>
+        <main className=" h-full flex flex-col w-full border-white">
+          <AppNav />
+          <div className="">
+            <NavbarWrapper />
+            <main className="overflow-auto h-full">{children}</main>
+          </div>
+        </main>
       </body>
     </html>
   );

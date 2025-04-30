@@ -13,6 +13,7 @@ import { IoIosRocket } from "react-icons/io";
 import { FaTags } from "react-icons/fa6";
 import { FaUserPlus } from "react-icons/fa6";
 import Button from "@/app/_ui/Button";
+import NightMode from "./NightMode";
 const squada = Squada_One({
   variable: "squada",
   subsets: ["latin"],
@@ -62,7 +63,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="lg:h-20 z-50 h-16 lg:px-15 px-5 bg-[var(--surface)] border-b-1 border-[var(--border)] fixed top-0 w-full flex items-center justify-between">
+      <nav className="lg:h-20 z-50 h-16 lg:px-15 px-5 bg-[var(--surface)] border-b-1 border-[var(--border)] w-full flex items-center justify-between">
         <div onClick={() => setIsMenu(!isMenu)} className="rounded-full lg:hidden  hover:bg-[var(--muted)] hover:cursor-pointer">
           {isMenu ? (
             <RiCloseLargeFill
@@ -111,7 +112,7 @@ function Navbar() {
         </ul>
 
         <div className="lg:flex items-center gap-10">
-          <div ref={darkRef} className="icons">
+          {/* <div ref={darkRef} className="icons">
           {dark === "light" ? 
               <HiSun
                 color="black"
@@ -127,7 +128,8 @@ function Navbar() {
                 className="hover:cursor-pointer text-[2rem]"
               />
             }
-            </div>
+            </div> */}
+            <NightMode />
           <div className="lg:flex hidden">
             <Button type="login">Sign In</Button>
           </div>
