@@ -30,7 +30,9 @@ function AuthForm({type}) {
         );
         console.log(res);
         if (res.data.status === "success"){
-          window.location.href = '/transaction-history'
+          setTimeout(() => {
+            window.location.href = "/transaction-history";
+          }, 100);
         }
       } catch (err) {
         toast.error("unable to login, please check email or password");
