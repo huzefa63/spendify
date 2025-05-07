@@ -25,7 +25,6 @@ const menuPages = ["home", "about", "features", "pricing", "signup"];
 
 function Navbar() {
   const pathName = usePathname();
-  const [dark, setDark] = useState('');
   const [isMenu, setIsMenu] = useState(false);
   const menuRef = useRef(null); // Add a ref to detect clicks outside the menu
   const darkRef = useRef(null);
@@ -39,27 +38,12 @@ function Navbar() {
         setIsMenu(state => !state);
       }
     }
-
-    
-
     // Add event listener to listen for clicks on the body
     document.body.addEventListener("click", toggleMenu);
 
     // Clean up the event listener on component unmount
     return () => document.body.removeEventListener("click", toggleMenu);
   }, []);
-
-  useEffect(function(){
-      const isDark = localStorage.getItem("mode") || "light";
-      setDark(isDark);
-      if(isDark === 'dark') document.documentElement.classList.add('dark');
-    },[])
-
-    function handleDarkMode(){
-      document.documentElement.classList.toggle("dark");
-      setDark(state => state === 'light' ? 'dark' : 'light');
-      localStorage.setItem('mode',dark === 'light' ? 'dark' : 'light');
-    }
 
   return (
     <>
@@ -68,12 +52,12 @@ function Navbar() {
           {isMenu ? (
             <RiCloseLargeFill
               className="text-2xl  text-[var(--textDark)]"
-              // onClick={}
+              
             />
           ) : (
             <MdOutlineMenu
               className="text-2xl  text-[var(--textDark)]"
-              // onClick={() => setIsMenu(!isMenu)}
+              
             />
           )}
         </div>
@@ -112,23 +96,6 @@ function Navbar() {
         </ul>
 
         <div className="lg:flex items-center gap-10">
-          {/* <div ref={darkRef} className="icons">
-          {dark === "light" ? 
-              <HiSun
-                color="black"
-                className="hover:cursor-pointer text-[2rem]"
-                onClick={handleDarkMode}
-              />
-           
-           : 
-            
-              <HiMoon
-                onClick={handleDarkMode}
-                color="white"
-                className="hover:cursor-pointer text-[2rem]"
-              />
-            }
-            </div> */}
             <NightMode />
           <div className="lg:flex hidden">
             <Button type="login">Sign In</Button>

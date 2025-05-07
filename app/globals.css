@@ -32,6 +32,16 @@
 }
 
 
+.scroll-bar::-webkit-scrollbar{
+  width: 10px;
+  background-color: transparent;
+  display: none;
+}
+.scroll-bar::-webkit-scrollbar-thumb{
+  background: gray;
+  border-radius: 10px;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

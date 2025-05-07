@@ -3,14 +3,15 @@
 import { usePathname } from "next/navigation";
 import { Inter } from "next/font/google";
 import NightMode from "./NightMode";
-
+import { useEffect } from "react";
+import { FaUserCircle } from "react-icons/fa";
 const inter = Inter({
   variable:'inter',
   subsets:['latin'],
   weight:'600'
 })
 const privateRoute = ["transaction-history", "settings", "dashboard"];
-function AppNav() {
+function AppNav({user}) {
   const pathname = usePathname();
   if (privateRoute.includes(pathname.slice(1))){
     return (
@@ -21,16 +22,16 @@ function AppNav() {
         <h1 className="text-2xl ml-44 text-[var(--text)]">
           {" "}
           welcome back,{" "}
-          <strong className="text-[var(--textDark)]">Olivia!</strong>
+          <strong className="text-[var(--textDark)]">{user?.userName}!</strong>
         </h1>
         <div className="flex gap-3 items-center">
           <NightMode />
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyW2MAFrFnfa_bT1jSttLbmvfotJcqQyCCGg&s"
+          {user?.profileImage ? <img
+            src={user?.profileImage}
             alt=""
             className="w-11 h-10 rounded-full"
-          />
-          <h1 className="text-[var(--textDark)]">olivia martin</h1>
+          /> : <FaUserCircle className="w-11 h-10 dark:text-white"/>}
+          <h1 className="text-[var(--textDark)] text-xl">{user?.userName}</h1>
         </div>
       </nav>
     );
