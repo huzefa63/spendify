@@ -11,19 +11,9 @@ function Sidebar() {
           aria-label="Sidebar"
         >
           <div className="h-screen px-3 py-4 pt-8 overflow-y-auto">
-            <a
-              href="https://flowbite.com/"
-              className="flex items-center ps-2.5 mb-5"
-            >
-              <img
-                src="https://flowbite.com/docs/images/logo.svg"
-                className="h-8 me-3 sm:h-7"
-                alt="Flowbite Logo"
-              />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                Spendify
-              </span>
-            </a>
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              Spendify
+            </span>
             <div className="space-y-2 font-medium  pt-15">
               <Link href="/dashboard">
                 <p className="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -56,7 +46,7 @@ function Sidebar() {
                   </span>
                 </p>
               </Link>
-               <LogoutButton />
+              <LogoutButton />
             </div>
           </div>
         </aside>
