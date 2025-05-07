@@ -23,7 +23,7 @@ async function Page({searchParams}) {
     const transaction = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{
       headers:{
         Cookie:`jwt=${jwt}`
-      }
+      },credentials:'include'
     });
     transactionData = await transaction.json();
     

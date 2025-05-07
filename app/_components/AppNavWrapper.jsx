@@ -14,6 +14,7 @@ async function AppNavWrapper() {
         headers:{
             Cookie:`jwt=${jwt}`,
         },
+        credentials:'include'
     })
     user = await res.json();
     console.log(user)
