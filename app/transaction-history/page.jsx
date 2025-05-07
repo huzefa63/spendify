@@ -15,7 +15,8 @@ async function Page({searchParams}) {
   const searchParamsObj = await searchParams;
   const cookieStore = await cookies();
   let jwt = cookieStore.get('jwt')?.value;
-  if(!jwt) redirect('/login');
+  // if(!jwt) redirect('/login');
+  console.log(jwt);
   const queryString = new URLSearchParams(searchParamsObj).toString();
   let transactionData;
   try{
