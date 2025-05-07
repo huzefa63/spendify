@@ -30,9 +30,10 @@ function AuthForm({type}) {
         );
         console.log(res);
         if (res.data.status === "success"){
-          router.replace('/transaction-history');
+          window.location.href = '/transaction-history';
         }
       } catch (err) {
+        console.log(err);
         toast.error("unable to login, please check email or password");
       }
     }

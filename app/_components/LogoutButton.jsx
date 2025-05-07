@@ -15,6 +15,7 @@ function LogoutButton() {
           router.replace('/home');
           toast.success('logged out!');
           }catch(err){
+            console.log(err)
             toast.error('unable to logout, please try again');
           }
         }}
