@@ -24,15 +24,13 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const cookieStore = await cookies();
-  const jwt = cookieStore.get('jwt')?.value;
   return (
     <html lang="en">
       <body
         className={` bg-[var(--background)] h-screen w-full antialiased transition-all duration-300 ease-in-out`}
       >
         <main className=" h-full flex flex-col w-full border-white">
-          {jwt && <AppNavWrapper />}
+          <AppNavWrapper />
           <Toaster toastOptions={{ position: "top-right" }} />
           <div className="">
             <NavbarWrapper />
