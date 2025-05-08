@@ -3,7 +3,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import PaginationController from "./PaginationController";
 import { BiRupee } from "react-icons/bi";
 import dayjs from "dayjs";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
 
@@ -32,12 +32,15 @@ function Row({data,i}){
 
 function Table({heading}) {
     const router = useRouter();
+    const searchParams = useParams();
+
   let data;
    useEffect(async () => {
     const token = localStorage.getItem('token') || '';
     if(!token){
       router.route('/login');
     }
+    const queryString = searchParams.toString();
     try{
     data = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{},{
       headers:{
@@ -49,7 +52,7 @@ function Table({heading}) {
   }catch(err){
     console.log(err);
   }
-  },[])
+  },[searchParams])
     return (
       <div className="bg-[var(--surface)] relative  border-[var(--border)] border-1 overflow-hidden shadow-sm rounded-md w-full h-full  text-[var(--textDark)] flex flex-col">
         <div className="grid bg-[var(--background)] gap-10 py-2 px-5 grid-cols-12 overflow-auto ">
