@@ -39,12 +39,12 @@ function Table({heading}) {
       router.route('/login');
     }
     try{
-    const transaction = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{},{
+    data = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{},{
       headers:{
         Authorization: `Bearer ${token}`
       }
     });
-    data = await transaction.json();
+    console.log(data.data.transaction);
     
   }catch(err){
     console.log(err);
@@ -61,7 +61,7 @@ function Table({heading}) {
           <p className="col-span-2 flex justify-between">amount</p>
         </div>
         <div className="flex-1 scroll-bar  pt-2 overflow-auto">
-          {data?.transaction?.map((el, i) => (
+          {data?.data?.transaction?.map((el, i) => (
             <Row key={i} data={el} i={i} />
           ))}
         </div>
