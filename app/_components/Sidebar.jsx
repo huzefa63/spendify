@@ -4,7 +4,7 @@ import { FaGear } from "react-icons/fa6";
 import LogoutButton from "@/app/_components/LogoutButton";
 function Sidebar() {
     return (
-      <nav className="z-[1000]  fixed top-0 left-0 w-54 h-screen border-r-1 border-[var(--border)] bg-[var(--surface)]">
+      <nav className="z-[999]  fixed top-0 left-0 w-54 h-screen border-r-1 border-[var(--border)] bg-[var(--surface)]">
         <aside
           id="logo-sidebar"
           className="  transition-transform "
