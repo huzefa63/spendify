@@ -75,7 +75,7 @@ function Table({heading}) {
           ))}
         </div>
         <div className="w-full bg-[var(--background)] border-1 border-[var(--border)] overflow-hidden px-5 h-[8%] flex items-center">
-          <PaginationController pages={data?.totalPages}/>
+          <PaginationController pages={data?.data?.totalPages}/>
         </div>
       </div>
     );
