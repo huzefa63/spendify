@@ -3,8 +3,8 @@ import { HiDotsVertical } from "react-icons/hi";
 import PaginationController from "./PaginationController";
 import { BiRupee } from "react-icons/bi";
 import dayjs from "dayjs";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Row({data,i}){
@@ -32,26 +32,32 @@ function Row({data,i}){
 
 function Table({heading}) {
     const router = useRouter();
-    const searchParams = useParams();
-
-  let data;
-   useEffect(async () => {
-    const token = localStorage.getItem('token') || '';
-    if(!token){
-      router.route('/login');
-    }
-    const queryString = searchParams.toString();
-    try{
-    data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{
-      headers:{
-        Authorization: `Bearer ${token}`
+    const searchParams = useSearchParams();
+    const [data,setData] = useState();
+ 
+   useEffect( function() {
+    async function getTransactions() {
+      const token = localStorage.getItem("token") || "";
+      if (!token) {
+        router.replace("/login");
       }
-    });
-    console.log(data.data.transaction);
-    
-  }catch(err){
-    console.log(err);
-  }
+      const queryString = searchParams.toString();
+      try {
+        let dataRes = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setData(dataRes);
+        console.log(data.data.transaction);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getTransactions();
   },[searchParams])
     return (
       <div className="bg-[var(--surface)] relative  border-[var(--border)] border-1 overflow-hidden shadow-sm rounded-md w-full h-full  text-[var(--textDark)] flex flex-col">
