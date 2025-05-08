@@ -13,23 +13,23 @@ const inter = Inter({
 })
 async function Page({searchParams}) {
   const searchParamsObj = await searchParams;
-  // const cookieStore = await cookies();
-  let transactionData = [];
+  const cookieStore = await cookies();
+  let jwt = cookieStore.get('jwt')?.value;
   // if(!jwt) redirect('/login');
-  // let jwt = cookieStore.get('jwt')?.value;
-  // console.log(jwt);
-  // const queryString = new URLSearchParams(searchParamsObj).toString();
-  // try{
-  //   const transaction = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{
-  //     headers:{
-  //       Cookie:`jwt=${jwt}`
-  //     },credentials:'include'
-  //   });
-  //   transactionData = await transaction.json();
+  console.log(jwt);
+  const queryString = new URLSearchParams(searchParamsObj).toString();
+  let transactionData;
+  try{
+    const transaction = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{
+      headers:{
+        Cookie:`jwt=${jwt}`
+      },credentials:'include'
+    });
+    transactionData = await transaction.json();
     
-  // }catch(err){
-  //   console.log(err);
-  // }
+  }catch(err){
+    console.log(err);
+  }
   
   return (
       // padding top and left in page due to side and app navbar

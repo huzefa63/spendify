@@ -3,12 +3,16 @@ import { HiDotsVertical } from "react-icons/hi";
 import PaginationController from "./PaginationController";
 import { BiRupee } from "react-icons/bi";
 import dayjs from "dayjs";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import axios from "axios";
 
 function Row({data,i}){
+
   const date = dayjs(data.createdAt).format("MMM D, YYYY");
   const page = useSearchParams().get('page');
   const pageSize = 10;
+
   return (
     <div className="grid grid-cols-12 py-3  px-5 gap-10 border-b-1 border-gray-200 dark:border-gray-800">
       <p>{(page - 1) * pageSize + i + 1}</p>
@@ -25,150 +29,27 @@ function Row({data,i}){
     </div>
   );
 }
-const entries = [
-  {
-    category: "Groceries",
-    type: "Expense",
-    title: "Weekly vegetable shopping at local",
-    date: "26 jan, 2025",
-    amount: 450,
-  },
-  {
-    category: "Freelance",
-    type: "Income",
-    title: "Website design project for client",
-    date: "2025-05-02",
-    amount: 5000,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-  {
-    category: "Transport",
-    type: "Expense",
-    title: "Uber ride to office",
-    date: "2025-05-01",
-    amount: 220,
-  },
-];
 
-function Table({heading,data}) {
+function Table({heading}) {
+    const router = useRouter();
+  let data;
+   useEffect(async () => {
+    const token = localStorage.getItem('token') || '';
+    if(!token){
+      router.route('/login');
+    }
+    try{
+    const transaction = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{},{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    });
+    data = await transaction.json();
+    
+  }catch(err){
+    console.log(err);
+  }
+  },[])
     return (
       <div className="bg-[var(--surface)] relative  border-[var(--border)] border-1 overflow-hidden shadow-sm rounded-md w-full h-full  text-[var(--textDark)] flex flex-col">
         <div className="grid bg-[var(--background)] gap-10 py-2 px-5 grid-cols-12 overflow-auto ">
@@ -179,7 +60,7 @@ function Table({heading,data}) {
           <p className="col-span-2">date</p>
           <p className="col-span-2 flex justify-between">amount</p>
         </div>
-        <div className="flex-1 scroll-bar pt-2 overflow-auto">
+        <div className="flex-1 scroll-bar  pt-2 overflow-auto">
           {data?.transaction?.map((el, i) => (
             <Row key={i} data={el} i={i} />
           ))}

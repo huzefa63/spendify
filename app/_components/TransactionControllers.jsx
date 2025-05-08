@@ -29,7 +29,7 @@ const iconMap = {
 };
 
 
-function TransactionControllers({ filterObj,entries }) {
+function TransactionControllers({ filterObj }) {
   // hooks
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCategory,setShowCategory] = useState(false);
@@ -43,8 +43,8 @@ function TransactionControllers({ filterObj,entries }) {
   
   useEffect(() => {
     console.log(filterObj)
-    console.log(entries);
-    if(entries?.status === 'error' || !entries?.transaction?.length) return;
+   
+    // if(entries?.status === 'error' || !entries?.transaction?.length) return;
     const params = new URLSearchParams(searchParams);
       params.set("filter", "all");
       params.set('page','1');

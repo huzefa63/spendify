@@ -14,7 +14,10 @@ function AuthForm({type}) {
       try{
         const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/createUser`,data,{withCredentials:true});
         console.log(res.data);
-        if(res.data.status === "success") toast.success('account created');
+        if(res.data.status === "success"){
+           localStorage.setItem("token", res.data.token);
+           window.location.href = "/transaction-history";
+        }
         router.replace("/transaction-history");
       }
       catch(err){
@@ -29,9 +32,10 @@ function AuthForm({type}) {
           data,{withCredentials:true}
         );
         console.log(res);
-        // if (res.data.status === "success"){
-        //   window.location.href = '/transaction-history';
-        // }
+        if (res.data.status === "success"){
+          localStorage.setItem('token',res.data.token);
+          window.location.href = '/transaction-history';
+        }
       } catch (err) {
         console.log(err);
         toast.error("unable to login, please check email or password");
