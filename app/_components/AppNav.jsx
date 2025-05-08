@@ -12,6 +12,7 @@ const inter = Inter({
 })
 const privateRoute = ["transaction-history", "settings", "dashboard"];
 function AppNav({user}) {
+  console.log('user',user);
   const pathname = usePathname();
   if (privateRoute.includes(pathname.slice(1))){
     return (

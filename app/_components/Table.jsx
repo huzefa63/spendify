@@ -52,7 +52,7 @@ function Table({heading}) {
           }
         );
         setData(dataRes);
-        console.log(data.data.transaction);
+        console.log(data?.data);
       } catch (err) {
         console.log(err);
       }

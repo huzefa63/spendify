@@ -6,18 +6,9 @@ function LogoutButton() {
   const router = useRouter();
     return (
       <button
-        onClick={async () => {
-          try{
-            await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
-            method: "POST",
-            credentials: "include",
-          });
-          router.replace('/home');
-          toast.success('logged out!');
-          }catch(err){
-            console.log(err)
-            toast.error('unable to logout, please try again');
-          }
+        onClick={() => {
+         localStorage.removeItem('token');
+         router.replace('/home');
         }}
         className="flex items-center w-full hover:cursor-pointer"
       >

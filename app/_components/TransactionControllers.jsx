@@ -44,7 +44,7 @@ function TransactionControllers({ filterObj }) {
   useEffect(() => {
     console.log(filterObj)
    
-    // if(entries?.status === 'error' || !entries?.transaction?.length) return;
+    // if(!transaction || !transaction?.length) return;
     const params = new URLSearchParams(searchParams);
       params.set("filter", "all");
       params.set('page','1');

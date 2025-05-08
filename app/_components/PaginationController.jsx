@@ -4,6 +4,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosArrowForward,IoIosArrowBack } from "react-icons/io";
 function PaginationController({pages}) {
+  console.log(pages);
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams(); 
