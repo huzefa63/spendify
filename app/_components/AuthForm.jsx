@@ -29,9 +29,9 @@ function AuthForm({type}) {
           data,{withCredentials:true}
         );
         console.log(res);
-        if (res.data.status === "success"){
-          window.location.href = '/transaction-history';
-        }
+        // if (res.data.status === "success"){
+        //   window.location.href = '/transaction-history';
+        // }
       } catch (err) {
         console.log(err);
         toast.error("unable to login, please check email or password");
