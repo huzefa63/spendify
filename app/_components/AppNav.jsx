@@ -22,16 +22,16 @@ function AppNav({user}) {
         <h1 className="text-2xl ml-44 text-[var(--text)]">
           {" "}
           welcome back,{" "}
-          <strong className="text-[var(--textDark)]">{user?.userName}!</strong>
+          <strong className="text-[var(--textDark)]">{user?.data?.userName}!</strong>
         </h1>
         <div className="flex gap-3 items-center">
           <NightMode />
-          {user?.profileImage ? <img
-            src={user?.profileImage}
+          {user?.data?.profileImage ? <img
+            src={user?.data?.profileImage}
             alt=""
             className="w-11 h-10 rounded-full"
           /> : <FaUserCircle className="w-11 h-10 dark:text-white"/>}
-          <h1 className="text-[var(--textDark)] text-xl">{user?.userName}</h1>
+          <h1 className="text-[var(--textDark)] text-xl">{user?.data?.userName}</h1>
         </div>
       </nav>
     );
