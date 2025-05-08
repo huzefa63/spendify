@@ -42,7 +42,7 @@ function Table({heading}) {
     }
     const queryString = searchParams.toString();
     try{
-    data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{},{
+    data = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,{
       headers:{
         Authorization: `Bearer ${token}`
       }
