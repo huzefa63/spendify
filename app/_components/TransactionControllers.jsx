@@ -16,6 +16,7 @@ import Dropdown from "./Dropdown";
 import DatePickerr from "./DatePicker";
 import ModelWindow from "./ModelWindow";
 import TransactionForm from "./TransactionForm";
+import { useQueryClient } from "@tanstack/react-query";
 
 const filterOptions = ["all", "amount", "expense", "income", "category"];
 
@@ -40,6 +41,7 @@ function TransactionControllers({ filterObj }) {
   const pathname = usePathname();
   const filterButtonRef = useRef(null);
   const sortButtonRef = useRef(null);
+  const queryClient = useQueryClient();
   // effect
   
   useEffect(() => {
@@ -62,7 +64,7 @@ function TransactionControllers({ filterObj }) {
     }
   }
 
-  function filterHandler(filter,nestedFilterValue) {
+  async function filterHandler(filter,nestedFilterValue) {
     const params = new URLSearchParams(searchParams);
     if(filter !== 'all') params.delete('filter');
 
@@ -77,7 +79,12 @@ function TransactionControllers({ filterObj }) {
     if(filter === 'amount') handleParams(params,'amount',nestedFilterValue);
     params.set('page','1');
     router.replace(`${pathname}?${params.toString()}`);
+    
   }
+  // const search = searchParams.toString();
+  // useEffect(function() {
+  //   queryClient.invalidateQueries(["transactions"]);
+  // },[searchParams])
 
   function showActiveFilter(filter){
     if(searchParams.get('filter') && filter === 'all') return <IoCheckmark className="text-blue-500 " />;
@@ -109,7 +116,7 @@ function TransactionControllers({ filterObj }) {
 
                   {filterOptions.map((el, i) => {
                     return (
-                      <div key={i}>
+                      <div key={i} className="h-fit">
                         <button
                           onClick={() => {
                             if (el === "category")
@@ -132,8 +139,8 @@ function TransactionControllers({ filterObj }) {
                                 {showActiveFilter(el)}
                               </span>
 
-                              {el === "category" && <IoIosArrowDown className="ml-auto"/>}
-                              {el === "amount" && <IoIosArrowDown className="ml-auto"/>}
+                              {el === "category" && <IoIosArrowDown className={`ml-auto transition-all duration-300 ${showCategory && 'rotate-180'}`}/>}
+                              {el === "amount" && <IoIosArrowDown className={`ml-auto transition-all duration-300 ${showAmount && 'rotate-180'}`}/>}
 
                             </div>
                           </div>
@@ -186,7 +193,7 @@ function TransactionControllers({ filterObj }) {
 }
 
 function NestedDropdown({filterObj,options,filterHandler,filterName}){
-  return <div className="flex flex-col ">
+  return <div className="flex flex-col lg:max-h-32 overflow-auto">
     {options?.map((el) => (
       <button
         key={el}

@@ -6,6 +6,7 @@ import NavbarWrapper from "./_components/NavbarWrapper";
 import AppNav from "./_components/AppNav";
 import { Toaster } from "react-hot-toast";
 import AppNavWrapper from "./_components/AppNavWrapper";
+import QueryProvider from "./_components/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,15 +29,17 @@ export default async function RootLayout({ children }) {
       <body
         className={` bg-[var(--background)] h-screen w-full antialiased transition-all duration-300 ease-in-out`}
       >
-        <main className=" h-full flex flex-col w-full border-white">
-          <div id="root"></div>
-          <AppNavWrapper />
-          <Toaster toastOptions={{ position: "top-right" }} />
-          <div className="">
-            <NavbarWrapper />
-            <main className="overflow-auto h-full">{children}</main>
-          </div>
-        </main>
+        <QueryProvider>
+          <main className=" h-full flex flex-col w-full border-white">
+            <div id="root"></div>
+            <AppNavWrapper />
+            <Toaster toastOptions={{ position: "top-right" }} />
+            <div className="">
+              <NavbarWrapper />
+              <main className="overflow-auto h-full">{children}</main>
+            </div>
+          </main>
+        </QueryProvider>
       </body>
     </html>
   );

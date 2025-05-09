@@ -35,7 +35,7 @@ function PaginationController({pages}) {
     return (
       <div className="flex justify-between items-center w-full">
         {pages > 0 ? <div className="">
-          page {page} out of {pages}
+          page {searchParams.get('page')} out of {pages}
         </div> : 'no pages found!'}
         <div className="flex gap-3">
           <button

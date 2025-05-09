@@ -1,8 +1,12 @@
+'use client';
 import Link from "next/link";
 import { GrTransaction } from "react-icons/gr";
 import { FaGear } from "react-icons/fa6";
 import LogoutButton from "@/app/_components/LogoutButton";
+import { usePathname } from "next/navigation";
 function Sidebar() {
+  const pathname = usePathname();
+  console.log(pathname)
     return (
       <nav className="z-[999]  fixed top-0 left-0 w-54 h-screen border-r-1 border-[var(--border)] bg-[var(--surface)]">
         <aside
@@ -14,9 +18,13 @@ function Sidebar() {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Spendify
             </span>
-            <div className="space-y-2 font-medium  pt-15">
+            <div className="space-y-2 flex flex-col gap-1 font-medium  pt-15">
               <Link href="/dashboard">
-                <p className="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <p
+                  className={`flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    pathname === "/dashboard" && "bg-gray-100 dark:bg-gray-700"
+                  }`}
+                >
                   <svg
                     className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                     aria-hidden="true"
@@ -31,7 +39,12 @@ function Sidebar() {
                 </p>
               </Link>
               <Link href="/transaction-history">
-                <p className="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <p
+                  className={`flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    pathname === "/transaction-history" &&
+                    "bg-gray-100 dark:bg-gray-700"
+                  }`}
+                >
                   <GrTransaction className="text-gray-500 h-5 w-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                   <span className="flex-1 ms-3 whitespace-nowrap">
                     transaction-history
@@ -39,7 +52,11 @@ function Sidebar() {
                 </p>
               </Link>
               <Link href="/settings">
-                <p className="flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <p
+                  className={`flex items-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    pathname === "/settings" && "bg-gray-100 dark:bg-gray-700"
+                  }`}
+                >
                   <FaGear className="text-gray-500 h-5 w-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                   <span className="flex-1 ms-3 whitespace-nowrap">
                     settings

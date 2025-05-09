@@ -1,6 +1,6 @@
 function Page() {
     return (
-        <div>
+        <div className="pt-20 pl-64">
             settings
         </div>
     )
