@@ -5,48 +5,32 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 function AppNavWrapper() {
-  // const [user, setUser] = useState();
   const {data,isPending,error} = useQuery({
     queryKey: ['user'],
-    queryFn: getUser
+    queryFn: getUser,
+    refetchOnWindowFocus:false,
   });
 
   async function getUser(){
     const token = localStorage.getItem('token') || '';
       if(!token) return;
-      const userRes = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/getUser`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return userRes;
+      try{
+        const userRes = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/getUser`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log('hello',userRes);
+        sessionStorage.setItem('username',userRes.data.userName);
+        sessionStorage.setItem('email',userRes.data.email);
+        return userRes;
+      }catch(err){
+        console.log(err);
+      }
   }
-  // useEffect(() => {
-  //   async function getUser() {
-  //       console.log('fetching user')
-  //     const token = localStorage.getItem('token') || '';
-  //     if(!token) return;
-  //     try {
-  //       const userRes = await axios.get(
-  //         `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/getUser`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-  //       console.log("userRes", userRes);
-  //       setUser(userRes);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   getUser();
-  // }, []);
-  // const user = await res.json();
 
   return <AppNav user={data} />;
 }

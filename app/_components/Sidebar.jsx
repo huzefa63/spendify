@@ -4,6 +4,7 @@ import { GrTransaction } from "react-icons/gr";
 import { FaGear } from "react-icons/fa6";
 import LogoutButton from "@/app/_components/LogoutButton";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 function Sidebar() {
   const pathname = usePathname();
   console.log(pathname)
@@ -15,9 +16,14 @@ function Sidebar() {
           aria-label="Sidebar"
         >
           <div className="h-screen px-3 py-4 pt-8 overflow-y-auto">
+            <div className=" flex gap-2 items-center">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden">
+              <Image src="/favicon.ico" alt="logo" fill />
+            </div>
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Spendify
             </span>
+            </div>
             <div className="space-y-2 flex flex-col gap-1 font-medium  pt-15">
               <Link href="/dashboard">
                 <p
