@@ -4,51 +4,82 @@ import Button from "@/app/_ui/Button";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useMyContext } from "./ContextProvider";
+import { FaUserCircle } from "react-icons/fa";
 const inputStyles =
   "bg-transparent border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-4 py-2";
 
 function SettingsForm() {
   const { register, handleSubmit } = useForm();
   const [image, setImage] = useState("");
-  const [user,setUser] = useState({username:'',email:''});
+  // const [user,setUser] = useState({username:'',email:''});
+  const {data:userData} = useMyContext();
   const queryClient = useQueryClient();
-  // const mutation = useMutation({
-  //   mutationFn:onSubmit,
-  //   onSuccess:()=>{
-  //     qu
-  //   }
-  // })
-
-  function onSubmit(data) {
-    if(data.categoryName){
-
+  const mutation = useMutation({
+    mutationFn:onSubmit,
+    onSuccess:()=>{
+      queryClient.invalidateQueries(['user']);
     }
+  })
+
+  async function handleUpdateNameAndImage(data,token){
+    const formData = new FormData();
+    formData.append("userName", data.username);
+    formData.append("photo", data.photo[0]);
+    console.log(formData.get("photo"));
+    const res = await axios.put(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/updateUser`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(res);
+    if (res.data.status === "success") {
+
+      toast.success("profile updated");
+      
+    } else console.log(res)
+  }
+
+  async function onSubmit(data) {
+    const token = localStorage.getItem('token');
+    if(data.username && data.username !== userData.username) await handleUpdateNameAndImage(data,token);
   }
 
   function handleImageChange(e) {
     const file = e.target.files[0];
+    if(!file) setImage('');
     if (file) {
       setImage(file.name);
     }
   }
-  useEffect(function(){
-    const username = sessionStorage.getItem('username');
-    const email = sessionStorage.getItem('email');
-    setUser({username,email});
-  },[])
 
   return (
     <form
       className="w-[95%] p-5 h-[95%] bg-[var(--surface)] rounded-sm"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit((data) => mutation.mutate(data))}
     >
       <header className="text-3xl pl-5">Update profile</header>
 
       <div className="flex gap-6 border-1 border-[var(--border)] py-3 px-5 rounded-sm items-center mt-7">
-        <div className="h-20 w-20 overflow-hidden rounded-full relative">
-          <Image fill src="/favicon.ico" alt="profile" className="" />
-        </div>
+        {userData?.profileImage ? (
+          <div className="h-20 w-20 overflow-hidden rounded-full relative">
+            <Image
+              fill
+              src={userData?.profileImage}
+              alt="profile"
+              className=""
+            />
+          </div>
+        ) : (
+          <FaUserCircle className="h-20 w-20 overflow-hidden rounded-full relative"/>
+        )}
+
         <div className="relative w-fit">
           <input
             type="file"
@@ -75,8 +106,8 @@ function SettingsForm() {
         <div className="flex flex-col gap-2">
           <label htmlFor="email">email</label>
           <input
-          disabled={true}
-          value={user.email}
+            disabled={true}
+            value={userData?.email || ""}
             id="email"
             type="text"
             className={`${inputStyles} hover:cursor-not-allowed`}
@@ -87,7 +118,7 @@ function SettingsForm() {
           <label htmlFor="username">change username</label>
           <input
             id="username"
-            defaultValue={user.username}
+            defaultValue={userData?.userName || ""}
             {...register("username")}
             type="text"
             className={inputStyles}

@@ -1,12 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/app/_components/Navbar";
-import Sidebar from "./_components/Sidebar";
-import NavbarWrapper from "./_components/NavbarWrapper";
-import AppNav from "./_components/AppNav";
+import NavbarWrapper from "@/app/_components/NavbarWrapper";
 import { Toaster } from "react-hot-toast";
-import AppNavWrapper from "./_components/AppNavWrapper";
-import QueryProvider from "./_components/QueryProvider";
+import AppNavWrapper from "@/app/_components/AppNavWrapper";
+import QueryProvider from "@/app/_components/QueryProvider";
+import ContextProvider from "@/app/_components/ContextProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,15 +28,17 @@ export default async function RootLayout({ children }) {
         className={` bg-[var(--background)] h-screen w-full antialiased transition-all duration-300 ease-in-out`}
       >
         <QueryProvider>
-          <main className=" h-full flex flex-col w-full border-white">
-            <div id="root"></div>
-            <AppNavWrapper />
-            <Toaster toastOptions={{ position: "top-right" }} />
-            <div className="">
-              <NavbarWrapper />
-              <main className="overflow-auto h-full">{children}</main>
-            </div>
-          </main>
+          <ContextProvider>
+            <main className=" h-full flex flex-col w-full border-white">
+              <div id="root"></div>
+              <AppNavWrapper />
+              <Toaster toastOptions={{ position: "top-center" }} />
+              <div className="">
+                <NavbarWrapper />
+                <main className="overflow-auto h-full">{children}</main>
+              </div>
+            </main>
+          </ContextProvider>
         </QueryProvider>
       </body>
     </html>

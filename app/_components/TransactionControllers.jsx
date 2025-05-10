@@ -17,6 +17,7 @@ import DatePickerr from "./DatePicker";
 import ModelWindow from "./ModelWindow";
 import TransactionForm from "./TransactionForm";
 import { useQueryClient } from "@tanstack/react-query";
+import { useMyContext } from "./ContextProvider";
 
 const filterOptions = ["all", "amount", "expense", "income", "category"];
 
@@ -40,12 +41,11 @@ function TransactionControllers({ filterObj }) {
   const router = useRouter(); // for navigation
   const pathname = usePathname();
   const filterButtonRef = useRef(null);
-  const sortButtonRef = useRef(null);
-  const queryClient = useQueryClient();
+  const {categoryData} = useMyContext();
   // effect
   
   useEffect(() => {
-    console.log(filterObj)
+    console.log('category', categoryData);
    
     // if(!transaction || !transaction?.length) return;
     const params = new URLSearchParams(searchParams);
@@ -159,7 +159,7 @@ function TransactionControllers({ filterObj }) {
                           <NestedDropdown
                           filterName="category"
                             filterObj={filterObj}
-                            options={["Food", "Entertainment","Transport"]}
+                            options={categoryData?.map(el => el.categoryName) || []}
                             filterHandler={filterHandler}
                           />
                         ) : null}

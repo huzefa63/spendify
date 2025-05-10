@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import NightMode from "./NightMode";
 import { useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { useMyContext } from "./ContextProvider";
 const inter = Inter({
   variable:'inter',
   subsets:['latin'],
@@ -12,7 +13,7 @@ const inter = Inter({
 })
 const privateRoute = ["transaction-history", "settings", "dashboard"];
 function AppNav({user}) {
-  console.log('user',user);
+  const {data} = useMyContext();
   const pathname = usePathname();
   if (privateRoute.includes(pathname.slice(1))){
     return (
@@ -23,16 +24,16 @@ function AppNav({user}) {
         <h1 className="text-2xl ml-44 text-[var(--text)]">
           {" "}
           welcome back,{" "}
-          <strong className="text-[var(--textDark)]">{user?.data?.userName}!</strong>
+          <strong className="text-[var(--textDark)]">{data?.userName}!</strong>
         </h1>
         <div className="flex gap-3 items-center">
           <NightMode />
-          {user?.data?.profileImage ? <img
-            src={user?.data?.profileImage}
+          {data?.profileImage ? <img
+            src={data?.profileImage}
             alt=""
             className="w-11 h-10 rounded-full"
           /> : <FaUserCircle className="w-11 h-10 dark:text-white"/>}
-          <h1 className="text-[var(--textDark)] text-xl">{user?.data?.userName}</h1>
+          <h1 className="text-[var(--textDark)] text-xl">{data?.userName}</h1>
         </div>
       </nav>
     );

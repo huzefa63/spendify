@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
+import { useMyContext } from "./ContextProvider";
 
 const inter = Inter({
   variable:'inter',
@@ -26,6 +27,8 @@ function TransactionForm({close}) {
       date: new Date().toISOString().split("T")[0], // default to today
     },
   });
+
+  const {categoryData} = useMyContext();
 
   function submitHandler(data) {
     const transaction = {
@@ -99,10 +102,10 @@ function TransactionForm({close}) {
           {...register("transactionType")}
           className="w-full p-3 border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          <option className="text-black" value="expense">
+          <option className="dark:bg-gray-800" value="expense">
             Expense
           </option>
-          <option className="text-black" value="income">
+          <option className="dark:bg-gray-800" value="income">
             Income
           </option>
         </select>
@@ -121,17 +124,18 @@ function TransactionForm({close}) {
           </span>
         </label>
         <select
+        disabled={categoryData.length < 1}
           {...register("category", { required: "Please select a category" })}
-          className="w-full p-3 border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 disabled:cursor-not-allowed border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          <option value="">Select Category</option>
-          {categories.map((cat, i) => (
+          <option className="dark:bg-gray-800">{ categoryData.length > 0 ? 'Select Category':'please create category from settings'}</option>
+          {categoryData?.map((cat, i) => (
             <option
               key={i}
-              value={i}
-              className="text-[var(--text)] bg-[var(--surface)]"
+              value={categoryData?.categoryName}
+              className="text-[var(--text)] dark:bg-gray-800"
             >
-              {cat}
+              {cat.categoryName}
             </option>
           ))}
         </select>
