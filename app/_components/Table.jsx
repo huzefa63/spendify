@@ -63,7 +63,7 @@ function Table({heading}) {
       // const queryString = searchParams.toString(); holds old value
       try {
         let dataRes = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/expenses/getTransaction?${queryString}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/getTransaction?${queryString}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -73,10 +73,11 @@ function Table({heading}) {
         // setPages(dataRes.data.totalPages);
         // setTransactions(dataRes.data.transaction);
         // setData(dataRes.data);.data?
-        console.log("dataRes", dataRes.data);
+        // console.log("dataRes", dataRes.data);
         return dataRes;
       } catch (err) {
         console.log(err);
+        return [];
       }
     }
  

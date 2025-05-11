@@ -3,9 +3,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
 import { useMyContext } from "./ContextProvider";
+import { QueryClient, useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const inter = Inter({
   variable:'inter',
@@ -16,35 +19,48 @@ const inter = Inter({
 function TransactionForm({close}) {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      title: "",
-      amount: "",
-      type: "expense",
-      categoryId: "",
-      date: new Date().toISOString().split("T")[0], // default to today
-    },
-  });
+  } = useForm();
+  const queryClient = new QueryClient();
+  const mutate = useMutation({
+    mutationFn:submitHandler,
+    onSuccess:()=> queryClient.invalidateQueries(['transactions'])
+  })
 
   const {categoryData} = useMyContext();
 
-  function submitHandler(data) {
+  async function submitHandler(data) {
+    const token = localStorage.getItem('token');
+    if(!token) return;
     const transaction = {
       ...data,
       amount: Number(data.amount),
-      createdAt: new Date(data.date),
+      date: new Date(data.date),
     };
-    // onSubmit(transaction);
-    console.log(data);
-    console.log(new Date(data.date).toISOString());
+
+    try{
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/createTransaction`,transaction,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      if(res.data.status === 'success'){
+        toast.success("transaction entry created!");
+        return true;
+      } 
+    }catch(err){
+      toast.error('unable to create transaction entry, please try agian');
+      return false;
+    }
+    
   }
   const categories = ['Food','Travel','Entertaiment'];
 
   return (
     <form
-      onSubmit={handleSubmit(submitHandler)}
+      onSubmit={handleSubmit((data)=>mutate.mutate(data))}
       className={`bg-white dark:bg-[var(--surface)] relative border border-[var(--border)] max-w-xl h-[80%] w-full  px-8 py-2  rounded-2xl shadow-lg space-y-4 ${inter.className}`}
     >
       {/* Close Button */}
@@ -118,7 +134,7 @@ function TransactionForm({close}) {
           <span className="ml-1 text-gray-400 font-normal text-sm">
             (add more in{" "}
             <Link href="/settings" className="text-blue-500 underline">
-              Setting
+              Settings
             </Link>
             )
           </span>
@@ -128,11 +144,11 @@ function TransactionForm({close}) {
           {...register("category", { required: "Please select a category" })}
           className="w-full p-3 disabled:cursor-not-allowed border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          <option className="dark:bg-gray-800">{ categoryData.length > 0 ? 'Select Category':'please create category from settings'}</option>
+          <option value='' className="dark:bg-gray-800">{ categoryData.length > 0 ? 'Select Category':'please create category from settings'}</option>
           {categoryData?.map((cat, i) => (
             <option
               key={i}
-              value={categoryData?.categoryName}
+              value={cat?.categoryName}
               className="text-[var(--text)] dark:bg-gray-800"
             >
               {cat.categoryName}
@@ -149,7 +165,7 @@ function TransactionForm({close}) {
         <label className="block mb-1 text-[var(--text)] font-medium">
           Date
         </label>
-        <DatePickerInput />
+        <DatePickerInput control={control}/>
       </div>
 
       {/* Buttons */}
@@ -176,7 +192,7 @@ function TransactionForm({close}) {
   );
 }
 
-function DatePickerInput(){
+function DatePickerInput({control}){
   const inputStyles = {
     textField: {
       size: "small",
@@ -199,15 +215,22 @@ function DatePickerInput(){
       },
     },
   }
-  return(
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              defaultValue={dayjs(new Date())}
-              // label='select date'
-              slotProps={inputStyles}
-            />
-          </LocalizationProvider>
-  )
+  return (
+    <Controller
+      name="date"
+      control={control}
+      defaultValue={dayjs(new Date())}
+      render={({ field }) => (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            {...field}
+            
+            slotProps={inputStyles}
+          />
+        </LocalizationProvider>
+      )}
+    />
+  );
 }
 
 export default TransactionForm;

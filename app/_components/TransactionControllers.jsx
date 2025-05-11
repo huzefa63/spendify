@@ -3,7 +3,7 @@
 import Button from "@/app/_ui/Button";
 // React icons
 import { useEffect, useRef, useState } from "react";
-import { MdFilterList, MdSort } from "react-icons/md";
+import { MdFilterList } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoCheckmark } from "react-icons/io5";
 import { MdCalendarToday, MdAttachMoney, MdMoneyOff, MdMoney, MdCategory } from "react-icons/md";
@@ -16,10 +16,9 @@ import Dropdown from "./Dropdown";
 import DatePickerr from "./DatePicker";
 import ModelWindow from "./ModelWindow";
 import TransactionForm from "./TransactionForm";
-import { useQueryClient } from "@tanstack/react-query";
 import { useMyContext } from "./ContextProvider";
 
-const filterOptions = ["all", "amount", "expense", "income", "category"];
+const filterOptions = ["all", "amount", "expense", "income"];
 
 const iconMap = {
   all: <FaListUl size={15} />,
@@ -34,7 +33,6 @@ const iconMap = {
 function TransactionControllers({ filterObj }) {
   // hooks
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showCategory,setShowCategory] = useState(false);
   const [showAmount,setShowAmount] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const searchParams = useSearchParams(); // to set or append searchParams
@@ -48,6 +46,7 @@ function TransactionControllers({ filterObj }) {
     console.log('category', categoryData);
    
     // if(!transaction || !transaction?.length) return;
+    if(Object.keys(filterObj).length > 0) return; 
     const params = new URLSearchParams(searchParams);
       params.set("filter", "all");
       params.set('page','1');
@@ -56,6 +55,7 @@ function TransactionControllers({ filterObj }) {
   // handlers
 
   function handleParams(params,paramName,value){
+    // console.log(params.get(paramName),value);
     if (params.get(paramName) === value) {
       params.delete(paramName);
     } 
@@ -81,19 +81,14 @@ function TransactionControllers({ filterObj }) {
     router.replace(`${pathname}?${params.toString()}`);
     
   }
-  // const search = searchParams.toString();
-  // useEffect(function() {
-  //   queryClient.invalidateQueries(["transactions"]);
-  // },[searchParams])
 
   function showActiveFilter(filter){
     if(searchParams.get('filter') && filter === 'all') return <IoCheckmark className="text-blue-500 " />;
-    // if(searchParams.get('amount') && filter === 'amount') return <IoCheckmark className="text-blue-500 " />;
     if(searchParams.get('transactionType') && searchParams.get('transactionType') === filter) return <IoCheckmark className="text-blue-500 " />;
   }
 
   return (
-    <div className="flex gap-2 justify-between">
+    <div className="flex gap-2 justify-between items-center">
       {showModel &&
        <ModelWindow close={()=>setShowModel(false)}>
         <TransactionForm /> 
@@ -119,8 +114,6 @@ function TransactionControllers({ filterObj }) {
                       <div key={i} className="h-fit">
                         <button
                           onClick={() => {
-                            if (el === "category")
-                              return setShowCategory(!showCategory);
                             if (el === "amount")
                               return setShowAmount(!showAmount);
                             filterHandler(el);
@@ -138,8 +131,6 @@ function TransactionControllers({ filterObj }) {
                               <span className="ml-auto">
                                 {showActiveFilter(el)}
                               </span>
-
-                              {el === "category" && <IoIosArrowDown className={`ml-auto transition-all duration-300 ${showCategory && 'rotate-180'}`}/>}
                               {el === "amount" && <IoIosArrowDown className={`ml-auto transition-all duration-300 ${showAmount && 'rotate-180'}`}/>}
 
                             </div>
@@ -155,14 +146,6 @@ function TransactionControllers({ filterObj }) {
                           />
                         ) : null}
 
-                        {el === "category" && showCategory ? (
-                          <NestedDropdown
-                          filterName="category"
-                            filterObj={filterObj}
-                            options={categoryData?.map(el => el.categoryName) || []}
-                            filterHandler={filterHandler}
-                          />
-                        ) : null}
                       </div>
                     );
                   })}
@@ -173,6 +156,12 @@ function TransactionControllers({ filterObj }) {
           </div>
         </div>
       </div>
+      <select value={filterObj?.filter ? '' : filterObj?.category} onChange={(e)=>filterHandler('category',e.target.value)} className="bg-transparent border-[var(--border)] border-1 text-[var(--text)] px-8 h-fit py-2 rounded-sm ">
+        <option value="" className="dark:bg-gray-800 transition-all duration-300  ease-in-out">{categoryData?.length > 0 ? 'all category' : "you don't have any category"}</option>
+        {categoryData?.map((el,i) => {
+          return <option key={i} value={el.categoryName} className="dark:bg-gray-800 transition-all duration-300 ease-in-out">{el.categoryName}</option>
+        })}
+      </select>
       <div className="flex gap-5 items-center">
         <DatePickerr label="From" type="from" />
         <FaArrowRightArrowLeft className="dark:text-white"/>

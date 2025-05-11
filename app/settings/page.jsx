@@ -11,7 +11,7 @@ const inter = Inter({
 function Page() {
   return (
     <div
-      className={`pt-20 pl-56 pb-5 w-full h-screen overflow-auto tracking-wide text-[var(--textDark)] ${inter.className}`}
+      className={`pt-20 pl-52 pb-5 w-full h-screen overflow-auto tracking-wide text-[var(--textDark)] ${inter.className}`}
     >
       <section className=" flex-col  flex justify-center items-center">
         <SettingsForm />
