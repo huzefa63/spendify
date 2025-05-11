@@ -4,17 +4,25 @@ import PaginationController from "./PaginationController";
 import { BiRupee } from "react-icons/bi";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { ImSpinner9 } from "react-icons/im";
+import { useMyContext } from "./ContextProvider";
 
 
 function Row({data,i}){
-
-  const date = dayjs(data.createdAt).format("MMM D, YYYY");
+  const {setMenuPosition,setTransactionObj} = useMyContext();
+  const date = dayjs(data.date).format("MMM D, YYYY");
   const page = useSearchParams().get('page');
   const pageSize = 10;
+
+  const handleClick = (e) => {
+    console.log(e)
+    const rect = e.target.closest('button').getBoundingClientRect();
+    setMenuPosition({top: rect.y + rect.height + 8,right:window.innerWidth - rect.width - rect.x});
+    setTransactionObj(data);
+  }
 
   return (
     <div className="grid grid-cols-12 py-3  px-5 gap-10 border-b-1 border-gray-200 dark:border-gray-800">
@@ -27,7 +35,9 @@ function Row({data,i}){
         <span className="flex gap-1 items-center">
           {data.amount} <BiRupee />
         </span>{" "}
-        <HiDotsVertical className="hover:bg-[var(--border)] transition-all duration-300 ease-in-out hover:cursor-pointer text-2xl py-1" />
+        <button className="focus:ring-blue-500 focus:ring-1" onClick={handleClick}>
+          <HiDotsVertical className="hover:bg-[var(--border)] transition-all duration-300 ease-in-out hover:cursor-pointer text-2xl py-1" />
+        </button>
       </p>
     </div>
   );

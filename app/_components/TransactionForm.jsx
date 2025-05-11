@@ -6,9 +6,10 @@ import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
 import { useMyContext } from "./ContextProvider";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const inter = Inter({
   variable:'inter',
@@ -23,13 +24,57 @@ function TransactionForm({close}) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
+  const {categoryData,formType,transactionObj} = useMyContext();
   const mutate = useMutation({
     mutationFn:submitHandler,
-    onSuccess:()=> queryClient.invalidateQueries(['transactions'])
+    onSuccess:()=> {
+      queryClient.invalidateQueries(["transactions"]);
+      close();
+    }
+  })
+  useEffect(()=>{
+    console.log(formType);
+    
   })
 
-  const {categoryData} = useMyContext();
+  async function createTransaction(transaction,token){
+    try{
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/createTransaction`,transaction,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      if(res.data.status === 'success'){
+        // toast.success("transaction entry created!");
+        return true;
+      } 
+    }catch(err){
+      // toast.error('unable to create transaction entry, please try agian');
+      return false;
+    }
+  }
+
+  async function updateTransaction(transaction,token) {
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/updateTransaction/${transactionObj._id}`,
+        transaction,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.data.status === "success") {
+        // toast.success("transaction entry created!");
+        return true;
+      }
+    } catch (err) {
+      // toast.error('unable to create transaction entry, please try agian');
+      return false;
+    }
+  }
 
   async function submitHandler(data) {
     const token = localStorage.getItem('token');
@@ -39,20 +84,11 @@ function TransactionForm({close}) {
       amount: Number(data.amount),
       date: new Date(data.date),
     };
-
-    try{
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/createTransaction`,transaction,{
-        headers:{
-          Authorization:`Bearer ${token}`
-        }
-      })
-      if(res.data.status === 'success'){
-        toast.success("transaction entry created!");
-        return true;
-      } 
-    }catch(err){
-      toast.error('unable to create transaction entry, please try agian');
-      return false;
+    if(formType === 'create') {
+      await createTransaction(transaction,token);
+    }
+    if(formType === 'update'){
+      await updateTransaction(transaction,token);
     }
     
   }
@@ -60,7 +96,14 @@ function TransactionForm({close}) {
 
   return (
     <form
-      onSubmit={handleSubmit((data)=>mutate.mutate(data))}
+      onSubmit={handleSubmit((data)=>toast.promise(
+        mutate.mutateAsync(data),
+         {
+           loading: 'Saving Transaction...',
+           success: <b>Transaction saved!</b>,
+           error: <b>Could not save transaction.</b>,
+         }
+       ))}
       className={`bg-white dark:bg-[var(--surface)] relative border border-[var(--border)] max-w-xl h-[80%] w-full  px-8 py-2  rounded-2xl shadow-lg space-y-4 ${inter.className}`}
     >
       {/* Close Button */}
@@ -74,7 +117,8 @@ function TransactionForm({close}) {
       />
 
       <h2 className="text-2xl font-bold text-center text-[var(--text)]">
-        Add Transaction Entry
+        {formType === 'update' && 'update transaction'}
+        {formType === 'create' && 'create transaction'}
       </h2>
 
       {/* Title */}
@@ -83,6 +127,7 @@ function TransactionForm({close}) {
           Title
         </label>
         <input
+          defaultValue={formType === 'update' ? transactionObj?.title : ''}
           type="text"
           {...register("title", { required: "Title is required" })}
           className="w-full p-3 border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -99,6 +144,7 @@ function TransactionForm({close}) {
           Amount
         </label>
         <input
+          defaultValue={formType === 'update' ? transactionObj?.amount : ''}
           type="number"
           {...register("amount", { required: "Amount is required" })}
           className="w-full p-3 border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -115,6 +161,7 @@ function TransactionForm({close}) {
           Type
         </label>
         <select
+          defaultValue={formType === 'update' ? transactionObj?.transactionType : 'expense'}
           {...register("transactionType")}
           className="w-full p-3 border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
@@ -140,6 +187,7 @@ function TransactionForm({close}) {
           </span>
         </label>
         <select
+          defaultValue={formType === 'update' ? transactionObj?.category : ''}
         disabled={categoryData.length < 1}
           {...register("category", { required: "Please select a category" })}
           className="w-full p-3 disabled:cursor-not-allowed border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -165,7 +213,7 @@ function TransactionForm({close}) {
         <label className="block mb-1 text-[var(--text)] font-medium">
           Date
         </label>
-        <DatePickerInput control={control}/>
+        <DatePickerInput control={control} type={formType} transactionObj={transactionObj}/>
       </div>
 
       {/* Buttons */}
@@ -192,7 +240,7 @@ function TransactionForm({close}) {
   );
 }
 
-function DatePickerInput({control}){
+function DatePickerInput({control,type,transactionObj}){
   const inputStyles = {
     textField: {
       size: "small",
@@ -219,7 +267,7 @@ function DatePickerInput({control}){
     <Controller
       name="date"
       control={control}
-      defaultValue={dayjs(new Date())}
+      defaultValue={type == 'update' ? dayjs(new Date(transactionObj?.date)) : dayjs(new Date())}
       render={({ field }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker

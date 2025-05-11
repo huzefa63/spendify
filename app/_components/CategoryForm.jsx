@@ -88,7 +88,7 @@ const inputStyles =
         );
         console.log(data);
         if(res.data.status === 'success'){
-          toast.success(`successfully removed from your categories list`);
+          toast.success(`category deleted successfully`);
           // queryClient.invalidateQueries(['category']);
         }
        }catch(err){

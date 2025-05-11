@@ -1,13 +1,16 @@
 'use client';
 import { cloneElement, useEffect, useRef } from "react";
 import { createPortal } from "react-dom"
+import { useMyContext } from "./ContextProvider";
 
 function ModelWindow({children,close}) {
     const ref = useRef(null);
+    const {setTransactionObj,setShowTransactionFormModel} = useMyContext();
     useEffect(function(){
         function closeModel(e){
             if(ref.current && e.target.contains(ref.current)){
                 close();
+                
             }
         }
         document.addEventListener('click',closeModel);

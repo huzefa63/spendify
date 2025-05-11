@@ -17,7 +17,7 @@ function SettingsForm() {
   // const [user,setUser] = useState({username:'',email:''});
   const {data:userData} = useMyContext();
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const mutate = useMutation({
     mutationFn:onSubmit,
     onSuccess:()=>{
       queryClient.invalidateQueries(['user']);
@@ -41,9 +41,11 @@ function SettingsForm() {
     console.log(res);
     if (res.data.status === "success") {
 
-      toast.success("profile updated");
-      
-    } else console.log(res)
+      // toast.success("profile updated");
+      return true;
+    } else{
+      return false;
+    }
   }
 
   async function onSubmit(data) {
@@ -62,7 +64,14 @@ function SettingsForm() {
   return (
     <form
       className="w-[95%] p-5 h-[95%] bg-[var(--surface)] rounded-sm"
-      onSubmit={handleSubmit((data) => mutation.mutate(data))}
+      onSubmit={handleSubmit((data) => toast.promise(
+        mutate.mutateAsync(data),
+         {
+           loading: 'Updating...',
+           success: <b>Profile updated!</b>,
+           error: <b>Could not update profile.</b>,
+         }
+       ))}
     >
       <header className="text-3xl pl-5">Update profile</header>
 

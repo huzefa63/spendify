@@ -31,6 +31,7 @@ export default async function RootLayout({ children }) {
           <ContextProvider>
             <main className=" h-full flex flex-col w-full border-white">
               <div id="root"></div>
+              <div id="menu"></div>
               <AppNavWrapper />
               <Toaster toastOptions={{ position: "top-center" }} />
               <div className="">
