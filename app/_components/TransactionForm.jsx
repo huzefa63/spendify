@@ -68,7 +68,7 @@ function TransactionForm({close}) {
       );
       if (res.data.status === "success") {
         // toast.success("transaction entry created!");
-        return true;
+        return {message:'transaction entry created'};
       }
     } catch (err) {
       // toast.error('unable to create transaction entry, please try agian');
@@ -96,14 +96,28 @@ function TransactionForm({close}) {
 
   return (
     <form
-      onSubmit={handleSubmit((data)=>toast.promise(
-        mutate.mutateAsync(data),
-         {
-           loading: 'Saving Transaction...',
-           success: <b>Transaction saved!</b>,
-           error: <b>Could not save transaction.</b>,
-         }
-       ))}
+      onSubmit={handleSubmit((data) =>
+        toast.promise(mutate.mutateAsync(data), {
+          loading:
+            formType === "create"
+              ? "Creating Transaction Entry..."
+              : "Updating Transaction Entry...",
+          success: (
+            <b>
+              {formType === "create"
+                ? "Transaction Entry Created"
+                : "Transaction Entry Updated"}
+            </b>
+          ),
+          error: (
+            <b>
+              {formType === "create"
+                ? "Could not Create Transaction Entry."
+                : "Could not Update Transaction Entry."}
+            </b>
+          ),
+        })
+      )}
       className={`bg-white dark:bg-[var(--surface)] relative border border-[var(--border)] max-w-xl h-[80%] w-full  px-8 py-2  rounded-2xl shadow-lg space-y-4 ${inter.className}`}
     >
       {/* Close Button */}
@@ -117,8 +131,8 @@ function TransactionForm({close}) {
       />
 
       <h2 className="text-2xl font-bold text-center text-[var(--text)]">
-        {formType === 'update' && 'update transaction'}
-        {formType === 'create' && 'create transaction'}
+        {formType === "update" && "update transaction"}
+        {formType === "create" && "create transaction"}
       </h2>
 
       {/* Title */}
@@ -127,7 +141,7 @@ function TransactionForm({close}) {
           Title
         </label>
         <input
-          defaultValue={formType === 'update' ? transactionObj?.title : ''}
+          defaultValue={formType === "update" ? transactionObj?.title : ""}
           type="text"
           {...register("title", { required: "Title is required" })}
           className="w-full p-3 border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -144,7 +158,7 @@ function TransactionForm({close}) {
           Amount
         </label>
         <input
-          defaultValue={formType === 'update' ? transactionObj?.amount : ''}
+          defaultValue={formType === "update" ? transactionObj?.amount : ""}
           type="number"
           {...register("amount", { required: "Amount is required" })}
           className="w-full p-3 border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -161,7 +175,9 @@ function TransactionForm({close}) {
           Type
         </label>
         <select
-          defaultValue={formType === 'update' ? transactionObj?.transactionType : 'expense'}
+          defaultValue={
+            formType === "update" ? transactionObj?.transactionType : "expense"
+          }
           {...register("transactionType")}
           className="w-full p-3 border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
@@ -187,12 +203,16 @@ function TransactionForm({close}) {
           </span>
         </label>
         <select
-          defaultValue={formType === 'update' ? transactionObj?.category : ''}
-        disabled={categoryData.length < 1}
+          defaultValue={formType === "update" ? transactionObj?.category : ""}
+          disabled={categoryData.length < 1}
           {...register("category", { required: "Please select a category" })}
           className="w-full p-3 disabled:cursor-not-allowed border rounded-lg dark:bg-transparent dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          <option value='' className="dark:bg-gray-800">{ categoryData.length > 0 ? 'Select Category':'please create category from settings'}</option>
+          <option value="" className="dark:bg-gray-800">
+            {categoryData.length > 0
+              ? "Select Category"
+              : "please create category from settings"}
+          </option>
           {categoryData?.map((cat, i) => (
             <option
               key={i}
@@ -213,7 +233,11 @@ function TransactionForm({close}) {
         <label className="block mb-1 text-[var(--text)] font-medium">
           Date
         </label>
-        <DatePickerInput control={control} type={formType} transactionObj={transactionObj}/>
+        <DatePickerInput
+          control={control}
+          type={formType}
+          transactionObj={transactionObj}
+        />
       </div>
 
       {/* Buttons */}
