@@ -118,7 +118,7 @@ function TransactionForm({close}) {
           <span className="ml-1 text-gray-400 font-normal text-sm">
             (add more in{" "}
             <Link href="/settings" className="text-blue-500 underline">
-              Settings
+              Setting
             </Link>
             )
           </span>
