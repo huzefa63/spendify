@@ -6,11 +6,11 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useMyContext } from "./ContextProvider";
-
-
+import { FaEdit } from "react-icons/fa";
+import { FaRegListAlt } from "react-icons/fa";
 
 const inputStyles =
-  "bg-transparent border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-4 py-2";
+  "bg-transparent border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-5 py-2";
 
   function CategoryForm() {
       const { register, handleSubmit,reset } = useForm();
@@ -110,32 +110,41 @@ const inputStyles =
           className="w-[95%] bg-[var(--surface)] p-5"
           onSubmit={handleSubmit((data) => mutate.mutate(data))}
         >
-          <h1 className="text-3xl text-[var(--text)] pl-5 mb-5">
+          <h1 className="lg:text-3xl text-2xl text-[var(--text)] pl-5 mb-5 flex gap-2 items-center">
+            <FaEdit className="text-blue-400" />
             Add and Delete Categories
           </h1>
-          <div className="grid grid-cols-2 gap-x-15 gap-y-8 px-10 py-3 border-1 border-[var(--border)] rounded-sm">
+          <div className="grid lg:grid-cols-2 grid-rows-2 gap-x-15 gap-y-8 px-10 py-3 border-1 border-[var(--border)] rounded-sm">
             <div className="flex flex-col gap-2">
               <label htmlFor="addCategory">add category</label>
-              <input
-              ref={ref}
-                id="addCategory"
-                {...register("categoryName")}
-                type="text"
-                className={inputStyles}
-              />
+              <div className="relative">
+                <input
+                  ref={ref}
+                  placeholder="food, clothes, grocery, rent, etc"
+                  id="addCategory"
+                  {...register("categoryName")}
+                  type="text"
+                  className={`${inputStyles} px-10 w-full`}
+                />
+                <label htmlFor="addCategory" className="absolute text-[var(--text)] left-3 top-1/2 -translate-y-1/2">
+                  <FaRegListAlt className=""/>
+                </label>
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
               <label htmlFor="deleteCategory">delete category</label>
               <select
-              disabled={categoryData?.length < 1}
+                disabled={categoryData?.length < 1}
                 name=""
                 id=""
                 className={`${inputStyles} disabled:cursor-not-allowed`}
                 {...register("deleteCategory")}
               >
                 <option className="dark:bg-gray-800">
-                  {categoryData?.length > 0 ? "select category" : "no categories found"}
+                  {categoryData?.length > 0
+                    ? "select category"
+                    : "no categories found"}
                 </option>
                 {categoryData?.map((el, i) => {
                   return (

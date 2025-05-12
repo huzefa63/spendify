@@ -8,7 +8,7 @@ import Image from "next/image";
 function Sidebar() {
   const pathname = usePathname();
     return (
-      <nav className="z-[999]  fixed top-0 left-0 w-54 h-screen border-r-1 border-[var(--border)] bg-[var(--surface)]">
+      <nav className="z-[999] hidden lg:block fixed top-0 left-0 w-54 h-screen border-r-1 border-[var(--border)] bg-[var(--surface)]">
         <aside
           id="logo-sidebar"
           className="  transition-transform "

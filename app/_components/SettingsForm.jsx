@@ -7,10 +7,31 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useMyContext } from "./ContextProvider";
-import { FaUserCircle } from "react-icons/fa";
-const inputStyles =
-  "bg-transparent border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-4 py-2";
+import { FaUserCircle,FaUser } from "react-icons/fa";
+import { CiUser } from "react-icons/ci";
+import { MdEmail } from "react-icons/md";
+import { FaLock } from "react-icons/fa6";
 
+const InputFields = [
+  {
+    name: "username",
+    labelText: "Change Username",
+    icon: <FaUser />,
+    placeholder: "Type username",
+  },
+  {
+    name: "password",
+    labelText: "Change Password",
+    icon: <FaLock />,
+    placeholder: "Type a Strong Password",
+  },
+  {
+    name: "passwordConfirm",
+    labelText: "Repeat Password",
+    icon: <FaLock />,
+    placeholder: "Type Password Again",
+  },
+];
 function SettingsForm() {
   const { register, handleSubmit } = useForm();
   const [image, setImage] = useState("");
@@ -64,20 +85,22 @@ function SettingsForm() {
   return (
     <form
       className="w-[95%] p-5 h-[95%] bg-[var(--surface)] rounded-sm"
-      onSubmit={handleSubmit((data) => toast.promise(
-        mutate.mutateAsync(data),
-         {
-           loading: 'Updating...',
-           success: <b>Profile updated!</b>,
-           error: <b>Could not update profile.</b>,
-         }
-       ))}
+      onSubmit={handleSubmit((data) =>
+        toast.promise(mutate.mutateAsync(data), {
+          loading: "Updating...",
+          success: <b>Profile updated!</b>,
+          error: <b>Could not update profile.</b>,
+        })
+      )}
     >
-      <header className="text-3xl pl-5">Update profile</header>
+      <header className="text-3xl pl-5 flex gap-3 items-center">
+        <CiUser className="text-blue-400"/>
+        Update profile
+      </header>
 
       <div className="flex gap-6 border-1 border-[var(--border)] py-3 px-5 rounded-sm items-center mt-7">
         {userData?.profileImage ? (
-          <div className="h-20 w-20 overflow-hidden rounded-full relative">
+          <div className="lg:h-20 h-16 lg:w-20 w-16 overflow-hidden rounded-full relative">
             <Image
               fill
               src={userData?.profileImage}
@@ -86,7 +109,7 @@ function SettingsForm() {
             />
           </div>
         ) : (
-          <FaUserCircle className="h-20 w-20 overflow-hidden rounded-full relative"/>
+          <FaUserCircle className="lg:h-20 lg:w-20 h-12 w-12 overflow-hidden rounded-full relative" />
         )}
 
         <div className="relative w-fit">
@@ -100,7 +123,7 @@ function SettingsForm() {
           />
           <label
             htmlFor="image"
-            className="text-white bg-blue-700 py-2.5 px-5 mr-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-white bg-blue-700 py-2.5 px-3 mr-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Update image
           </label>
@@ -111,72 +134,64 @@ function SettingsForm() {
         </div>
       </div>
 
-      <main className="w-full border-1 border-[var(--border)] mt-5 grid grid-cols-2 grid-rows-2 gap-x-15 gap-y-8 px-10 py-3">
-        <div className="flex flex-col gap-2">
+      <main className="w-full border-1 border-[var(--border)] mt-5 grid lg:grid-cols-2 grid-rows-4 lg:grid-rows-2 gap-x-15 gap-y-8 px-10 py-3">
+        <div className="flex flex-col gap-2 ">
           <label htmlFor="email">email</label>
-          <input
-            disabled={true}
-            value={userData?.email || ""}
-            id="email"
-            type="text"
-            className={`${inputStyles} hover:cursor-not-allowed`}
-          />
+          <div className="relative">
+            <input
+              disabled={true}
+              value={userData?.email || ""}
+              id="email"
+              type="text"
+              className={`bg-transparent w-full border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-10 py-2 hover:cursor-not-allowed`}
+            />
+            <label htmlFor="email" className='absolute top-1/2 left-3 -translate-y-1/2'>
+              <MdEmail />
+            </label>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="username">change username</label>
-          <input
-            id="username"
-            defaultValue={userData?.userName || ""}
-            {...register("username")}
-            type="text"
-            className={inputStyles}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="password">change password</label>
-          <input
-            id="password"
-            {...register("password")}
-            type="password"
-            className={inputStyles}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="passwordConfirm">repeat password</label>
-          <input
-            id="passwordConfirm"
-            {...register("passwordConfirm")}
-            type="password"
-            className={inputStyles}
-          />
-        </div>
-
-        {/* <div className="flex flex-col gap-2">
-          <label htmlFor="addCategory">add category</label>
-          <input
-            id="addCategory"
-            {...register("categoryName")}
-            type="text"
-            className={inputStyles}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="deleteCategory">delete category</label>
-          <input
-            id="deleteCategory"
-            {...register("deleteCategory")}
-            type="text"
-            className={inputStyles}
-          />
-        </div> */}
-
+        {InputFields.map((el, i) => {
+          return (
+            <FormFields
+            data={userData}
+              key={i}
+              name={el.name}
+              placeholder={el.placeholder}
+              labelText={el.labelText}
+              icon={el.icon}
+              register={register}
+            />
+          );
+        })}
         <Button>save changes</Button>
       </main>
     </form>
+  );
+}
+
+
+
+function FormFields({name,labelText,icon,register,placeholder,data}){
+  const type = name.includes('password') ? 'password' : 'text';
+  const username = data?.userName;
+  return (
+    <div className="flex flex-col gap-2">
+      <label htmlFor={name}>{labelText}</label>
+      <div className="relative">
+        <input
+        defaultValue={name === 'username' ?  username :''}
+          id={name}
+          {...register(name)}
+          type={type}
+          className="bg-transparent w-full border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-10 py-2"
+          placeholder={placeholder}
+        />
+        <label htmlFor={name} className="absolute top-1/2 left-3 -translate-y-1/2">
+          {icon}
+        </label>
+      </div>
+    </div>
   );
 }
 

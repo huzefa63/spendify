@@ -24,12 +24,12 @@ function PaginationController({pages}) {
     params.set('page',newPage);
     router.replace(`${pathname}?${params}`);
   }
-  useEffect(function(){
-    const params = new URLSearchParams(searchParams);
-    if(params.get('page')){
-      setPage(Number(params.get('page')));
-    }
-  },[searchParams])
+  // useEffect(function(){
+  //   const params = new URLSearchParams(searchParams);
+  //   if(params.get('page')){
+  //     setPage(Number(params.get('page')));
+  //   }
+  // },[searchParams])
   
 
     return (
