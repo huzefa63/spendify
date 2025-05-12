@@ -25,31 +25,6 @@ const inputStyles =
         },
       })
 
-      // const { data, isPending, error, isFetching } = useQuery({
-      //   queryKey: ["category"],
-      //   queryFn: getCategory,
-      //   placeholderData: (previousData, previousQuery) => previousData,
-      // });
-
-      // async function getCategory(){
-      //   const token = localStorage.getItem('token');
-      //   try{
-      //     const res = await axios.get(
-      //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories/getCategories`,
-      //       {
-      //         headers: {
-      //           Authorization: `Bearer ${token}`,
-      //         },
-      //       }
-      //     );
-      //     // console.log(res.data.categories)
-      //     return res.data.categories;
-      //   }catch(err){
-      //     console.log(err)
-      //     return [];
-      //   }
-      // }
-
       async function handleAddCategory(data,token){
         try{
          // const formData = new FormData();
@@ -107,14 +82,14 @@ const inputStyles =
       <div className=" w-full flex justify-center mt-5 ">
         <form
           action=""
-          className="w-[95%] bg-[var(--surface)] p-5"
+          className="w-[95%] bg-[var(--surface)] py-5 lg:px-5 px-2"
           onSubmit={handleSubmit((data) => mutate.mutate(data))}
         >
-          <h1 className="lg:text-3xl text-2xl text-[var(--text)] pl-5 mb-5 flex gap-2 items-center">
+          <h1 className="lg:text-3xl text-xl text-[var(--text)] pl-5 mb-5 flex gap-2 items-center">
             <FaEdit className="text-blue-400" />
             Add and Delete Categories
           </h1>
-          <div className="grid lg:grid-cols-2 grid-rows-2 gap-x-15 gap-y-8 px-10 py-3 border-1 border-[var(--border)] rounded-sm">
+          <div className="grid lg:grid-cols-2  gap-x-15 gap-y-8 px-5 lg:px-10 py-3 border-1 border-[var(--border)] rounded-sm">
             <div className="flex flex-col gap-2">
               <label htmlFor="addCategory">add category</label>
               <div className="relative">
@@ -127,7 +102,7 @@ const inputStyles =
                   className={`${inputStyles} px-10 w-full`}
                 />
                 <label htmlFor="addCategory" className="absolute text-[var(--text)] left-3 top-1/2 -translate-y-1/2">
-                  <FaRegListAlt className=""/>
+                  <FaRegListAlt className="text-purple-500"/>
                 </label>
               </div>
             </div>
@@ -155,7 +130,7 @@ const inputStyles =
                 })}
               </select>
             </div>
-            <Button>save changes</Button>
+            <Button type="secondary">save changes</Button>
           </div>
         </form>
       </div>
