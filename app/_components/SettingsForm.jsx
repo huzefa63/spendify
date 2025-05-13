@@ -14,29 +14,7 @@ import { FaLock } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import {UsernameUpdateForm,UpdatePasswordForm} from "../_ui/forms/UpdateUserForms";
 
-const InputFields = [
-  {
-    name: "username",
-    labelText: "Change Username",
-    icon: <FaUser className="text-purple-600" />,
-    placeholder: "Type username",
-    type:'text',
-  },
-  {
-    name: "password",
-    labelText: "Change Password",
-    icon: <FaLock className="text-blue-600" />,
-    placeholder: "Type a Strong Password",
-    type:'password',
-  },
-  {
-    name: "passwordConfirm",
-    labelText: "Repeat Password",
-    icon: <FaLock className="text-blue-600" />,
-    placeholder: "Type Password Again",
-    type:'password',
-  },
-];
+
 function SettingsForm() {
   const { register, handleSubmit,formState:{errors},getValues } = useForm({mode:'onSubmit'});
   const [image, setImage] = useState("");
@@ -125,13 +103,14 @@ function SettingsForm() {
               Update image
             </label>
             <Button handler={async ()=>{
+              if(!userData?.profileImage) return toast.error('you don not have a profile image to delete');
               if(!confirm('are you sure you want to remove profile image')) return;
               const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profileImage`,{
                 headers:{
                   Authorization:`Bearer ${localStorage.getItem('token')}`
                 },
               })
-              if(res.data.status === 'success') invalidateQueries(['user']);
+              if(res.data.status === 'success') queryClient.invalidateQueries(['user']);
             }} type="secondary">remove image</Button>
             {image && (
               <p className="absolute tracking-wider min-w-[50rem]">{image}</p>
