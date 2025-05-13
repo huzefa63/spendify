@@ -73,51 +73,63 @@ function SettingsForm() {
         Update profile
       </header>
 
-       <div className="grid grid-cols-3 lg:text-inherit lg:flex py-3 px-3 border-1 border-[var(--border)] rounded-sm items-center mt-7">
-          {userData?.profileImage ? (
-            <div className="lg:h-20 h-16 lg:w-20 w-16 overflow-hidden rounded-full relative">
-              <Image
-                fill
-                src={userData?.profileImage}
-                alt="profile"
-                className=""
-              />
-            </div>
-          ) : (
-            <FaUserCircle className="lg:h-20 lg:w-20 h-12 w-12 overflow-hidden rounded-full relative" />
-          )}
-
-          <div className="relative w-fit lg:ml-5 ">
-            <input
-              type="file"
-              // accept="image/*"
-              id="image"
-              {...register("photo")}
-              onChange={handleImageChange}
-              className="absolute opacity-0 w-28 h-full"
+      <div className="grid grid-cols-5 lg:text-inherit lg:flex py-3 px-3 border-1 border-[var(--border)] rounded-sm items-center mt-7">
+        {userData?.profileImage ? (
+          <div className="lg:h-20 h-16 lg:w-20 w-16 overflow-hidden rounded-full relative">
+            <Image
+              fill
+              src={userData?.profileImage}
+              alt="profile"
+              className=""
             />
-            <label
-              htmlFor="image"
-              className="text-white bg-blue-700 py-2.5 px-3 mr-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Update image
-            </label>
-            
           </div>
-            <Button handler={async ()=>{
-              if(!userData?.profileImage) return toast.error('you don not have a profile image to delete');
-              if(!confirm('are you sure you want to remove profile image')) return;
-              const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profileImage`,{
-                headers:{
-                  Authorization:`Bearer ${localStorage.getItem('token')}`
-                },
-              })
-              if(res.data.status === 'success') queryClient.invalidateQueries(['user']);
-            }} type="secondary">remove image</Button>
-        </div>
-      
+        ) : (
+          <FaUserCircle className="lg:h-20 lg:w-20 h-12 w-12 overflow-hidden rounded-full relative" />
+        )}
 
-      
+        <div className="relative col-span-2 w-fit lg:ml-5 ">
+          <input
+            type="file"
+            // accept="image/*"
+            id="image"
+            {...register("photo")}
+            onChange={handleImageChange}
+            className="absolute opacity-0 w-28 h-full"
+          />
+          <label
+            htmlFor="image"
+            className="text-white bg-blue-700 py-2.5 px-3 mr-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Update image
+          </label>
+        </div>
+        <div className="col-span-2">
+          <Button
+            handler={async () => {
+              if (!userData?.profileImage)
+                return toast.error(
+                  "you don not have a profile image to delete"
+                );
+              if (!confirm("are you sure you want to remove profile image"))
+                return;
+              const res = await axios.delete(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profileImage`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                }
+              );
+              if (res.data.status === "success")
+                queryClient.invalidateQueries(["user"]);
+            }}
+            type="secondary"
+          >
+            remove image
+          </Button>
+        </div>
+      </div>
+
       <div className="border-1 border-[var(--border)] mt-5">
         <UsernameUpdateForm />
         <UpdatePasswordForm />
