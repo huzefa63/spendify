@@ -21,7 +21,7 @@ export function UsernameUpdateForm() {
       const field = useRef([ 
         {
             labelText:'your email',
-            icon:<MdEmail />,
+            icon:<MdEmail className="text-purple-600"/>,
             name:'email',
             disable:true
         },
@@ -29,7 +29,7 @@ export function UsernameUpdateForm() {
         {
         name: "username",
         labelText: "Change Username",
-        icon: <FaUser />,
+        icon: <FaUser className="text-purple-600"/>,
         placeholder: "Type username",
         register,
         validation:{
@@ -85,15 +85,19 @@ export function UpdatePasswordForm(){
     const queryClient = useQueryClient();
     const mutate = useMutation({
       mutationFn:handleUpdateUser,
-      onSuccess: () => queryClient.invalidateQueries(['user'])
+      onSuccess: () => {
+        queryClient.invalidateQueries(["user"]);
+        reset();
+      }
     })
     const field = useRef([
       {
         labelText: "change password",
-        icon: <FaLock />,
+        icon: <FaLock className="text-blue-600"/>,
         name: "password",
         placeholder:"enter strong password",
         register,
+        type:'password',
         validation:{
             minLength:{
                 value:8,
@@ -105,9 +109,10 @@ export function UpdatePasswordForm(){
       {
         name: "passwordConfirm",
         labelText: "confirm password",
-        icon: <FaLock />,
+        icon: <FaLock className="text-blue-600"/>,
         placeholder: "repeat password",
         register,
+        type:'password',
         validation: {
           validate:(val) => {
             if(val === getValues('password')) return true;

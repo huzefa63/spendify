@@ -23,37 +23,66 @@ export default function App({label,type}) {
       return null;
     }
   }
+  function htmlDateValue(type){
+    if(params.get(type)){
+      return dayjs(params.get(type));
+    }
+    else{
+      return '';
+    }
+  }
+  function handlehtmlDate(e){
+    const urlParams = new URLSearchParams(params);
+    urlParams.set(type,e.target.value);
+    router.replace(`${pathname}?${urlParams}`);
+  }
   return (
     <div className="">
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          onChange={handleDate}
-          label={label}
-          value={type==='from' ?dateValue('from') : dateValue('to')}
-          slotProps={{
-            textField: {
-              size: "small",
-              error:false,
-              InputProps: {
-                style: {
-                  color: "var(--text)", // Input text color
-                  border: "1px solid var(--border)",
+      <div className="lg:block hidden">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            onChange={handleDate}
+            className=""
+            label={label}
+            value={type === "from" ? dateValue("from") : dateValue("to")}
+            slotProps={{
+              textField: {
+                size: "small",
+
+                error: false,
+                InputProps: {
+                  style: {
+                    color: "var(--text)", // Input text color
+                    border: "1px solid var(--border)",
+                  },
+                  sx: {
+                    width: "100%",
+                    m: 0,
+                    svg: {
+                      color: "var(--text)", // Calendar icon color
+                    },
+                  },
                 },
-                sx: {
-                  svg: {
-                    color: "var(--text)", // Calendar icon color
+                InputLabelProps: {
+                  style: {
+                    color: "var(--text)", // Label color
                   },
                 },
               },
-              InputLabelProps: {
-                style: {
-                  color: "var(--text)", // Label color
-                },
-              },
-            },
-          }}
+            }}
+          />
+        </LocalizationProvider>
+      </div>
+      <div className="lg:hidden">
+        <label htmlFor="" className="text-[var(--text)] text-xs ml-1">{type}</label>
+        <input
+          onChange={handlehtmlDate}
+          value={type === "from" ? htmlDateValue("from") : htmlDateValue("to")}
+          type="date"
+          placeholder="from"
+          className="border-1 border-[var(--border)] px-3 py-1 text-[var(--text)] lg:hidden"
         />
-      </LocalizationProvider>
+      </div>
     </div>
   );
 }

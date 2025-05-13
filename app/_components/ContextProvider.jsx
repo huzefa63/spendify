@@ -23,7 +23,7 @@ function ContextProvider({children}) {
 
   async function getUser() {
     const token = localStorage.getItem("token") || "";
-    if (!token) return;
+    if (!token) return null;
     try {
       const userRes = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/getUser`,
@@ -33,14 +33,10 @@ function ContextProvider({children}) {
           },
         }
       );
-
-      // sessionStorage.setItem("username", userRes.data.userName);
-      // sessionStorage.setItem("email", userRes.data.email);
-      console.log(userRes.data);
-      return userRes.data;
+      return userRes?.data || false;
     } catch (err) {
       console.log(err);
-      return null;
+      return false
     }
   }
 

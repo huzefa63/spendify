@@ -108,7 +108,7 @@ function SettingsForm() {
             handler={async () => {
               if (!userData?.profileImage)
                 return toast.error(
-                  "you don not have a profile image to delete"
+                  "you don't have an profile image uploaded"
                 );
               if (!confirm("are you sure you want to remove profile image"))
                 return;
@@ -132,6 +132,7 @@ function SettingsForm() {
 
       <div className="border-1 border-[var(--border)] mt-5">
         <UsernameUpdateForm />
+        <hr className="text-[var(--border)]"/>
         <UpdatePasswordForm />
       </div>
     </div>

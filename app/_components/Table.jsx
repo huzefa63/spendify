@@ -14,6 +14,7 @@ import { useMyContext } from "./ContextProvider";
 function Row({data,i}){
   const {setMenuPosition,setTransactionObj} = useMyContext();
   const date = dayjs(data.date).format("MMM D, YYYY");
+  const dateInShort = dayjs(data.date).format('MM/DD/YYYY')
   const page = useSearchParams().get('page');
   const pageSize = 10;
 
@@ -25,18 +26,29 @@ function Row({data,i}){
   }
 
   return (
-    <div className="grid grid-cols-12 py-3 px-1  lg:px-5 gap-10 border-b-1 border-gray-200 dark:border-gray-800">
-      <p>{(page - 1) * pageSize + i + 1}</p>
-      <p className="col-span-2">{data.category}</p>
-      <p className="col-span-2">{data.transactionType}</p>
-      <p className="col-span-3">{data.title}</p>
-      <p className="col-span-2 tracking-widest">{date}</p>
-      <p className="flex col-span-2 justify-between ">
-        <span className="flex gap-1 items-center">
-          {data.amount} <BiRupee />
+    <div className="grid lg:grid-cols-12 grid-cols-4 lg:text-lg text-xs  py-3 px-1  lg:px-5 gap-10 border-b-1 border-gray-200 dark:border-gray-800">
+      <p className="hidden lg:block">{(page - 1) * pageSize + i + 1}</p>
+      <p className="lg:col-span-2">{data.category}</p>
+      <p className="lg:col-span-2 hidden lg:block">{data.transactionType}</p>
+      <p className="lg:col-span-3">{data.title}</p>
+      <p className="lg:col-span-2 tracking-widest lg:text-lg hidden lg:block">{date}</p>
+      <p className="lg:col-span-2 tracking-widest lg:text-lg lg:hidden">{dateInShort}</p>
+      <p className="flex lg:col-span-2 justify-between">
+        <span
+          className="flex gap-1 items-center "
+          style={
+            data.transactionType === "income"
+              ? { color: "#22c55e" }
+              : { color: "#ef4444" }
+          }
+        >
+          {data.amount} <BiRupee className=""/>
         </span>{" "}
-        <button className="focus:ring-blue-500 focus:ring-1" onClick={handleClick}>
-          <HiDotsVertical className="hover:bg-[var(--border)] transition-all duration-300 ease-in-out hover:cursor-pointer text-2xl py-1" />
+        <button
+          className="focus:ring-blue-500 focus:ring-1"
+          onClick={handleClick}
+        >
+          <HiDotsVertical className="hover:bg-[var(--border)] transition-all duration-300 ease-in-out hover:cursor-pointer lg:text-2xl lg:py-1" />
         </button>
       </p>
     </div>
@@ -47,9 +59,6 @@ function Table({heading}) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const search = searchParams.toString();
-    // const [data,setData] = useState({totalPages:0,transaction:[]});
-    // const [transactions,setTransactions] = useState([]);
-    // const [data,setData] = useState();
     console.log("from outside query fn", searchParams.toString());
     const {
       data,
@@ -65,8 +74,7 @@ function Table({heading}) {
 
 
     async function getTransactions(queryString) {
-      const token = localStorage.getItem("token") || "";
-      console.log('from query fn',queryString); 
+      const token = localStorage.getItem("token") || ""; 
       if (!token) {
         router.replace("/login");
       }
@@ -93,14 +101,14 @@ function Table({heading}) {
  
   
     return (
-      <div className="bg-[var(--surface)] relative  border-[var(--border)] border-1 overflow-hidden shadow-sm rounded-md w-full h-full  text-[var(--textDark)] flex flex-col">
-        <div className="grid bg-[var(--background)] gap-10 py-2 lg:px-5 px-1 grid-cols-12 overflow-auto ">
-          <p>No</p>
-          <p className="col-span-2">category</p>
-          <p className="col-span-2">type</p>
-          <p className="col-span-3">title</p>
-          <p className="col-span-2">date</p>
-          <p className="col-span-2 flex justify-between">amount</p>
+      <div className="bg-[var(--surface)] relative lg:text-lg text-sm px-1 border-[var(--border)] border-1 overflow-hidden shadow-sm rounded-md w-full h-full  text-[var(--textDark)] flex flex-col">
+        <div className="grid bg-[var(--background)] gap-10 py-2 lg:px-5 px-1 grid-cols-4 lg:grid-cols-12 overflow-auto ">
+          <p className="hidden lg:block">No</p>
+          <p className="lg:col-span-2">category</p>
+          <p className="lg:col-span-2 hidden lg:block">type</p>
+          <p className="lg:col-span-3">title</p>
+          <p className="lg:col-span-2">date</p>
+          <p className="lg:col-span-2 flex justify-between">amount</p>
         </div>
         <div className="flex-1 scroll-bar  pt-2 overflow-auto">
           {!data?.data?.transaction && <span className="absolute top-[20%] left-1/2 -translate-x-1/2 "><ImSpinner9 className="text-3xl text-blue-500 animate-spin"/></span>}

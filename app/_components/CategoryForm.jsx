@@ -35,13 +35,15 @@ const inputStyles =
            }
          })
          if(res.data.status === 'success'){
-           toast.success(`added ${data.categoryName} to your categories list`);
-           
+          //  toast.success(`added ${data.categoryName} to your categories list`);
+           return Promise.resolve();
           //  queryClient.invalidateQueries(['category']);
          }
         }catch(err){
          if(err.response.data.status === 'exists'){
-          toast.error(`${data.categoryName} already exists in your category list`)
+          // toast.error(`${data.categoryName} already exists in your category list`)
+          return Promise.reject();
+
          }
         } 
       }
@@ -61,21 +63,31 @@ const inputStyles =
             },
           }
         );
-        console.log(data);
+        // console.log(data);
         if(res.data.status === 'success'){
-          toast.success(`category deleted successfully`);
+          // toast.success(`category deleted successfully`);
           // queryClient.invalidateQueries(['category']);
+          return Promise.resolve();
         }
        }catch(err){
         console.log(err);
+        return Promise.reject();
        }
      
       }
 
     async function onSubmit(data){
       const token = localStorage.getItem('token');
-      if(data.categoryName) await handleAddCategory(data,token);
-      if(data.deleteCategory && data.deleteCategory !== 'select category') await handleDeleteCategory(data,token);
+      if(data.categoryName) toast.promise(handleAddCategory(data, token), {
+        loading: "Saving...",
+        success: <b>{`added ${data.categoryName} to your categories list!`}</b>,
+        error: <b>{`failed to add ${data.categoryName} to your list`}.</b>,
+      });
+      if(data.deleteCategory && data.deleteCategory !== 'select category') toast.promise(handleDeleteCategory(data, token), {
+        loading: "Saving...",
+        success: <b>{`removed from your categories list!`}</b>,
+        error: <b>{`failed to remove to your list`}.</b>,
+      });
     }
 
     return (

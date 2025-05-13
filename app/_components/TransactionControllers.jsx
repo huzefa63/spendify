@@ -41,6 +41,8 @@ const iconMap = {
 function TransactionControllers({ filterObj }) {
   // hooks
   const [showDropdown, setShowDropdown] = useState(false);
+  const [inputType,setInputType] = useState('text');
+  const [inputType2,setInputType2] = useState('text');
   const [showAmount, setShowAmount] = useState(false);
   // const [showModel, setShowModel] = useState(false);
   const searchParams = useSearchParams(); // to set or append searchParams
@@ -98,122 +100,144 @@ function TransactionControllers({ filterObj }) {
   }
 
   return (
-    <div className="flex gap-2 justify-between items-center">
+    <div className="lg:flex gap-2 justify-between items-center">
       {menuPosition?.right && menuPosition?.top && <RenderContextMenu />}
       {showModel && (
-        <ModelWindow close={() => {
-          setShowModel(!showModel);
-        }}>
+        <ModelWindow
+          close={() => {
+            setShowModel(!showModel);
+          }}
+        >
           <TransactionForm />
         </ModelWindow>
       )}
-      <div className="flex gap-4">
-        <Button type="secondary" handler={() => {
-          setShowModel(true);
-          setFormType('create')
-        }}>
-          + New entry
-        </Button>
-        <div className="relative">
-          <div ref={filterButtonRef} className="buttonDiv">
-            <Button handler={() => {
-              
-              setShowDropdown(!showDropdown);
-            }}>
-              <div className="flex gap-1 items-center ">
-                <MdFilterList size={20} /> Filter <MdKeyboardArrowDown />
-              </div>
-            </Button>
 
-            {/* dropdown menu */}
-            <AnimatePresence>
-              {showDropdown && (
-                <Dropdown close={setShowDropdown} button={filterButtonRef}>
-                  {/* const filterOptions = ["recent", "amount", "expense", "income", "category"]; */}
+      <div className="lg:flex gap-4">
+        <div className="flex gap-4 justify-between px-2 lg:px-0">
+          <Button
+            type="secondary"
+            handler={() => {
+              setShowModel(true);
+              setFormType("create");
+            }}
+          >
+            <span className="lg:block hidden">+ New entry</span>
+            <span className="lg:hidden text-xs">+ add</span>
+          </Button>
+          <div className="relative">
+            <div ref={filterButtonRef} className="buttonDiv">
+              <Button
+                handler={() => {
+                  setShowDropdown(!showDropdown);
+                }}
+              >
+                <div className="flex gap-1 items-center ">
+                  <MdFilterList size={20} /> Filter <MdKeyboardArrowDown />
+                </div>
+              </Button>
 
-                  {filterOptions.map((el, i) => {
-                    return (
-                      <div key={i} className="h-fit">
-                        <button
-                          onClick={() => {
-                            if (el === "amount")
-                              return setShowAmount(!showAmount);
-                            filterHandler(el);
-                          }}
-                          className="rounded-md transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:cursor-pointer p-2 w-full text-left flex items-center justify-between"
-                        >
-                          <div className="w-full">
-                            <div
-                              className={`flex ${
-                                (el === "newest" || el === "oldest") && "pl-1"
-                              } gap-2 items-center w-full`}
-                            >
-                              {iconMap[el]}
-                              {el}
-                              <span className="ml-auto">
-                                {showActiveFilter(el)}
-                              </span>
-                              {el === "amount" && (
-                                <IoIosArrowDown
-                                  className={`ml-auto transition-all duration-300 ${
-                                    showAmount && "rotate-180"
-                                  }`}
-                                />
-                              )}
+              {/* dropdown menu */}
+              <AnimatePresence>
+                {showDropdown && (
+                  <Dropdown close={setShowDropdown} button={filterButtonRef}>
+                    {/* const filterOptions = ["recent", "amount", "expense", "income", "category"]; */}
+
+                    {filterOptions.map((el, i) => {
+                      return (
+                        <div key={i} className="h-fit">
+                          <button
+                            onClick={() => {
+                              if (el === "amount")
+                                return setShowAmount(!showAmount);
+                              filterHandler(el);
+                            }}
+                            className="rounded-md transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-600 hover:cursor-pointer p-2 w-full text-left flex items-center justify-between"
+                          >
+                            <div className="w-full">
+                              <div
+                                className={`flex ${
+                                  (el === "newest" || el === "oldest") && "pl-1"
+                                } gap-2 items-center w-full`}
+                              >
+                                {iconMap[el]}
+                                {el}
+                                <span className="ml-auto">
+                                  {showActiveFilter(el)}
+                                </span>
+                                {el === "amount" && (
+                                  <IoIosArrowDown
+                                    className={`ml-auto transition-all duration-300 ${
+                                      showAmount && "rotate-180"
+                                    }`}
+                                  />
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        </button>
+                          </button>
 
-                        {el === "amount" && showAmount ? (
-                          <NestedDropdown
-                            filterName="amount"
-                            filterObj={filterObj}
-                            options={["low-to-high", "high-to-low"]}
-                            filterHandler={filterHandler}
-                          />
-                        ) : null}
-                      </div>
-                    );
-                  })}
-                </Dropdown>
-              )}
-            </AnimatePresence>
-            {/* dropdown complete */}
+                          {el === "amount" && showAmount ? (
+                            <NestedDropdown
+                              filterName="amount"
+                              filterObj={filterObj}
+                              options={["low-to-high", "high-to-low"]}
+                              filterHandler={filterHandler}
+                            />
+                          ) : null}
+                        </div>
+                      );
+                    })}
+                  </Dropdown>
+                )}
+              </AnimatePresence>
+              {/* dropdown complete */}
+            </div>
           </div>
+          <select
+            disabled={categoryData?.length < 1}
+            value={filterObj?.category}
+            onChange={(e) => filterHandler("category", e.target.value)}
+            className="bg-transparent col-span-2 lg:col-span-1 disabled:cursor-not-allowed border-[var(--border)] border-1 text-[var(--text)] lg:px-8 h-fit py-2 rounded-sm "
+          >
+            <option
+              value=""
+              className="dark:bg-gray-800 transition-all duration-300  ease-in-out"
+            >
+              {categoryData?.length > 0 ? "all category" : "add category first"}
+            </option>
+            {categoryData?.map((el, i) => {
+              return (
+                <option
+                  key={i}
+                  value={el.categoryName}
+                  className="dark:bg-gray-800 transition-all duration-300 ease-in-out"
+                >
+                  {el.categoryName}
+                </option>
+              );
+            })}
+          </select>
         </div>
       </div>
-      <select
-      disabled={categoryData?.length < 1}
-        value={filterObj?.category}
-        onChange={(e) => filterHandler("category", e.target.value)}
-        className="bg-transparent disabled:cursor-not-allowed border-[var(--border)] border-1 text-[var(--text)] px-8 h-fit py-2 rounded-sm "
-      >
-        <option
-          value=""
-          className="dark:bg-gray-800 transition-all duration-300  ease-in-out"
-        >
-          {categoryData?.length > 0
-            ? "all category"
-            : "add category first"}
-        </option>
-        {categoryData?.map((el, i) => {
-          return (
-            <option
-              key={i}
-              value={el.categoryName}
-              className="dark:bg-gray-800 transition-all duration-300 ease-in-out"
-            >
-              {el.categoryName}
-            </option>
-          );
-        })}
-      </select>
-      <div className="flex gap-5 items-center">
+
+      <div className="flex relative lg:gap-5 mt-2 lg:mt-0 gap-2 lg:items-center max-w-full px-1 lg:px-0">
         <DatePickerr label="From" type="from" />
-        <FaArrowRightArrowLeft className="dark:text-white" />
+        <FaArrowRightArrowLeft className="dark:text-white hidden lg:flex" />
         <DatePickerr label="To" type="to" />
+        <div className="relative text-center lg:mt-0 lg:hidden self-end">
+          <Button
+            type="primary"
+            handler={() => {
+              const params = new URLSearchParams(searchParams);
+              params.delete("to");
+              params.delete("from");
+              router.replace(`${pathname}?${params.toString()}`);
+            }}
+          >
+            reset
+          </Button>
+        </div>
       </div>
-      <div className="relative">
+      <div className="text-center lg:mt-0 hidden lg:flex ">
         <Button
           type="primary"
           handler={() => {
