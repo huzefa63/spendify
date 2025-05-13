@@ -66,7 +66,7 @@ function AuthForm({type}) {
             </label>
             <input
               type="text"
-              {...register("userName", {
+              {...register("username", {
                 required: "userName address is required!",
               })}
               id="userName"
