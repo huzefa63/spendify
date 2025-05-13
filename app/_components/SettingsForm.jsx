@@ -67,13 +67,13 @@ function SettingsForm() {
 
 
   return (
-    <div className="w-[95%] p-5  bg-[var(--surface)] rounded-sm">
+    <div className="w-[95%] lg:p-5 px-2 py-5  bg-[var(--surface)] rounded-sm">
       <header className="text-3xl flex gap-3 items-center text-center w-full justify-center">
         <CiUser className="text-blue-400" />
         Update profile
       </header>
 
-       <div className="flex gap-6 border-1 border-[var(--border)] py-3 px-5 rounded-sm items-center mt-7">
+       <div className="grid grid-cols-3 lg:text-inherit lg:flex py-3 px-3 border-1 border-[var(--border)] rounded-sm items-center mt-7">
           {userData?.profileImage ? (
             <div className="lg:h-20 h-16 lg:w-20 w-16 overflow-hidden rounded-full relative">
               <Image
@@ -87,14 +87,14 @@ function SettingsForm() {
             <FaUserCircle className="lg:h-20 lg:w-20 h-12 w-12 overflow-hidden rounded-full relative" />
           )}
 
-          <div className="relative w-fit">
+          <div className="relative w-fit lg:ml-5 ">
             <input
               type="file"
               // accept="image/*"
               id="image"
               {...register("photo")}
               onChange={handleImageChange}
-              className="absolute opacity-0 w-28 z-[99]"
+              className="absolute opacity-0 w-28 h-full"
             />
             <label
               htmlFor="image"
@@ -102,6 +102,8 @@ function SettingsForm() {
             >
               Update image
             </label>
+            
+          </div>
             <Button handler={async ()=>{
               if(!userData?.profileImage) return toast.error('you don not have a profile image to delete');
               if(!confirm('are you sure you want to remove profile image')) return;
@@ -112,10 +114,6 @@ function SettingsForm() {
               })
               if(res.data.status === 'success') queryClient.invalidateQueries(['user']);
             }} type="secondary">remove image</Button>
-            {image && (
-              <p className="absolute tracking-wider min-w-[50rem]">{image}</p>
-            )}
-          </div>
         </div>
       
 
