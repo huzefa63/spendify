@@ -30,7 +30,7 @@ async function Page({searchParams}) {
   return (
       // padding top and left in page due to side and app navbar
       <div
-        className={`bg-[var(--background)] relative border ${inter.className} tracking-wider pl-64 pt-20 pr-10 h-screen w-full`}
+        className={`bg-[var(--background)] relative border ${inter.className} tracking-wider lg:pl-64 pt-20 pr-10 h-screen w-full`}
       >
         
         {/* <button className="bg-[var(--surface)] text-purple-500 px-3 py-2 shadow-sm rounded-md hover:cursor-pointer hover:bg-[var(--background)] transition-all duration-300">+ New entry</button> */}

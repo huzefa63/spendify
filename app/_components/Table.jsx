@@ -25,7 +25,7 @@ function Row({data,i}){
   }
 
   return (
-    <div className="grid grid-cols-12 py-3  px-5 gap-10 border-b-1 border-gray-200 dark:border-gray-800">
+    <div className="grid grid-cols-12 py-3 px-1  lg:px-5 gap-10 border-b-1 border-gray-200 dark:border-gray-800">
       <p>{(page - 1) * pageSize + i + 1}</p>
       <p className="col-span-2">{data.category}</p>
       <p className="col-span-2">{data.transactionType}</p>
@@ -94,7 +94,7 @@ function Table({heading}) {
   
     return (
       <div className="bg-[var(--surface)] relative  border-[var(--border)] border-1 overflow-hidden shadow-sm rounded-md w-full h-full  text-[var(--textDark)] flex flex-col">
-        <div className="grid bg-[var(--background)] gap-10 py-2 px-5 grid-cols-12 overflow-auto ">
+        <div className="grid bg-[var(--background)] gap-10 py-2 lg:px-5 px-1 grid-cols-12 overflow-auto ">
           <p>No</p>
           <p className="col-span-2">category</p>
           <p className="col-span-2">type</p>
