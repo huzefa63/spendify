@@ -12,6 +12,7 @@ import { CiUser } from "react-icons/ci";
 import { MdEmail } from "react-icons/md";
 import { FaLock } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
+import {UsernameUpdateForm,UpdatePasswordForm} from "../_ui/forms/UpdateUserForms";
 
 const InputFields = [
   {
@@ -43,16 +44,16 @@ function SettingsForm() {
   const {data:userData} = useMyContext();
   const queryClient = useQueryClient();
   const mutate = useMutation({
-    mutationFn:onSubmit,
+    mutationFn:handleUpdateImage,
     onSuccess:()=>{
       queryClient.invalidateQueries(['user']);
     }
   })
 
-  async function handleUpdateNameAndImage(data,token){
+  async function handleUpdateImage({photo,token}){
     const formData = new FormData();
-    formData.append("userName", data.username);
-    formData.append("photo", data.photo[0]);
+    formData.append("photo", photo);
+    console.log(formData.get("photo"));
     const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/updateUser`,
       formData,
@@ -64,142 +65,87 @@ function SettingsForm() {
     );
     console.log(res);
     if (res.data.status === "success") {
-
-      // toast.success("profile updated");
       return true;
     } else{
       return false;
     }
   }
 
-  async function onSubmit(data) {
+  async function handleImageChange(e) {
+    const photo = e.target.files[0];
     const token = localStorage.getItem('token');
-  await handleUpdateNameAndImage(data,token);
-  }
-
-  async function deleteImage() {
-    const token = localStorage.getItem('token');
-   try{
-    const res = await axios.delete(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profileImage`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: {
-          imageUrl: userData.profileImage,
-        },
+    if(!photo) setImage('');
+    if (photo) {
+      if(confirm(`do you want to update your avatar with image ${photo?.name}`)){
+        toast.promise(mutate.mutateAsync({photo,token}), {
+          loading: "Updating...",
+          success: <b>profile photo updated!</b>,
+          error: <b>Could not update profile photo.</b>,
+        });
       }
-    );
-    if(res.data.status === 'success'){
-      queryClient.invalidateQueries(['user']);
-      toast.success('profile image removed!');
-    }
-   }
-  catch(err){
-    toast.error('failed to delete image, please try again!');
-  } 
-  }
-
-  function handleImageChange(e) {
-    const file = e.target.files[0];
-    if(!file) setImage('');
-    if (file) {
-      setImage(file.name);
     }
   }
 
 
 
   return (
-    <form
-      className="w-[95%] py-5 lg:px-5 px-2 h-[95%] bg-[var(--surface)] rounded-sm"
-      onSubmit={handleSubmit((data) => {
-        toast.promise(mutate.mutateAsync(data), {
-          loading: "Updating...",
-          success: <b>Profile updated!</b>,
-          error: <b>Could not update profile.</b>,
-        });
-      })}
-    >
-      <header className="text-3xl pl-5 flex gap-3 items-center">
+    <div className="w-[95%] p-5  bg-[var(--surface)] rounded-sm">
+      <header className="text-3xl flex gap-3 items-center text-center w-full justify-center">
         <CiUser className="text-blue-400" />
         Update profile
       </header>
 
-      <div className="flex gap-6 border-1 border-[var(--border)] py-3 px-5 rounded-sm items-center mt-7">
-        {userData?.profileImage ? (
-          <div className="lg:h-20 h-12 lg:w-20 w-12 overflow-hidden rounded-full relative">
-            <Image
-              fill
-              src={userData?.profileImage}
-              alt="profile"
-              className=""
-            />
-          </div>
-        ) : (
-          <FaUserCircle className="lg:h-20 lg:w-20 h-12 w-12 overflow-hidden rounded-full relative" />
-        )}
-
-        <div className="relative w-full">
-          <input
-            type="file"
-            accept="image/*"
-            id="image"
-            {...register("photo")}
-            onChange={handleImageChange}
-            className="absolute opacity-0 w-28 z-[99]"
-          />
-          <label
-            htmlFor="image"
-            className="text-white bg-blue-700 py-2.5 px-3 mr-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Update image
-          </label>
-          <Button type="secondary" buttonType={'button'} handler={deleteImage}>remove image</Button>
-          {image && (
-            <p className="absolute tracking-wider min-w-[50rem]">{image}</p>
+       <div className="flex gap-6 border-1 border-[var(--border)] py-3 px-5 rounded-sm items-center mt-7">
+          {userData?.profileImage ? (
+            <div className="lg:h-20 h-16 lg:w-20 w-16 overflow-hidden rounded-full relative">
+              <Image
+                fill
+                src={userData?.profileImage}
+                alt="profile"
+                className=""
+              />
+            </div>
+          ) : (
+            <FaUserCircle className="lg:h-20 lg:w-20 h-12 w-12 overflow-hidden rounded-full relative" />
           )}
-        </div>
-      </div>
 
-      <main className="w-full border-1 border-[var(--border)]  mt-5 grid lg:grid-cols-2 grid-rows-4 lg:grid-rows-2 gap-x-15 gap-y-2 lg:px-10 px-5 py-3">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email">email</label>
-          <div className="relative">
+          <div className="relative w-fit">
             <input
-              disabled={true}
-              value={userData?.email || ""}
-              id="email"
-              type="text"
-              className={`bg-transparent w-full border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-10 py-2 hover:cursor-not-allowed`}
+              type="file"
+              // accept="image/*"
+              id="image"
+              {...register("photo")}
+              onChange={handleImageChange}
+              className="absolute opacity-0 w-28 z-[99]"
             />
             <label
-              htmlFor="email"
-              className="absolute top-1/2 left-3 -translate-y-1/2"
+              htmlFor="image"
+              className="text-white bg-blue-700 py-2.5 px-3 mr-3 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              <MdEmail className="text-purple-600" />
+              Update image
             </label>
+            <Button handler={async ()=>{
+              if(!confirm('are you sure you want to remove profile image')) return;
+              const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profileImage`,{
+                headers:{
+                  Authorization:`Bearer ${localStorage.getItem('token')}`
+                },
+              })
+              if(res.data.status === 'success') invalidateQueries(['user']);
+            }} type="secondary">remove image</Button>
+            {image && (
+              <p className="absolute tracking-wider min-w-[50rem]">{image}</p>
+            )}
           </div>
         </div>
+      
 
-        {InputFields.map((el,i) => {
-          return <FormFields key={i} field={el} image={image} getValues={getValues} error={errors} register={register} userData={userData}/>
-        })}
-
-        <span className="relative w-fit transition-all duration-300">
-          <Button>
-            {mutate.isPending && (
-              <ImSpinner9 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
-            )}
-
-            <span className={`${mutate.isPending ? "opacity-0" : ""}`}>
-              save changes
-            </span>
-          </Button>
-        </span>
-      </main>
-    </form>
+      
+      <div className="border-1 border-[var(--border)] mt-5">
+        <UsernameUpdateForm />
+        <UpdatePasswordForm />
+      </div>
+    </div>
   );
 }
 

@@ -89,7 +89,7 @@ const inputStyles =
             <FaEdit className="text-blue-400" />
             Add and Delete Categories
           </h1>
-          <div className="grid lg:grid-cols-2  gap-x-15 gap-y-8 px-5 lg:px-10 py-3 border-1 border-[var(--border)] rounded-sm">
+          <div className="grid lg:grid-cols-2 lg:grid-rows-1 grid-rows-2 gap-x-15 gap-y-8 px-10 py-3 border-1 border-[var(--border)] rounded-sm">
             <div className="flex flex-col gap-2">
               <label htmlFor="addCategory">add category</label>
               <div className="relative">
