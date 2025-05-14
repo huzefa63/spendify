@@ -3,6 +3,7 @@ import Image from "next/image";
 import AnimatedButton from "@/app/_components/AnimatedButton";
 import Button from "../_ui/Button";
 import Slide from "@/app/_animation/Slide";
+import RedirectFromHome from "../_components/RedirectFromHome";
 const poppins = Poppins({
     variable:'poppins',
     subsets:['latin'],
@@ -30,6 +31,7 @@ function Page() {
                 Expense Tracking.
               </span>
             </Slide>
+            <RedirectFromHome />
           </h1>
 
           {/* display image here in mobile screen */}
