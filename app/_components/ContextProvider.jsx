@@ -2,7 +2,8 @@
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const Context = createContext();
 function ContextProvider({children}) {
@@ -10,6 +11,7 @@ function ContextProvider({children}) {
   const [showModel, setShowModel] = useState(false);
   const [formType,setFormType] = useState('');
   const [transactionObj, setTransactionObj] = useState({});
+  const router = useRouter();
   const { data, isPending, error } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
@@ -39,7 +41,10 @@ function ContextProvider({children}) {
       return false
     }
   }
-
+useEffect(()=>{
+  if(localStorage.getItem('token')) router.replace('/transaction-history');
+  // else router.replace('home');
+})
   async function getCategory() {
     const token = localStorage.getItem("token");
     try {

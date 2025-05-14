@@ -11,8 +11,5 @@ const poppins = Poppins({
 
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  
-  if(cookieStore.get('jwt')) redirect("/transaction-history");
-  else redirect('/home');
+   redirect('/home');
 }
