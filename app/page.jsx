@@ -11,5 +11,5 @@ const poppins = Poppins({
 
 
 export default async function Home() {
-   redirect('/home');
+  //  redirect('/home');
 }
