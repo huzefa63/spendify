@@ -41,7 +41,7 @@ function RenderContextMenu() {
                 setMenuPosition({})
                 setFormType('update');
                 setShowModel(true);
-              }} className="bg-transparent text-green-600 border-1 border-b-[var(--border)] text-left lg:py-3 px-2 py-1.5 lg:pl-3  hover:bg-[var(--surface)] hover:cursor-pointer transition-all duration-300 flex items-center gap-2 text-lg tracking-wider">
+              }} className="bg-transparent text-green-600 border-b-1 border-b-[var(--border)] text-left lg:py-3 px-2 py-1.5 lg:pl-3  hover:bg-[var(--surface)] hover:cursor-pointer transition-all duration-300 flex items-center gap-2 text-lg tracking-wider">
                 <FaEdit /> edit
               </button>
               <button

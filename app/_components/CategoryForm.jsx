@@ -22,6 +22,7 @@ const inputStyles =
         onSuccess:()=> {
           queryClient.invalidateQueries(["category"]);
           resetField('categoryName');
+          resetField('deleteCategory')
         },
         onError:(err)=>alert(err,'failed category')
       })
@@ -30,21 +31,22 @@ const inputStyles =
         try{
          // const formData = new FormData();
          // formData.append('categoryName',data.categoryName);
+         console.log('from add',data);
          const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/categories/createCategory`,{categoryName:data.categoryName},{
            headers:{
              Authorization:`Bearer ${token}`
            }
          })
          if(res.data.status === 'success'){
-          //  toast.success(`added ${data.categoryName} to your categories list`);
+           toast.success(`added ${data.categoryName} to your categories list`);
           queryClient.invalidateQueries(['category']);
-           return Promise.resolve();
+          //  return Promise.resolve();
          }
         }catch(err){
          if(err.response.data.status === 'exists'){
-          // toast.error(`${data.categoryName} already exists in your category list`)
-          return Promise.reject();
-
+          console.log(err)
+          toast.error(`${data.categoryName} already exists in your category list`)
+          // return Promise.reject();
          }
         } 
       }
@@ -66,13 +68,13 @@ const inputStyles =
         );
         // console.log(data);
         if(res.data.status === 'success'){
-          // toast.success(`category deleted successfully`);
-          // queryClient.invalidateQueries(['category']);
-          return Promise.resolve();
+          toast.success(`category deleted successfully`);
+          queryClient.invalidateQueries(['category']);
+          // return Promise.resolve();
         }
        }catch(err){
         console.log(err);
-        return Promise.reject();
+        // return Promise.reject();
        }
      
       }
@@ -80,22 +82,17 @@ const inputStyles =
     async function onSubmit(data){
       const token = localStorage.getItem('token');
       // if(data.categoryName) handleAddCategory(data,token);
-      if(data.deleteCategory && data.deleteCategory !== 'select category') toast.promise(handleDeleteCategory(data, token), {
-        loading: "Saving...",
-        success: <b>{`removed from your categories list!`}</b>,
-        error: <b>{`failed to remove to your list`}.</b>,
-      });
-      if(data.categoryName) toast.promise(handleAddCategory(data, token), {
-        loading: "Saving...",
-        success: <b>{`added ${data.categoryName} to your categories list!`}</b>,
-        error: <b>{`failed to add ${data.categoryName} to your list`}.</b>,
-      });
+      if(data.deleteCategory && data.deleteCategory !== 'select category') handleDeleteCategory(data, token)
+      
+    
+      if(data.categoryName) handleAddCategory(data, token)
+       
       // if(data.deleteCategory && data.deleteCategory !== 'select category') toast.promise(handleDeleteCategory(data, token), {
       //   loading: "Saving...",
       //   success: <b>{`removed from your categories list!`}</b>,
       //   error: <b>{`failed to remove to your list`}.</b>,
       // });
-    }
+}
 
     return (
       <div className=" w-full flex justify-center mt-5 ">
@@ -135,7 +132,7 @@ const inputStyles =
                 className={`${inputStyles} disabled:cursor-not-allowed`}
                 {...register("deleteCategory")}
               >
-                <option className="dark:bg-gray-800">
+                <option className="dark:bg-gray-800" value="">
                   {categoryData?.length > 0
                     ? "select category"
                     : "no categories found"}

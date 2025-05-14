@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const Context = createContext();
 function ContextProvider({children}) {
@@ -43,6 +43,7 @@ function ContextProvider({children}) {
   }
   async function getCategory() {
     const token = localStorage.getItem("token");
+    if(!token) return null;
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories/getCategories`,
