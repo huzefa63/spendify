@@ -37,11 +37,11 @@ function RenderContextMenu() {
         return (
           <ContextMenu>
             <div className="flex flex-col w-36">
-              <button onClick={()=>{
+              <button  onClick={()=>{
                 setMenuPosition({})
                 setFormType('update');
                 setShowModel(true);
-              }} className="bg-transparent text-[var(--text)] text-left py-3 pl-3 hover:bg-[var(--surface)] hover:cursor-pointer transition-all duration-300 flex items-center gap-2 text-lg tracking-wider">
+              }} className="bg-transparent text-green-600 border-1 border-b-[var(--border)] text-left lg:py-3 px-2 py-1.5 lg:pl-3  hover:bg-[var(--surface)] hover:cursor-pointer transition-all duration-300 flex items-center gap-2 text-lg tracking-wider">
                 <FaEdit /> edit
               </button>
               <button
@@ -52,7 +52,7 @@ function RenderContextMenu() {
                     error: <b>unable to delete transaction! please try again.</b>,
                   })
                 }
-                className="bg-transparent text-[var(--text)] text-left py-3 pl-3 hover:bg-[var(--surface)] hover:cursor-pointer transition-all duration-300 flex items-center gap-2 text-lg tracking-wider"
+                className="bg-transparent text-red-600 text-left lg:py-3 px-2 py-1.5 lg:pl-3  hover:bg-[var(--surface)] hover:cursor-pointer transition-all duration-300 flex items-center gap-2 text-lg tracking-wider"
               >
                 <FaTrash /> delete
               </button>

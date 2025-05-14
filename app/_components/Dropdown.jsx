@@ -25,7 +25,7 @@ function Dropdown({close, width = 52, position = "left-0",children, button }) {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -20, opacity: 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`text-[var(--textDark)] border-1 rounded-sm dark:border-gray-700 border-gray-300 absolute ${position} top-full mt-2 z-50 w-52 flex flex-col p-3 bg-[var(--surface)]  shadow-sm`}
+        className={`text-[var(--textDark)] border-1 rounded-sm dark:border-gray-700 border-gray-300 absolute ${position} top-full mt-2 z-50 lg:w-52 w-36 flex flex-col p-3 bg-[var(--surface)]  shadow-sm`}
       >
         {children}
       </motion.div>

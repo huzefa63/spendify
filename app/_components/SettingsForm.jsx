@@ -54,7 +54,7 @@ function SettingsForm() {
   async function handleImageChange(e) {
     const photo = e.target.files[0];
     const token = localStorage.getItem('token');
-    if(!photo) setImage('');
+    // if(!photo) setImage('');
     if (photo) {
       if(confirm(`do you want to update your avatar with image ${photo?.name}`)){
         toast.promise(mutate.mutateAsync({photo,token}), {
