@@ -41,10 +41,6 @@ function ContextProvider({children}) {
       return false
     }
   }
-useEffect(()=>{
-  if(localStorage.getItem('token')) router.replace('/transaction-history');
-  else router.replace('home');
-})
   async function getCategory() {
     const token = localStorage.getItem("token");
     try {
