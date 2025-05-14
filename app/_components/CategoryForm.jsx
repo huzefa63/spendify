@@ -13,7 +13,7 @@ const inputStyles =
   "bg-transparent border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-5 py-2";
 
   function CategoryForm() {
-      const { register, handleSubmit,reset } = useForm();
+      const { register, handleSubmit,resetField } = useForm();
       const {categoryData} = useMyContext();
       const ref = useRef(null);
       const queryClient = useQueryClient();
@@ -21,8 +21,9 @@ const inputStyles =
         mutationFn:onSubmit,
         onSuccess:()=> {
           queryClient.invalidateQueries(["category"]);
-          reset({categoryName:''});
+          resetField('categoryName');
         },
+        onError:(err)=>alert(err,'failed category')
       })
 
       async function handleAddCategory(data,token){
@@ -36,8 +37,8 @@ const inputStyles =
          })
          if(res.data.status === 'success'){
           //  toast.success(`added ${data.categoryName} to your categories list`);
+          queryClient.invalidateQueries(['category']);
            return Promise.resolve();
-          //  queryClient.invalidateQueries(['category']);
          }
         }catch(err){
          if(err.response.data.status === 'exists'){
@@ -78,16 +79,22 @@ const inputStyles =
 
     async function onSubmit(data){
       const token = localStorage.getItem('token');
-      if(data.categoryName) toast.promise(handleAddCategory(data, token), {
-        loading: "Saving...",
-        success: <b>{`added ${data.categoryName} to your categories list!`}</b>,
-        error: <b>{`failed to add ${data.categoryName} to your list`}.</b>,
-      });
+      // if(data.categoryName) handleAddCategory(data,token);
       if(data.deleteCategory && data.deleteCategory !== 'select category') toast.promise(handleDeleteCategory(data, token), {
         loading: "Saving...",
         success: <b>{`removed from your categories list!`}</b>,
         error: <b>{`failed to remove to your list`}.</b>,
       });
+      if(data.categoryName) toast.promise(handleAddCategory(data, token), {
+        loading: "Saving...",
+        success: <b>{`added ${data.categoryName} to your categories list!`}</b>,
+        error: <b>{`failed to add ${data.categoryName} to your list`}.</b>,
+      });
+      // if(data.deleteCategory && data.deleteCategory !== 'select category') toast.promise(handleDeleteCategory(data, token), {
+      //   loading: "Saving...",
+      //   success: <b>{`removed from your categories list!`}</b>,
+      //   error: <b>{`failed to remove to your list`}.</b>,
+      // });
     }
 
     return (

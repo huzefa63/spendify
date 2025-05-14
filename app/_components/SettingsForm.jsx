@@ -49,6 +49,8 @@ function SettingsForm() {
     }
   }
 
+  
+
   async function handleImageChange(e) {
     const photo = e.target.files[0];
     const token = localStorage.getItem('token');
@@ -64,7 +66,28 @@ function SettingsForm() {
     }
   }
 
-
+  async function handleRemoveImage(){
+    if (!userData?.profileImage)
+      return Promise.reject();
+    if (!confirm("are you sure you want to remove profile image")) return;
+    try{
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profileImage`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (res.data.status === "success"){
+        queryClient.invalidateQueries(["user"]);
+        return Promise.resolve();
+      }
+      return Promise.reject();
+    }catch(err){
+      return Promise.reject();
+    }
+  }
 
   return (
     <div className="w-[95%] lg:p-5 px-2 py-5  bg-[var(--surface)] rounded-sm">
@@ -105,24 +128,11 @@ function SettingsForm() {
         </div>
         <div className="col-span-2">
           <Button
-            handler={async () => {
-              if (!userData?.profileImage)
-                return toast.error(
-                  "you don't have an profile image uploaded"
-                );
-              if (!confirm("are you sure you want to remove profile image"))
-                return;
-              const res = await axios.delete(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/profileImage`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                  },
-                }
-              );
-              if (res.data.status === "success")
-                queryClient.invalidateQueries(["user"]);
-            }}
+            handler={() =>toast.promise(handleRemoveImage, {
+              loading: "Updating...",
+              success: <b>profile image removed!</b>,
+              error: <b>Could not remove profile image.</b>,
+            })}
             type="secondary"
           >
             remove image
@@ -132,65 +142,9 @@ function SettingsForm() {
 
       <div className="border-1 border-[var(--border)] mt-5">
         <UsernameUpdateForm />
-        <hr className="text-[var(--border)]"/>
+        <hr className="text-[var(--border)]" />
         <UpdatePasswordForm />
       </div>
-    </div>
-  );
-}
-
-function getValidationFn(getValues,userData,image){
-  console.log(image);
-  return ({
-    username: {
-      validate: (val) => {
-        if (getValues("password") === "" && !image) {
-          if (val === userData?.userName) return "modify username to change it";
-        }
-        return true;
-      },
-    },
-    password: {
-      validate: (val) => {
-        if (val === "") return true;
-        if (val.length < 8) return "password length should be greater than 7";
-        return true;
-      },
-    },
-    passwordConfirm: {
-      validate: (val) => {
-        if (val === getValues("password")) {
-          return true;
-        } else {
-          return "password not equal";
-        }
-      },
-    },
-  });
-}
-
-function FormFields({field,error,getValues,userData,register,image}){
-  const validation = getValidationFn(getValues,userData,image);
-  return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor={field?.name}>{field?.labelText}</label>
-      <div className="relative">
-        <input
-          defaultValue={field?.name === "username" ? userData?.userName : ""}
-          id={field?.name}
-          {...register(field?.name, validation[field?.name])}
-          type={field?.type}
-          className="bg-transparent w-full border border-gray-500 col-span-2 placeholder:text-gray-400 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm px-10 py-2"
-          placeholder={field?.placeholder}
-        />
-        <label
-          htmlFor={field?.name}
-          className="absolute top-1/2 left-3 -translate-y-1/2"
-        >
-          {field?.icon}
-        </label>
-      </div>
-      {<p className={`${error[field.name]?.message ? 'opacity-100': 'opacity-0'} text-red-500`}>{error[field?.name]?.message || 'placeholder'}</p>}
     </div>
   );
 }
