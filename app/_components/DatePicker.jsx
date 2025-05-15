@@ -45,7 +45,9 @@ export default function App({label,type}) {
             className=""
             label={label}
             value={type === "from" ? dateValue("from") : dateValue("to")}
+            
             slotProps={{
+              
               textField: {
                 size: "small",
 

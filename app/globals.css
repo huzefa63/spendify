@@ -42,6 +42,18 @@
   border-radius: 10px;
 }
 
+.customized-scroll-bar::-webkit-scrollbar{
+  width: 5px;
+  background-color: var(--background);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.customized-scroll-bar::-webkit-scrollbar-thumb{
+  /* width: 5px; */
+  background-color: var(--muted);
+  border-radius: 10px;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

@@ -13,7 +13,7 @@ async function Page({searchParams}) {
   return (
       // padding top and left in page due to side and app navbar
       <div
-        className={`bg-[var(--background)] relative border ${inter.className} tracking-wider px-1 lg:pl-64 pt-20 lg:pr-10 h-screen w-full`}
+        className={`bg-[var(--background)] relative border ${inter.className} tracking-wider px-1 lg:pl-60 pt-20 lg:pr-10 h-screen w-full`}
       >
         <main className="h-full flex flex-col gap-5">
           <div className="">

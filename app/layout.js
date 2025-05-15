@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavbarWrapper from "@/app/_components/NavbarWrapper";
 import { Toaster } from "react-hot-toast";
-import AppNavWrapper from "@/app/_components/AppNavWrapper";
+import AppNav from "@/app/_components/AppNav";
 import QueryProvider from "@/app/_components/QueryProvider";
 import ContextProvider from "@/app/_components/ContextProvider";
 
@@ -33,7 +33,7 @@ export default async function RootLayout({ children }) {
               <div id="root"></div>
               <div id="menu"></div>
               <div id="mobile-nav"></div>
-              <AppNavWrapper />
+              <AppNav />
               <Toaster toastOptions={{ position: "top-center" }} />
               <div className="">
                 <NavbarWrapper />

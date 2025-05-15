@@ -17,8 +17,6 @@ import {UsernameUpdateForm,UpdatePasswordForm} from "../_ui/forms/UpdateUserForm
 
 function SettingsForm() {
   const { register, handleSubmit,formState:{errors},getValues } = useForm({mode:'onSubmit'});
-  const [image, setImage] = useState("");
-  // const [user,setUser] = useState({username:'',email:''});
   const {data:userData} = useMyContext();
   const queryClient = useQueryClient();
   const mutate = useMutation({
