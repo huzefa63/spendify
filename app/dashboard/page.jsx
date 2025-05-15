@@ -20,7 +20,7 @@ async function Page({searchParams}) {
       >
         <main className="w-full h-full">
           <div className="flex justify-between">
-            <h1 className="lg:text-3xl">Dashboard</h1>
+            <h1 className="lg:text-3xl text-lg">Dashboard</h1>
             <DashboardFilter />
           </div>
           <div className="lg:mt-5">
@@ -32,9 +32,9 @@ async function Page({searchParams}) {
                 <DashboardLineChart />
             </div>
           </div> */}
-          <div className="w-full h-[70%] bg-[var(--surface)] mt-5 p-5 flex flex-col">
+          <div className="w-full lg:h-[70%] bg-[var(--surface)] mt-5 p-5 flex flex-col">
             <div className="flex justify-between items-center mb-6 ml-3">
-              <h1 className="lg:text-3xl ">
+              <h1 className="lg:text-3xl text-lg">
                 Income and Expense Distribution This Month
               </h1>
               <FilterLineChart />
