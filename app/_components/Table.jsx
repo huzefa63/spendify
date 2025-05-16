@@ -17,7 +17,7 @@ function Row({data,i}){
   const dateInShort = dayjs(data.date).format('MM/DD/YYYY')
   const page = useSearchParams().get('page');
   const pageSize = 10;
-
+  const formattedAmount = new Intl.NumberFormat('en-US',{style:'currency',currency:'INR'}).format(data?.amount);
   const handleClick = (e) => {
     console.log(e)
     const rect = e.target.closest('button').getBoundingClientRect();
@@ -42,7 +42,7 @@ function Row({data,i}){
               : { color: "#ef4444" }
           }
         >
-          {data.amount} <BiRupee className=""/>
+          {formattedAmount}
         </span>{" "}
         <button
           className="focus:ring-blue-500 focus:ring-1"

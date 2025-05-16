@@ -5,6 +5,7 @@ import PieChart from "../_components/PieChart";
 import PieChartDashboard from "../_components/PieChart";
 import DashboardLineChart from "../_components/LineChart";
 import FilterLineChart from "../_components/FilterLineChart";
+import FilterPieChart from "../_components/FilterPieChart";
 
 const poppins = Poppins({
     subsets:['latin'],
@@ -24,7 +25,7 @@ async function Page({searchParams}) {
             <DashboardFilter />
           </div>
           <div className="lg:mt-5">
-            <DashBoardCards />
+            <DashBoardCards params={searchParamsObj} />
           </div>
           {/* <div className="lg:h-1/2 lg:mt-5 bg-[var(--surface)] border-1 border-[var(--border)]  grid grid-cols-3 py-5 px-2">
             <PieChartDashboard />
@@ -32,15 +33,27 @@ async function Page({searchParams}) {
                 <DashboardLineChart />
             </div>
           </div> */}
-          <div className="w-full lg:h-[70%] bg-[var(--surface)] mt-5 p-5 flex flex-col">
+          <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 p-5 flex flex-col">
             <div className="flex justify-between items-center mb-6 ml-3">
               <h1 className="lg:text-3xl text-lg">
-                Income and Expense Distribution This Month
+                Income and Expense Distribution Year {searchParamsObj?.year}
               </h1>
               <FilterLineChart />
             </div>
             <div className="flex-1">
               <DashboardLineChart searchParams={searchParamsObj} />
+            </div>
+          </div>
+          <div className="lg:h-[70%] w-full bg-[var(--surface)] mt-5 p-5 flex flex-col">
+            <div className="flex justify-between">
+              <h1 className="lg:text-3xl text-lg ">
+                Each Category Income and Expense Distribution For Year{" "}
+                {searchParamsObj?.year}
+              </h1>
+              <FilterPieChart />
+            </div>
+            <div className="flex-1">
+              <PieChart />
             </div>
           </div>
         </main>

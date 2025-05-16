@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import React, { PureComponent } from "react";
 import {
   LineChart,
@@ -88,6 +88,29 @@ const data = [
   },
 ];
 
+function formatCurrency(amount){
+  const formattedAmount = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "INR",
+  }).format(amount);
+  return formattedAmount
+}
+
+function CustomToolTip({active,payload,label}){
+  const params = useSearchParams(); 
+  const year = new URLSearchParams(params).get('year');
+  const income = formatCurrency(payload[1]?.value);
+  const expense = formatCurrency(payload[0]?.value);
+
+  return(
+    <div className="bg-[var(--background)] space-y-3 p-5 border-1 border-[var(--border)]">
+      <h1>{label}, {year}</h1>
+      <p className="text-green-500">income: {income}</p>
+      <p className="text-red-500">expense: {expense}</p>
+    </div>
+  )
+}
+
 function DashboardLineChart({searchParams}) {
   const { data: monthlyTransaction, isPending } = useQuery({
     queryKey: ["monthlyTransaction",searchParams],
@@ -132,7 +155,7 @@ function DashboardLineChart({searchParams}) {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="_id" />
           <YAxis />
-          <Tooltip />
+          <Tooltip content={<CustomToolTip />}/>
           <Legend />
           <Line
             type="monotone"

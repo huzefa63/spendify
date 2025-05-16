@@ -13,6 +13,7 @@ export default function App({label,type}) {
   function handleDate(date){
     const urlParams = new URLSearchParams(params);
     urlParams.set(type,`${date?.$M + 1}-${date?.$D}-${date?.$y}`);
+    urlParams.set('page','1');
     router.replace(`${pathname}?${urlParams}`);
   }
   function dateValue(type){
