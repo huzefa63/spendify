@@ -1,4 +1,5 @@
 "use client";
+import { getLineChartData } from "@/features/dashboardHandlers";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, useSearchParams } from "next/navigation";
@@ -114,30 +115,30 @@ function CustomToolTip({active,payload,label}){
 function DashboardLineChart({searchParams}) {
   const { data: monthlyTransaction, isPending } = useQuery({
     queryKey: ["monthlyTransaction",searchParams],
-    queryFn: getMonthlyTransaction,
+    queryFn: ()=>getLineChartData(searchParams),
     refetchOnWindowFocus:false
   });
 
-  async function getMonthlyTransaction() {
-    const token = localStorage.getItem("token");
-    const params = new URLSearchParams(searchParams).toString();
-    console.log(params);
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/getYearlyTransaction?${params}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(res.data);
-      return res.data.transactions;
-    } catch (err) {
-      console.log(err);
-      return null;
-    }
-  }
+  // async function getMonthlyTransaction() {
+  //   const token = localStorage.getItem("token");
+  //   const params = new URLSearchParams(searchParams).toString();
+  //   console.log(params);
+  //   try {
+  //     const res = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/getYearlyTransaction?${params}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     console.log(res.data);
+  //     return res.data.transactions;
+  //   } catch (err) {
+  //     console.log(err);
+  //     return null;
+  //   }
+  // }
   return (
     <div className="h-full">
       <ResponsiveContainer width="100%" height="100%">

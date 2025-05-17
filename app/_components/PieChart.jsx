@@ -1,4 +1,5 @@
 'use client';
+import { getPieChartData } from "@/features/dashboardHandlers";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
@@ -40,63 +41,55 @@ function PieChartDashboard(){
   const param = useSearchParams();
   const {data} = useQuery({
     queryKey:['categoryDataMonthly',param.get('transactionType')],
-    queryFn:getData
+    queryFn:()=>getPieChartData(param)
   })
-  async function getData() {
-    console.log('heeeee');
-    const token = localStorage.getItem("token");
-    const params = new URLSearchParams(param).toString();
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/getCategoryTransaction?${params}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log('hoooooo')
-      console.log('fromcategory',res.data);
-      return res.data.transactions || [];
-    } catch (err) {
-      console.log(err);
-      return [];
-    }
-  }
     return (
       <div className="overflow-y-auto h-full  customized-scroll-bar ">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
-            <Pie
-              dataKey="totalAmount"
-              isAnimationActive={false}
-              data={data}
-              cx="50%"
-              cy="50%"
-              outerRadius={120}
-              
-              label={({payload}) => payload?.payload?._id}
-            >
-            {data?.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-            </Pie>
-            <Tooltip content={<CustomToolTip />}/>
-            <Legend width="40%"  align="right" layout="vertical" verticalAlign="middle" content={({payload},i) => {
-              // console.log('payload',payload[0]);
-              return (
-                <div key={i} className="border-1 max-h-[20rem] bg-[var(--background)] rounded-sm px-4 py-2 border-[var(--border)] overflow-auto customized-scroll-bar w-[40%]">
-                  {payload?.map((entry, i) => (
-                    <p className={`text-${textColors[i % textColors.length]}`} key={i}>
-                      {entry?.payload?._id}
-                    </p>
-                  ))}
-                </div>
-              );
-            }}/>
+            
+              <Pie
+                dataKey="totalAmount"
+                isAnimationActive={false}
+                data={data}
+                cx="50%"
+                cy="50%"
+                outerRadius={120}
+                label={({ payload }) => payload?.payload?._id}
+              >
+                {data?.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            
+            <Tooltip content={<CustomToolTip />} />
+            <Legend
+              width="40%"
+              align="right"
+              layout="vertical"
+              verticalAlign="middle"
+              content={({ payload }, i) => {
+                // console.log('payload',payload[0]);
+                return (
+                  <div
+                    key={i}
+                    className="border-1 max-h-[20rem] bg-[var(--background)] rounded-sm px-4 py-2 border-[var(--border)] overflow-auto customized-scroll-bar w-[40%]"
+                  >
+                    {payload?.map((entry, i) => (
+                      <p
+                        className={`text-${textColors[i % textColors.length]}`}
+                        key={i}
+                      >
+                        {entry?.payload?._id}
+                      </p>
+                    ))}
+                  </div>
+                );
+              }}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>

@@ -44,7 +44,7 @@ async function Page({searchParams}) {
               <DashboardLineChart searchParams={searchParamsObj} />
             </div>
           </div>
-          <div className="lg:h-[70%] w-full bg-[var(--surface)] mt-5 p-5 flex flex-col">
+          <div className="lg:h-[70%] h-1/2 w-full bg-[var(--surface)] mt-5 p-5 flex flex-col">
             <div className="flex justify-between">
               <h1 className="lg:text-3xl text-lg ">
                 Each Category Income and Expense Distribution For Year{" "}
