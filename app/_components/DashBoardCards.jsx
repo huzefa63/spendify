@@ -1,10 +1,7 @@
 'use client';
 import { MdSwapHoriz, MdArrowUpward, MdArrowDownward } from "react-icons/md";
-import { BiRupee, BiTransfer } from "react-icons/bi";
-import { HiOutlineMinusSm, HiOutlinePlusSm } from "react-icons/hi";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getDashboardCardsData } from "@/features/dashboardHandlers";
 
 const cardData = [
     {label:'Total Transaction', icon:'totalTransaction',amount:32000},
@@ -19,28 +16,12 @@ const icons = {
 function DashBoardCards({params}) {
   const {data} = useQuery({
     queryKey:['financialStats',params?.year,params?.monthNumber],
-    queryFn:getStats,
+    queryFn:()=>getDashboardCardsData(params),
     placeholderData: (previousData) => previousData,
     refetchOnWindowFocus:false,
   })
 
-  async function getStats(){
-    const token = localStorage.getItem('token');
-    const param = new URLSearchParams(params).toString();
-    try{
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/transactions/getFinancialStats?${param}`,{
-      headers:{
-        Authorization:`Bearer ${token}`
-      }
-    })
-    console.log(res);
-      if(res.data.status === 'success') return res.data.transactionFlow[0] || null;
-      return null;
-    }catch(err){
-      console.log(err);
-      return null;
-    }
-  }
+  
   const cardData = [
     { label: "Total Transaction", yearLabelColor:'bg-blue-500', icon: "totalTransaction", amount: data?.totalTransaction },
     { label: "Total Income", yearLabelColor:'bg-green-500', icon: "totalIncome", amount: data?.income },
