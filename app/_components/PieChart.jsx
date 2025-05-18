@@ -49,7 +49,7 @@ function PieChartDashboard(){
           <PieChartComponent size={120} data={data}/>
         </div>
         <div className="overflow-y-auto h-full lg:hidden customized-scroll-bar">
-          <PieChartComponent size={60} data={data} position={{align:'center',verticalAlign:'bottom',layout:'horizontal'}}/>
+          <PieChartComponent size={70} data={data} position={{align:'center',verticalAlign:'bottom',layout:'horizontal'}}/>
         </div>
       </>
     );
@@ -109,7 +109,7 @@ function PieChartComponent({size,data,position}){
             const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
             const x = cx + radius * Math.cos(-midAngle * RADIAN);
             const y = cy + radius * Math.sin(-midAngle * RADIAN);
-            const text = payload?._id.length > 5 ? payload?._id?.slice(0,6) + '...' : payload?._id;
+            const text = payload?._id.length > 6 ? payload?._id?.slice(0,6) + '...' : payload?._id;
             return (
               <text
                 x={x}
