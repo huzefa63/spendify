@@ -17,7 +17,8 @@ function Row({data,i}){
   const dateInShort = dayjs(data.date).format('MM/DD/YYYY')
   const page = useSearchParams().get('page');
   const pageSize = 10;
-  const formattedAmount = new Intl.NumberFormat('en-US',{style:'currency',currency:'INR'}).format(data?.amount);
+  const formattedAmountWithFraction = new Intl.NumberFormat('en-US',{style:'currency',currency:'INR'}).format(data?.amount);
+  const formattedAmountWithoutFraction = new Intl.NumberFormat('en-US',{style:'currency',currency:'INR',maximumFractionDigits:0,minimumFractionDigits:0}).format(data?.amount);
   const handleClick = (e) => {
     console.log(e)
     const rect = e.target.closest('button').getBoundingClientRect();
@@ -35,14 +36,24 @@ function Row({data,i}){
       <p className="lg:col-span-2 tracking-widest lg:text-lg lg:hidden">{dateInShort}</p>
       <p className="flex lg:col-span-2 justify-between">
         <span
-          className="flex gap-1 items-center "
+          className="lg:flex gap-1 items-center hidden "
           style={
             data.transactionType === "income"
               ? { color: "#22c55e" }
               : { color: "#ef4444" }
           }
         >
-          {formattedAmount}
+          {formattedAmountWithFraction}
+        </span>{" "}
+        <span
+          className="flex gap-1 items-center lg:hidden"
+          style={
+            data.transactionType === "income"
+              ? { color: "#22c55e" }
+              : { color: "#ef4444" }
+          }
+        >
+          {formattedAmountWithoutFraction}
         </span>{" "}
         <button
           className="focus:ring-blue-500 focus:ring-1"
