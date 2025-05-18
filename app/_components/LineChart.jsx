@@ -37,7 +37,13 @@ function CustomToolTip({active,payload,label}){
     </div>
   )
 }
-
+{/* <YAxis tick={{ fontSize: "15px" }} style={{ fill: "white" }} domain={[0,100]}/>
+<XAxis
+  dataKey="name"
+  tick={{ fontSize: "12px", dy: 3 }}
+  interval={0}
+  style={{ fill: "white" }}
+/> */}
 function DashboardLineChart({searchParams}) {
   const { data: monthlyTransaction, isPending } = useQuery({
     queryKey: ["monthlyTransaction",searchParams],
@@ -54,7 +60,7 @@ function DashboardLineChart({searchParams}) {
           
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="_id" tickFormatter={(val) => val.slice(0,3)}/>
+          <XAxis dataKey="_id" tickFormatter={(val) => val.slice(0,3)} tick={{fontSize:'10px',dy:3}}/>
           <YAxis />
           <Tooltip content={<CustomToolTip />}/>
           <Legend />
