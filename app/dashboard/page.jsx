@@ -20,11 +20,11 @@ async function Page({searchParams}) {
         className={`lg:pl-60 pt-20 pr-4 w-full h-screen ${poppins.className} text-[var(--text)]`}
       >
         <main className="w-full h-full">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <h1 className="lg:text-3xl text-lg">Dashboard</h1>
             <DashboardFilter />
           </div>
-          <div className="lg:mt-5">
+          <div className="mt-5">
             <DashBoardCards params={searchParamsObj} />
           </div>
           {/* <div className="lg:h-1/2 lg:mt-5 bg-[var(--surface)] border-1 border-[var(--border)]  grid grid-cols-3 py-5 px-2">
@@ -33,24 +33,28 @@ async function Page({searchParams}) {
                 <DashboardLineChart />
             </div>
           </div> */}
-          <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 p-5 flex flex-col">
-            <div className="flex justify-between items-center mb-6 ml-3">
+          <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 lg:p-5 py-5 px-1 flex flex-col">
+            <div className="lg:flex justify-between items-center mb-6 ml-3">
               <h1 className="lg:text-3xl ">
                 Income and Expense Distribution Year {searchParamsObj?.year}
               </h1>
-              <FilterLineChart />
+              <div className="ml-auto lg:ml-0">
+                <FilterLineChart />
+              </div>
             </div>
             <div className="flex-1">
               <DashboardLineChart searchParams={searchParamsObj} />
             </div>
           </div>
-          <div className="lg:h-[70%] h-1/2 w-full bg-[var(--surface)] mt-5 p-5 flex flex-col">
-            <div className="flex justify-between">
+          <div className="lg:h-[70%] h-1/2 w-full bg-[var(--surface)] mt-5 lg:p-5 py-5 px-1 flex flex-col">
+            <div className="lg:flex justify-between">
               <h1 className="lg:text-3xl  ">
                 Each Category Income and Expense Distribution For Year{" "}
                 {searchParamsObj?.year}
               </h1>
-              <FilterPieChart />
+              <div className="ml-auto lg:ml-0">
+                <FilterPieChart />
+              </div>
             </div>
             <div className="flex-1">
               <PieChart />

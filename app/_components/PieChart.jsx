@@ -45,11 +45,11 @@ function PieChartDashboard(){
   })
     return (
       <>
-        <div className="overflow-y-auto h-full hidden lg:block customized-scroll-bar">
+        <div className="overflow-y-auto w-full h-full hidden lg:block customized-scroll-bar">
           <PieChartComponent size={120} data={data}/>
         </div>
         <div className="overflow-y-auto h-full lg:hidden customized-scroll-bar">
-          <PieChartComponent size={60} data={data}/>
+          <PieChartComponent size={60} data={data} position={{align:'center',verticalAlign:'bottom',layout:'horizontal'}}/>
         </div>
       </>
     );
@@ -57,12 +57,12 @@ function PieChartDashboard(){
 
 export default PieChartDashboard;
 
-function PieChartComponent({size,data}){
+function PieChartComponent({size,data,position}){
   return <ResponsiveContainer width="100%" height="100%">
     <PieChart>
       <Pie
         dataKey="totalAmount"
-        isAnimationActive={false}
+        isAnimationActive={true}
         data={data}
         cx="50%"
         cy="50%"
@@ -77,9 +77,9 @@ function PieChartComponent({size,data}){
       <Tooltip content={<CustomToolTip />} />
       <Legend
         width="40%"
-        align="right"
-        layout="vertical"
-        verticalAlign="middle"
+        align={position?.align || 'right'}
+        layout={position?.layout || 'vertical'}
+        verticalAlign={position?.verticalAlign || 'middle'}
         content={({ payload }, i) => {
           // console.log('payload',payload[0]);
           return (
