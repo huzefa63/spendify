@@ -43,13 +43,14 @@ function PieChartDashboard(){
     queryKey:['categoryDataMonthly',param.get('transactionType')],
     queryFn:()=>getPieChartData(param)
   })
+  const totalAmount = data?.reduce((acc,cur) => acc + cur?.totalAmount,0);
     return (
       <>
         <div className="overflow-y-auto w-full h-full hidden lg:block customized-scroll-bar">
-          <PieChartComponent size={120} data={data}/>
+          <PieChartComponent totalAmount={totalAmount} size={120} data={data}/>
         </div>
         <div className="overflow-y-auto h-full lg:hidden customized-scroll-bar">
-          <PieChartComponent size={80} data={data} position={{align:'center',verticalAlign:'bottom',layout:'horizontal'}}/>
+          <PieChartComponent totalAmount={totalAmount} size={80} data={data} position={{align:'center',verticalAlign:'bottom',layout:'horizontal'}}/>
         </div>
       </>
     );
@@ -58,6 +59,7 @@ function PieChartDashboard(){
 export default PieChartDashboard;
 
 const renderCustomizedLabel = ({
+  totalAmount,
   cx,
   cy,
   midAngle,
@@ -78,12 +80,12 @@ const renderCustomizedLabel = ({
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
-      hello
+      {totalAmount}
     </text>
   );
 };
 
-function PieChartComponent({size,data,position}){
+function PieChartComponent({size,data,position,totalAmount}){
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart>
@@ -109,7 +111,28 @@ function PieChartComponent({size,data,position}){
             const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
             const x = cx + radius * Math.cos(-midAngle * RADIAN);
             const y = cy + radius * Math.sin(-midAngle * RADIAN);
-            const text = payload?._id.length > 6 ? payload?._id?.slice(0,6) + '...' : payload?._id;
+            const amount = ((payload?.payload?.totalAmount / totalAmount) * 100).toFixed(2);
+            return (
+              <text
+                x={x}
+                y={y}
+                fill="white"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={12}
+              >
+                {amount}%
+              </text>
+            );
+          } : ({ cx, cy, midAngle, innerRadius, outerRadius, payload }) => {
+            const RADIAN = Math.PI / 180;
+            const radius = outerRadius + 40; // <-- Push label text outward
+            const x = cx + radius * Math.cos(-midAngle * RADIAN);
+            const y = cy + radius * Math.sin(-midAngle * RADIAN);
+          
+            const text =
+              payload?.payload?.totalAmount / totalAmount * 100 + '%'
+          
             return (
               <text
                 x={x}
@@ -121,8 +144,7 @@ function PieChartComponent({size,data,position}){
               >
                 {text}
               </text>
-            );
-          } : ({payload}) => payload?.payload?._id}
+            )}}
         >
           {data?.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

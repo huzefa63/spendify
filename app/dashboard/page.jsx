@@ -27,22 +27,17 @@ async function Page({searchParams}) {
           <div className="mt-5">
             <DashBoardCards params={searchParamsObj} />
           </div>
-          {/* <div className="lg:h-1/2 lg:mt-5 bg-[var(--surface)] border-1 border-[var(--border)]  grid grid-cols-3 py-5 px-2">
-            <PieChartDashboard />
-            <div className=" col-span-2 h-full">
-                <DashboardLineChart />
-            </div>
-          </div> */}
-          <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 lg:p-5 py-5 px-1 flex flex-col">
+          
+          <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 lg:p-5 py-5  flex flex-col">
             <div className="lg:flex justify-between items-center mb-6 ml-3">
-              <h1 className="lg:text-3xl ">
+              <h1 className="lg:text-3xl px-1">
                 Income and Expense Distribution Year {searchParamsObj?.year}
               </h1>
-              <div className="ml-auto lg:ml-0 w-full lg:w-fit mt-2 lg:mt-0">
+              <div className="ml-auto lg:ml-0 mt-2 lg:mt-0 pl-1 lg:pl-0">
                 <FilterLineChart />
               </div>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 ">
               <DashboardLineChart searchParams={searchParamsObj} />
             </div>
           </div>
@@ -52,7 +47,7 @@ async function Page({searchParams}) {
                 Each Category Income and Expense Distribution For Year{" "}
                 {searchParamsObj?.year}
               </h1>
-              <div className="ml-auto lg:ml-0 w-full lg:w-fit mt-2 lg:mt-0">
+              <div className="ml-auto lg:ml-0 mt-2 lg:mt-0">
                 <FilterPieChart />
               </div>
             </div>
