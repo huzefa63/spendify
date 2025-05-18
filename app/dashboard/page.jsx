@@ -17,7 +17,7 @@ async function Page({searchParams}) {
     return (
       // padding top and left due to navbar and sidebar
       <div
-        className={`lg:pl-60 pt-20 pr-4 w-full h-screen ${poppins.className} text-[var(--text)]`}
+        className={`lg:pl-60 pt-20 pr-4 px-2 lg:px-0 w-full h-screen ${poppins.className} text-[var(--text)]`}
       >
         <main className="w-full h-full">
           <div className="flex justify-between items-center">
