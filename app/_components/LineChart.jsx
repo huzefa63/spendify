@@ -61,7 +61,7 @@ function DashboardLineChart({searchParams}) {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="_id" tickFormatter={(val) => val.slice(0,3)} tick={{fontSize:'10px',dy:3}}/>
-          <YAxis />
+          <YAxis tick={{fontSize:'10px'}}/>
           <Tooltip content={<CustomToolTip />}/>
           <Legend />
           <Line
