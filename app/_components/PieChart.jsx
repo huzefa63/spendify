@@ -132,9 +132,9 @@ function PieChartComponent({size,data,position}){
         <Tooltip content={<CustomToolTip />} />
         <Legend
           width="40%"
-          align={position?.align || "right"}
-          layout={position?.layout || "vertical"}
-          verticalAlign={position?.verticalAlign || "middle"}
+          align={"right"}
+          layout={"vertical"}
+          verticalAlign={"middle"}
           content={({ payload }, i) => {
             // console.log('payload',payload[0]);
             return (
