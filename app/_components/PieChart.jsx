@@ -49,7 +49,7 @@ function PieChartDashboard(){
           <PieChartComponent size={120} data={data}/>
         </div>
         <div className="overflow-y-auto h-full lg:hidden customized-scroll-bar">
-          <PieChartComponent size={70} data={data} position={{align:'center',verticalAlign:'bottom',layout:'horizontal'}}/>
+          <PieChartComponent size={80} data={data} position={{align:'center',verticalAlign:'bottom',layout:'horizontal'}}/>
         </div>
       </>
     );
