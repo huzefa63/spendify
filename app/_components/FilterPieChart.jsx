@@ -14,15 +14,18 @@ function FilterPieChart() {
     }
     return (
       <select
-      onChange={handleChange}
-      value={params.get('transactionType') || 'income'}
+        onChange={handleChange}
+        value={params.get("transactionType") || "income"}
         name=""
         id=""
-        className="border-1 border-[var(--border)] px-8 py-2 rounded-sm"
+        className="border-1 border-[var(--border)] lg:px-8 lg:py-2 px-2 py-0.5 rounded-sm"
       >
-        <option className="bg-[var(--background)]" value="income">Income</option>
-        <option className="bg-[var(--background)]" value="expense">Expense</option>
-        
+        <option className="bg-[var(--background)]" value="income">
+          Income
+        </option>
+        <option className="bg-[var(--background)]" value="expense">
+          Expense
+        </option>
       </select>
     );
 }
