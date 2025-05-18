@@ -16,12 +16,12 @@ function Sidebar() {
         >
           <div className="h-screen px-3 py-4 pt-8 overflow-y-auto">
             <div className=" flex gap-2 items-center">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden">
-              <Image src="/favicon.ico" alt="logo" fill />
-            </div>
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Spendify
-            </span>
+              <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                <Image src="/favicon.ico" alt="logo" fill />
+              </div>
+              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                Spendify
+              </span>
             </div>
             <div className="space-y-2 flex flex-col gap-1 font-medium  pt-15">
               <Link href="/dashboard">
@@ -68,7 +68,9 @@ function Sidebar() {
                   </span>
                 </p>
               </Link>
-              <LogoutButton />
+              <div className="absolute bottom-24 -translate-x-1/2 left-1/2 w-3/4">
+                <LogoutButton />
+              </div>
             </div>
           </div>
         </aside>

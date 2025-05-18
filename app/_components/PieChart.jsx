@@ -78,6 +78,7 @@ function PieChartDashboard(){
                     key={i}
                     className="border-1 max-h-[20rem] bg-[var(--background)] rounded-sm px-4 py-2 border-[var(--border)] overflow-auto customized-scroll-bar w-[40%]"
                   >
+                    <h1 className="border-b-1 border-[var(--border)] pb-1 mb-3">Categories</h1>
                     {payload?.map((entry, i) => (
                       <p
                         className={`text-${textColors[i % textColors.length]}`}
