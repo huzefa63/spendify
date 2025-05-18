@@ -57,53 +57,109 @@ function PieChartDashboard(){
 
 export default PieChartDashboard;
 
-function PieChartComponent({size,data,position}){
-  return <ResponsiveContainer width="100%" height="100%">
-    <PieChart>
-      <Pie
-        dataKey="totalAmount"
-        isAnimationActive={true}
-        data={data}
-        cx="50%"
-        cy="50%"
-        outerRadius={size}
-        label={({ payload }) => payload?.payload?._id}
-      >
-        {data?.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index,
+}) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-      <Tooltip content={<CustomToolTip />} />
-      <Legend
-        width="40%"
-        align={position?.align || 'right'}
-        layout={position?.layout || 'vertical'}
-        verticalAlign={position?.verticalAlign || 'middle'}
-        content={({ payload }, i) => {
-          // console.log('payload',payload[0]);
-          return (
-            <div
-              key={i}
-              className="border-1 max-h-[20rem] bg-[var(--background)] rounded-sm px-4 py-2 border-[var(--border)] overflow-auto customized-scroll-bar lg:w-1/2"
-            >
-              <h1 className="border-b-1 border-[var(--border)] pb-1 mb-3">
-                Categories
-              </h1>
-              {payload?.map((entry, i) => (
-                <p
-                  className={`text-${textColors[i % textColors.length]}`}
-                  key={i}
-                >
-                  {entry?.payload?._id}
-                </p>
-              ))}
-            </div>
-          );
-        }}
-      />
-    </PieChart>
-  </ResponsiveContainer>;
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? "start" : "end"}
+      dominantBaseline="central"
+    >
+      hello
+    </text>
+  );
+};
+
+function PieChartComponent({size,data,position}){
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <PieChart>
+        <Pie
+          dataKey="totalAmount"
+          labelLine={!position?.align}
+          isAnimationActive={true}
+          data={data}
+          cx="50%"
+          cy="50%"
+          outerRadius={size}
+          label={position?.align ?  ({
+            cx,
+            cy,
+            midAngle,
+            innerRadius,
+            outerRadius,
+            percent,
+            index,
+            payload,
+          }) => {
+            const RADIAN = Math.PI / 180;
+            const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+            const x = cx + radius * Math.cos(-midAngle * RADIAN);
+            const y = cy + radius * Math.sin(-midAngle * RADIAN);
+            const text = payload?._id.length > 5 ? payload?._id?.slice(0,6) + '...' : payload?._id;
+            return (
+              <text
+                x={x}
+                y={y}
+                fill="white"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={12}
+              >
+                {text}
+              </text>
+            );
+          } : ({payload}) => payload?.payload?._id}
+        >
+          {data?.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+
+        <Tooltip content={<CustomToolTip />} />
+        <Legend
+          width="40%"
+          align={position?.align || "right"}
+          layout={position?.layout || "vertical"}
+          verticalAlign={position?.verticalAlign || "middle"}
+          content={({ payload }, i) => {
+            // console.log('payload',payload[0]);
+            return (
+              <div
+                key={i}
+                className="border-1 max-h-[20rem] bg-[var(--background)] rounded-sm px-4 py-2 border-[var(--border)] overflow-auto customized-scroll-bar lg:w-1/2"
+              >
+                <h1 className="border-b-1 border-[var(--border)] pb-1 mb-3">
+                  Categories
+                </h1>
+                {payload?.map((entry, i) => (
+                  <p
+                    className={`text-${textColors[i % textColors.length]}`}
+                    key={i}
+                  >
+                    {entry?.payload?._id}
+                  </p>
+                ))}
+              </div>
+            );
+          }}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  );
 }
 
 function formatCurrency(amount) {
