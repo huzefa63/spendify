@@ -44,60 +44,67 @@ function PieChartDashboard(){
     queryFn:()=>getPieChartData(param)
   })
     return (
-      <div className="overflow-y-auto h-full  customized-scroll-bar ">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            
-              <Pie
-                dataKey="totalAmount"
-                isAnimationActive={false}
-                data={data}
-                cx="50%"
-                cy="50%"
-                outerRadius={120}
-                label={({ payload }) => payload?.payload?._id}
-              >
-                {data?.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-            
-            <Tooltip content={<CustomToolTip />} />
-            <Legend
-              width="40%"
-              align="right"
-              layout="vertical"
-              verticalAlign="middle"
-              content={({ payload }, i) => {
-                // console.log('payload',payload[0]);
-                return (
-                  <div
-                    key={i}
-                    className="border-1 max-h-[20rem] bg-[var(--background)] rounded-sm px-4 py-2 border-[var(--border)] overflow-auto customized-scroll-bar w-[40%]"
-                  >
-                    <h1 className="border-b-1 border-[var(--border)] pb-1 mb-3">Categories</h1>
-                    {payload?.map((entry, i) => (
-                      <p
-                        className={`text-${textColors[i % textColors.length]}`}
-                        key={i}
-                      >
-                        {entry?.payload?._id}
-                      </p>
-                    ))}
-                  </div>
-                );
-              }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
+      <>
+        <div className="overflow-y-auto h-full hidden lg:block customized-scroll-bar">
+          <PieChartComponent size={120} data={data}/>
+        </div>
+        <div className="overflow-y-auto h-full lg:hidden customized-scroll-bar">
+          <PieChartComponent size={60} data={data}/>
+        </div>
+      </>
     );
 }
 
 export default PieChartDashboard;
+
+function PieChartComponent({size,data}){
+  return <ResponsiveContainer width="100%" height="100%">
+    <PieChart>
+      <Pie
+        dataKey="totalAmount"
+        isAnimationActive={false}
+        data={data}
+        cx="50%"
+        cy="50%"
+        outerRadius={size}
+        label={({ payload }) => payload?.payload?._id}
+      >
+        {data?.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+
+      <Tooltip content={<CustomToolTip />} />
+      <Legend
+        width="40%"
+        align="right"
+        layout="vertical"
+        verticalAlign="middle"
+        content={({ payload }, i) => {
+          // console.log('payload',payload[0]);
+          return (
+            <div
+              key={i}
+              className="border-1 max-h-[20rem] bg-[var(--background)] rounded-sm px-4 py-2 border-[var(--border)] overflow-auto customized-scroll-bar lg:w-1/2"
+            >
+              <h1 className="border-b-1 border-[var(--border)] pb-1 mb-3">
+                Categories
+              </h1>
+              {payload?.map((entry, i) => (
+                <p
+                  className={`text-${textColors[i % textColors.length]}`}
+                  key={i}
+                >
+                  {entry?.payload?._id}
+                </p>
+              ))}
+            </div>
+          );
+        }}
+      />
+    </PieChart>
+  </ResponsiveContainer>;
+}
 
 function formatCurrency(amount) {
   const formattedAmount = new Intl.NumberFormat("en-US", {

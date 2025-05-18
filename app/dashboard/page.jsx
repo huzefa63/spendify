@@ -35,7 +35,7 @@ async function Page({searchParams}) {
           </div> */}
           <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 p-5 flex flex-col">
             <div className="flex justify-between items-center mb-6 ml-3">
-              <h1 className="lg:text-3xl text-lg">
+              <h1 className="lg:text-3xl ">
                 Income and Expense Distribution Year {searchParamsObj?.year}
               </h1>
               <FilterLineChart />
@@ -46,7 +46,7 @@ async function Page({searchParams}) {
           </div>
           <div className="lg:h-[70%] h-1/2 w-full bg-[var(--surface)] mt-5 p-5 flex flex-col">
             <div className="flex justify-between">
-              <h1 className="lg:text-3xl text-lg ">
+              <h1 className="lg:text-3xl  ">
                 Each Category Income and Expense Distribution For Year{" "}
                 {searchParamsObj?.year}
               </h1>
