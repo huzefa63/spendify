@@ -70,7 +70,7 @@ function Row({data,i}){
   );
 }
 
-function Table({heading}) {
+function Table() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const search = searchParams.toString();

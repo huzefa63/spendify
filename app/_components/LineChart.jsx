@@ -51,28 +51,50 @@ function DashboardLineChart({searchParams}) {
     refetchOnWindowFocus:false
   });
   return (
-    <div className="h-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          width={500}
-          height={300}
-          data={monthlyTransaction}
-          
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="_id" interval={0} tickFormatter={(val) => val.slice(0,3)} tick={{fontSize:'10px',dy:3}}/>
-          <YAxis tick={{fontSize:'10px'}}/>
-          <Tooltip content={<CustomToolTip />}/>
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="Expense"
-            stroke="#ef4444"
-            activeDot={{ r: 8 }}
-          />
-          <Line type="monotone" dataKey="Income" stroke="#22c55e" />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="h-full overflow-auto">
+      <div className="h-full lg:hidden">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart width={500} height={300} data={monthlyTransaction}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="_id"
+              interval={0}
+              tickFormatter={(val) => val.slice(0, 3)}
+              tick={{ fontSize: "10px", dy: 3 }}
+            />
+            <YAxis tick={{ fontSize: "10px" }} width={35} />
+            <Tooltip content={<CustomToolTip />} />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="Expense"
+              stroke="#ef4444"
+              activeDot={{ r: 8 }}
+            />
+            <Line type="monotone" dataKey="Income" stroke="#22c55e" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="h-full hidden lg:block">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart width={500} height={300} data={monthlyTransaction}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="_id"
+            />
+            <YAxis />
+            <Tooltip content={<CustomToolTip />} />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="Expense"
+              stroke="#ef4444"
+              activeDot={{ r: 8 }}
+            />
+            <Line type="monotone" dataKey="Income" stroke="#22c55e" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
