@@ -62,7 +62,7 @@ function DashboardLineChart({searchParams}) {
               tickFormatter={(val) => val.slice(0, 3)}
               tick={{ fontSize: "10px", dy: 3 }}
             />
-            <YAxis tick={{ fontSize: "10px" }} width={35} />
+            <YAxis tick={{ fontSize: "10px" }} width={45} />
             <Tooltip content={<CustomToolTip />} />
             <Legend />
             <Line
