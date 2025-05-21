@@ -27,11 +27,11 @@ function Row({data,i}){
   }
 
   return (
-    <div className="grid lg:grid-cols-12   grid-cols-9 lg:text-lg text-xs  py-3 px-1  lg:px-5 lg:gap-10 gap-5 border-b-1 border-gray-200 dark:border-gray-800">
+    <div className="grid lg:grid-cols-12 grid-cols-9 lg:text-lg text-xs  py-3 px-1  lg:px-5 lg:gap-10 gap-5 border-b-1 border-gray-200 dark:border-gray-800">
       <p className="">{(page - 1) * pageSize + i + 1}</p>
       <p className="lg:col-span-2 col-span-2 hyphens-auto lg:hyphens-none">{data.category}</p>
       <p className="lg:col-span-2 hidden lg:block">{data.transactionType}</p>
-      <p className="lg:col-span-3 col-span-2">{data.title}</p>
+      <p className="lg:col-span-3 col-span-2 hyphens-auto lg:hyphens-none">{data.title}</p>
       <p className="lg:col-span-2 col-span-2 tracking-widest lg:text-lg hidden lg:block">
         {date}
       </p>
@@ -50,7 +50,7 @@ function Row({data,i}){
           {formattedAmountWithFraction}
         </span>{" "}
         <span
-          className="flex gap-1 items-center lg:hidden "
+          className="flex gap-1  lg:hidden "
           style={
             data.transactionType === "income"
               ? { color: "#22c55e" }
@@ -60,7 +60,7 @@ function Row({data,i}){
           {formattedAmountWithoutFraction}
         </span>{" "}
         <button
-          className="focus:ring-blue-500 focus:ring-1"
+          className="focus:ring-blue-500 h-fit focus:ring-1"
           onClick={handleClick}
         >
           <HiDotsVertical className="hover:bg-[var(--border)] transition-all duration-300 ease-in-out hover:cursor-pointer lg:text-2xl lg:py-1" />
@@ -116,7 +116,7 @@ function Table({heading}) {
  
   
     return (
-      <div className="bg-[var(--surface)]  relative overflow-auto lg:text-lg text-sm px-1 border-[var(--border)] border-1 shadow-sm rounded-md w-full h-fit lg:h-full  text-[var(--textDark)] flex flex-col">
+      <div className="bg-[var(--surface)]  relative overflow-auto lg:text-lg text-sm px-1 border-[var(--border)] border-1 shadow-sm rounded-md w-full h-[80%] lg:h-full  text-[var(--textDark)] flex flex-col">
         <div className="grid bg-[var(--background)] lg:gap-10 gap-5 py-2 lg:px-5 px-1 grid-cols-9 lg:grid-cols-12 overflow-auto ">
           <p className="">No</p>
           <p className="lg:col-span-2 col-span-2">category</p>
