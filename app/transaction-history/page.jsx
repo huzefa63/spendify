@@ -15,7 +15,7 @@ async function Page({searchParams}) {
     <div
       className={`bg-[var(--background)] relative border ${inter.className} tracking-wider px-1 lg:pl-60 pt-20 lg:pr-10 h-screen w-full`}
     >
-      <main className="h-full border-white border-1 flex flex-col gap-5">
+      <main className="h-full flex flex-col gap-5">
         <div className="">
           <TransactionControllers filterObj={searchParamsObj} />
         </div>
