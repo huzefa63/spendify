@@ -116,7 +116,7 @@ function Table({heading}) {
  
   
     return (
-      <div className="bg-[var(--surface)]  relative overflow-auto lg:text-lg text-sm px-1 border-[var(--border)] border-1 shadow-sm rounded-md w-full h-[80%] lg:h-full  text-[var(--textDark)] flex flex-col">
+      <div className="bg-[var(--surface)]  relative overflow-auto lg:text-lg text-sm px-1 border-[var(--border)] border-1 shadow-sm rounded-md w-full h-3/4 lg:h-full  text-[var(--textDark)] flex flex-col">
         <div className="grid bg-[var(--background)] lg:gap-10 gap-5 py-2 lg:px-5 px-1 grid-cols-9 lg:grid-cols-12 overflow-auto ">
           <p className="">No</p>
           <p className="lg:col-span-2 col-span-2">category</p>
