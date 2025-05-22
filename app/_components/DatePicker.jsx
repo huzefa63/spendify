@@ -26,7 +26,8 @@ export default function App({label,type}) {
   }
   function htmlDateValue(type){
     if(params.get(type)){
-      return dayjs(params.get(type));
+      console.log("from input", new Date(params.get(type)));
+      return new Date(params.get(type)).toISOString().split('T')[0];
     }
     else{
       return '';

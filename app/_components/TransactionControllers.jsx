@@ -113,7 +113,7 @@ function TransactionControllers({ filterObj }) {
       )}
 
       <div className="lg:flex gap-4">
-        <div className="flex gap-4 justify-between px-2 lg:px-0">
+        <div className="flex gap-4 justify-around px-2 lg:px-0">
           <Button
             type="secondary"
             handler={() => {
