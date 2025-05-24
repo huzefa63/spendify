@@ -51,7 +51,7 @@ function DashboardLineChart({searchParams}) {
     refetchOnWindowFocus:false
   });
   return (
-    <div className="h-full overflow-auto">
+    <div className="h-full pr-1">
       <div className="h-full lg:hidden">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart width={500} height={300} data={monthlyTransaction}>
