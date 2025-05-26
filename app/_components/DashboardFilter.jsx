@@ -25,7 +25,7 @@ function DashboardFilter() {
     router.replace(`${pathname}?${param.toString()}`);
     }, []);
     return (
-        <div className="space-x-3">
+        <div className="space-x-3 lg:pr-1">
             <select value={params.get('monthNumber') || 'fullYear'} onChange={(e) => handleChange(e,'monthNumber')} name="" id=""  className="py-2 px-3 border-1 border-[var(--border)]">
                 <option value="fullYear" className="bg-[var(--surface)]">full year</option>
                 {months.map((el,i) => <option key={i} value={i} className="bg-[var(--surface)]">{el}</option>)}

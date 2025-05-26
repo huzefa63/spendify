@@ -22,7 +22,7 @@ function AppNav({user}) {
   if (privateRoute.includes(pathname.slice(1))){
     return (
       <nav
-        className={`${inter.className} lg:h-16 z-50 h-16 fixed top-0 lg:px-15 px-5 bg-[var(--surface)] border-b-1 border-[var(--border)] w-full flex items-center justify-between`}
+        className={`${inter.className}  lg:h-16 z-50 h-16 fixed top-0 lg:px-15 px-5 bg-[var(--surface)] border-b-1 border-[var(--border)] w-full flex items-center justify-between`}
       >
         {/* margin left 44 due to sidebar width  */}
         <h1 className="text-2xl lg:ml-44 hidden lg:block text-[var(--text)]">

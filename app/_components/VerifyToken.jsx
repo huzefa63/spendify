@@ -7,10 +7,13 @@ function VerifyToken() {
     const pathname = usePathname();
     const router = useRouter();
     const privateRoutes = useRef(['dashboard','transaction-history','settings']);
-    useEffect(async ()=>{
+    useEffect(()=>{
         if(!privateRoutes.current.includes(pathname.slice(1))) return;
+        async function verify(){
         const isVerified = await verifyToken();
         if(!isVerified) router.replace('login');
+        }
+        verify();
     },[pathname])
     return (
         <div>

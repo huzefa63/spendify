@@ -47,6 +47,7 @@
   background-color: var(--background);
   border-radius: 10px;
   border: 1px solid var(--border);
+
 }
 .customized-scroll-bar::-webkit-scrollbar-thumb{
   /* width: 5px; */

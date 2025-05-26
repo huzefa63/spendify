@@ -39,7 +39,7 @@ export default async function RootLayout({ children }) {
               <Toaster toastOptions={{ position: "top-center" }} />
               <div className="">
                 <NavbarWrapper />
-                <main className="overflow-auto h-full">{children}</main>
+                <main className="overflow-auto h-full customized-scroll-bar">{children}</main>
               </div>
             </main>
           </ContextProvider>
