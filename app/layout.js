@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import AppNav from "@/app/_components/AppNav";
 import QueryProvider from "@/app/_components/QueryProvider";
 import ContextProvider from "@/app/_components/ContextProvider";
+import VerifyToken from "./_components/VerifyToken";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default async function RootLayout({ children }) {
               <div id="menu"></div>
               <div id="mobile-nav"></div>
               <AppNav />
+              <VerifyToken />
               <Toaster toastOptions={{ position: "top-center" }} />
               <div className="">
                 <NavbarWrapper />
