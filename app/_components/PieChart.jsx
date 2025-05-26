@@ -131,7 +131,7 @@ function PieChartComponent({size,data,position,totalAmount}){
             const y = cy + radius * Math.sin(-midAngle * RADIAN);
           
             const text =
-              payload?.payload?.totalAmount / totalAmount * 100 + '%'
+              (payload?.payload?.totalAmount / totalAmount * 100).toFixed(2) + '%'
           
             return (
               <text
