@@ -31,7 +31,7 @@ function Page() {
                 Expense Tracking.
               </span>
             </Slide>
-            <RedirectFromHome />
+            {/* <RedirectFromHome /> */}
           </h1>
 
           {/* display image here in mobile screen */}
