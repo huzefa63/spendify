@@ -1,3 +1,4 @@
+'use client';
 import { verifyToken } from "@/features/authHandler";
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useRef } from "react"
