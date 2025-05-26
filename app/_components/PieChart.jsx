@@ -116,7 +116,7 @@ function PieChartComponent({size,data,position,totalAmount}){
               <text
                 x={x}
                 y={y}
-                className="text-[var(--text)]"
+                fill="white"
                 textAnchor="middle"
                 dominantBaseline="central"
                 fontSize={12}
@@ -137,7 +137,7 @@ function PieChartComponent({size,data,position,totalAmount}){
               <text
                 x={x}
                 y={y}
-                className="text-[var(--text)]"
+                fill="white"
                 textAnchor="middle"
                 dominantBaseline="central"
                 fontSize={12}
