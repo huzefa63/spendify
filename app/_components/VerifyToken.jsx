@@ -11,7 +11,10 @@ function VerifyToken() {
         if(!privateRoutes.current.includes(pathname.slice(1))) return;
         async function verify(){
         const isVerified = await verifyToken();
-        if(!isVerified) router.replace('login');
+        if(!isVerified){
+            localStorage.removeItem('token');
+            router.replace("login");
+        }
         }
         verify();
     },[pathname])
