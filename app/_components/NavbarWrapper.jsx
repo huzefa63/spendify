@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 
 function NavbarWrapper() {
     const pathname = usePathname();
-    const publicPages = ['home','signup','login','about','features','pricing'];
+    const publicPages = ['home','signup','login','about','features','pricing','']; // empty '' for root route
     let isPublic = true;
     if(publicPages.includes(pathname.slice(1))) isPublic = true;
     else isPublic = false;

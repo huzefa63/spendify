@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function verifyToken() {
   const token = localStorage.getItem("token");
-  if(!token) return;
+  if(!token) return false;
   try {
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/verify-token`,
