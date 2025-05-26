@@ -90,9 +90,7 @@ function Table() {
 
     async function getTransactions(queryString) {
       const token = localStorage.getItem("token") || ""; 
-      if (!token) {
-        router.replace("/login");
-      }
+      if (!token) return;
       // const queryString = searchParams.toString(); holds old value
       try {
         let dataRes = await axios.get(
