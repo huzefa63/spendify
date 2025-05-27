@@ -46,12 +46,36 @@ function PieChartDashboard(){
   const totalAmount = data?.reduce((acc,cur) => acc + cur?.totalAmount,0);
     return (
       <>
-        <div className="overflow-y-auto w-full h-full hidden lg:block customized-scroll-bar">
-          <PieChartComponent totalAmount={totalAmount} size={120} data={data}/>
-        </div>
-        <div className="overflow-y-auto h-full lg:hidden customized-scroll-bar">
-          <PieChartComponent totalAmount={totalAmount} size={80} data={data} position={{align:'center',verticalAlign:'bottom',layout:'horizontal'}}/>
-        </div>
+        {data?.length < 1 && (
+          <div className="h-full flex items-center justify-center">
+            <p className="lg:text-3xl lg:tracking-wider">
+              No {param.get('transactionType')} data available to display pie chart!
+            </p>
+          </div>
+        )}
+        {data?.length > 0 && (
+          <>
+            <div className="overflow-y-auto w-full h-full hidden lg:block customized-scroll-bar">
+              <PieChartComponent
+                totalAmount={totalAmount}
+                size={120}
+                data={data}
+              />
+            </div>
+            <div className="overflow-y-auto h-full lg:hidden customized-scroll-bar">
+              <PieChartComponent
+                totalAmount={totalAmount}
+                size={80}
+                data={data}
+                position={{
+                  align: "center",
+                  verticalAlign: "bottom",
+                  layout: "horizontal",
+                }}
+              />
+            </div>
+          </>
+        )}
       </>
     );
 }

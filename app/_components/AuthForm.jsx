@@ -1,164 +1,137 @@
-'use client';
+"use client";
 
-import Link from "next/link";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import axios from "axios";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import toast from "react-hot-toast";
+import Link from "next/link";
+import { MdEmail, MdLock } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
-function AuthForm({type}) {
-    const {register,formState:{errors},handleSubmit} = useForm();
-    const [isSubmitting,setIsSubmitting] = useState(false);
-    const router = useRouter();
-    console.log(type);
+import FormFields from "./FormFields"; // Make sure this component exists
+import Button from "@/app/_ui/Button"; // Your custom button component
 
-    async function signUp(data){
-      try{
-        setIsSubmitting(true)
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/createUser`,data);
-        console.log(res.data);
-        if(res.data.status === "success"){
-           localStorage.setItem("token", res.data.token);
-           window.location.href = "/transaction-history";
-        }
-      }
-      catch(err){
-        console.log(err);
-        toast.error('unable to create account, please try again');
-      }finally{
-        setIsSubmitting(false);
-      }
+function AuthForm({ type }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors,isSubmitting },
+    getValues
+  } = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
+  const router = useRouter();
+
+  const field = useRef([
+    ...(type !== "login"
+      ? [
+          {
+            labelText: "Username",
+            icon: <FaUser className="text-purple-600" />,
+            name: "username",
+            placeholder: "Enter your name",
+            register,
+            validation: {
+              required: "Username is required!",
+              minLength: {
+                value: 3,
+                message: "Username must be at least 3 characters",
+              },
+            },
+          },
+        ]
+      : []),
+    {
+      labelText: "Your email",
+      icon: <MdEmail className="text-purple-600" />,
+      name: "email",
+      placeholder: "Enter your email",
+      register,
+      validation: {
+        required: "Email is required!",
+      },
+    },
+    {
+      labelText: "Password",
+      icon: <MdLock className="text-purple-600" />,
+      name: "password",
+      type: "password",
+      placeholder: "Enter your password",
+      register,
+      validation: {
+        required: "Password is required!",
+        minLength: { value: 8, message: "Minimum 8 characters required" },
+      },
+    },
+    ...(type === "signup"
+      ? [
+          {
+            labelText: "Repeat Password",
+            icon: <MdLock className="text-purple-600" />,
+            name: "passwordConfirm",
+            type: "password",
+            placeholder: "Repeat your password",
+            register,
+            validation: {
+              validate: (val) => {
+                if (val === getValues("password")) return true;
+                return "password did not match";
+              },
+            },
+          },
+        ]
+      : []),
+  ]);
+
+  const mutationFn = async (data) => {
+    const url =
+      type === "login"
+        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`
+        : `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/createUser`;
+
+    const res = await axios.post(url, data, { withCredentials: true });
+
+    if (res.data.status === "success") {
+      localStorage.setItem("token", res.data.token);
+      window.location.href = "/dashboard";
+    } else {
+      throw new Error("Operation failed");
     }
+  };
 
-    async function signIn(data){
-      try {
-        setIsSubmitting(true)
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
-          data,{withCredentials:true}
-        );
-        console.log(res);
-        if (res.data.status === "success"){
-          localStorage.setItem('token',res.data.token);
-          window.location.href = '/transaction-history';
-        }
-      } catch (err) {
-        console.log(err);
-        toast.error("unable to login, please check email or password");
-      }finally{
-        setIsSubmitting(false);
-      }
-    }
+  const mutation = useMutation({
+    mutationFn,
+    
+  });
 
-    return (
+  return (
+    <div className="w-[90%] lg:w-[30%] px-5 py-4 bg-[var(--surface)] border border-[var(--border)] rounded-sm">
+      <p className="text-center text-[var(--text)] lg:text-2xl mb-4 font-bold tracking-widest">{type==='login'?'Login Form':'Signup Form'}</p>
       <form
-        onSubmit={handleSubmit(type === "login" ? signIn : signUp)}
-        className="lg:w-[30%] w-[80%]  bg-[var(--surface)] lg:py-10 border-[var(--border)] border-1 lg:px-10 px-5 py-5 rounded-sm"
+        onSubmit={handleSubmit((data) =>
+          mutation.mutateAsync(data)
+        )}
+        className="space-y-4"
       >
-        {type !== "login" && (
-          <div className="mb-5">
-            <label
-              htmlFor="userName"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Enter username
-            </label>
-            <input
-              type="text"
-              {...register("username", {
-                required: "userName address is required!",
-              })}
-              id="userName"
-              className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light"
-              placeholder="name@flowbite.com"
-            />
-            {errors.userName && (
-              <p className="text-red-500 pl-1 tracking-wider ">
-                {errors.userName.message}
-              </p>
-            )}
-          </div>
-        )}
-        <div className="mb-5">
-          <label
-            htmlFor="email"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your email
-          </label>
+        {field.current.map((el, i) => (
+          <FormFields mode='no-val-label-space' key={i} error={errors} fieldData={el} />
+        ))}
+
+        <div className="flex items-start gap-2">
           <input
-            type="email"
-            {...register("email", { required: "email address is required!" })}
-            id="email"
-            className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light"
-            placeholder="name@flowbite.com"
+            type="checkbox"
+            {...register("rememberMe")}
+            id="rememberMe"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
           />
-          {errors.email && (
-            <p className="text-red-500 pl-1 tracking-wider ">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-        <div className="mb-5">
           <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            htmlFor="rememberMe"
+            className="text-sm text-gray-900 dark:text-gray-300"
           >
-            Your password
-          </label>
-          <input
-            type="password"
-            {...register("password", { required: "password is required!" })}
-            id="password"
-            className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light"
-          />
-          {errors.password && (
-            <p className="text-red-500 pl-1 tracking-wider ">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
-        {type === "signup" && (
-          <div className="mb-5">
-            <label
-              htmlFor="repeat-password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Repeat password
-            </label>
-            <input
-              type="password"
-              {...register("passwordConfirm", {
-                required: "repeat password is required!",
-              })}
-              id="repeat-password"
-              className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light"
-            />
-            {errors.passwordConfirm && (
-              <p className="text-red-500 pl-1 tracking-wider ">
-                {errors.passwordConfirm.message}
-              </p>
-            )}
-          </div>
-        )}
-        <div className="flex items-start mb-5">
-          <div className="flex items-center h-5">
-            <input
-              id="terms"
-              type="checkbox"
-              value=""
-              {...register("rememberMe")}
-              className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-            />
-          </div>
-          <label
-            htmlFor="terms"
-            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            remember me for 30 days
+            Remember me for 30 days
           </label>
         </div>
+
         <button
           disabled={isSubmitting}
           className="text-white disabled:cursor-not-allowed relative hover:cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -168,20 +141,23 @@ function AuthForm({type}) {
             <ImSpinner9 className="mx-auto my-auto animate-spin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           )}
         </button>
-        <div className="flex gap-2 items-center mt-3">
-          <p className="text-[var(--textDark)] ">
+
+        <div className="flex gap-2 mt-3 text-sm text-[var(--textDark)]">
+          <p>
             {type === "login"
-              ? "don't have an account ?"
-              : "already have an account?"}{" "}
+              ? "Don't have an account?"
+              : "Already have an account?"}
           </p>
           <Link
-            href={type === "login" ? "/signup" : "login"}
+            href={type === "login" ? "/signup" : "/login"}
             className="text-blue-500"
           >
-            {type === "login" ? "register" : "sign in"}
+            {type === "login" ? "Register" : "Sign In"}
           </Link>
         </div>
       </form>
-    );
+    </div>
+  );
 }
-export default AuthForm
+
+export default AuthForm;

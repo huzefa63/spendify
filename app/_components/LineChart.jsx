@@ -1,9 +1,9 @@
 "use client";
 import { getLineChartData } from "@/features/dashboardHandlers";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useParams, useSearchParams } from "next/navigation";
-import React, { PureComponent } from "react";
+import { MdDataUsageOff } from "react-icons/md";
+import { useSearchParams } from "next/navigation";
+import React from "react";
 import {
   LineChart,
   Line,
@@ -52,49 +52,58 @@ function DashboardLineChart({searchParams}) {
   });
   return (
     <div className="h-full pr-1">
-      <div className="h-full lg:hidden">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart width={500} height={300} data={monthlyTransaction}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="_id"
-              interval={0}
-              tickFormatter={(val) => val.slice(0, 3)}
-              tick={{ fontSize: "10px", dy: 3 }}
-            />
-            <YAxis tick={{ fontSize: "10px" }} width={45} />
-            <Tooltip content={<CustomToolTip />} />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="Expense"
-              stroke="#ef4444"
-              activeDot={{ r: 8 }}
-            />
-            <Line type="monotone" dataKey="Income" stroke="#22c55e" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="h-full hidden lg:block">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart width={500} height={300} data={monthlyTransaction}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="_id"
-            />
-            <YAxis />
-            <Tooltip content={<CustomToolTip />} />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="Expense"
-              stroke="#ef4444"
-              activeDot={{ r: 8 }}
-            />
-            <Line type="monotone" dataKey="Income" stroke="#22c55e" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+      {monthlyTransaction?.length < 1 && (
+        <div className="h-full flex items-center justify-center">
+          <p className="lg:text-3xl lg:tracking-wider">
+            No data available to display line chart!
+          </p>
+        </div>
+      )}
+      {monthlyTransaction?.length > 0 && (
+        <>
+          <div className="h-full lg:hidden">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart width={500} height={300} data={monthlyTransaction}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="_id"
+                  interval={0}
+                  tickFormatter={(val) => val.slice(0, 3)}
+                  tick={{ fontSize: "10px", dy: 3 }}
+                />
+                <YAxis tick={{ fontSize: "10px" }} width={45} />
+                <Tooltip content={<CustomToolTip />} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="Expense"
+                  stroke="#ef4444"
+                  activeDot={{ r: 8 }}
+                />
+                <Line type="monotone" dataKey="Income" stroke="#22c55e" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="h-full hidden lg:block">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart width={500} height={300} data={monthlyTransaction}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="_id" />
+                <YAxis />
+                <Tooltip content={<CustomToolTip />} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="Expense"
+                  stroke="#ef4444"
+                  activeDot={{ r: 8 }}
+                />
+                <Line type="monotone" dataKey="Income" stroke="#22c55e" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </>
+      )}
     </div>
   );
 }

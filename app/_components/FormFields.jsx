@@ -1,8 +1,8 @@
-function FormFields({fieldData,userData,error}) {
+function FormFields({fieldData,userData,error,mode}) {
     const username = userData?.userName || '';
     const email = userData?.email || '';
     return (
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2 text-[var(--text)]">
         <label htmlFor={fieldData?.name}>{fieldData?.labelText}</label>
         <div className="relative">
           <input
@@ -25,11 +25,19 @@ function FormFields({fieldData,userData,error}) {
             {fieldData?.icon}
           </label>
         </div>
-        <p className={`text-red-500 ${error[fieldData?.name]?.message ? 'opacity-100':'opacity-0'}`}>
+        {!mode && <p
+          className={`text-red-500 ${
+            error[fieldData?.name]?.message ? "opacity-100" : "opacity-0"
+          }`}
+        >
           {error[fieldData?.name]?.message
             ? error[fieldData?.name]?.message
             : "placeholder"}{" "}
-        </p>
+        </p>}
+        {mode && <p className="text-red-500">
+          {error[fieldData?.name]?.message
+            && error[fieldData?.name]?.message}
+        </p>}
       </div>
     );
 }
