@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const features = [
     {
       title: "Track Income & Expenses",
@@ -101,9 +103,9 @@ function Page() {
             Join others in building better habits, saving smarter, and spending
             consciously.
           </p>
-          <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-semibold transition">
+          <Link href='/signup' className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-semibold transition">
             Get Started Now
-          </button>
+          </Link>
         </section>
       </main>
     );
