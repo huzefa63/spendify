@@ -20,8 +20,8 @@ const squada = Squada_One({
   weight: "400",
 });
 
-const pages = ["home", "about", "features", "pricing"];
-const menuPages = ["home", "about", "features", "pricing", "signup"];
+const pages = ["home", "about", "features",];
+const menuPages = ["home", "about", "features","signup"];
 
 function Navbar() {
   const pathName = usePathname();
@@ -126,7 +126,6 @@ function Navbar() {
                     {el === "home" && <IoMdHome />}
                     {el === "about" && <FaCircleInfo />}
                     {el === "features" && <IoIosRocket />}
-                    {el === "pricing" && <FaTags />}
                     {el === "signup" && <FaUserPlus />}
                     {pageName}
                   </Link>
