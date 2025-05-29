@@ -5,13 +5,11 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import toast from "react-hot-toast";
 import Link from "next/link";
 import { MdEmail, MdLock } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
 import FormFields from "./FormFields"; // Make sure this component exists
-import Button from "@/app/_ui/Button"; // Your custom button component
 
 function AuthForm({ type }) {
   const {

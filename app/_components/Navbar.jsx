@@ -109,7 +109,7 @@ function Navbar() {
             initial={{ height: 0 }}
             animate={{ height: "" }}
             exit={{ height: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
             ref={menuRef} // Attach the ref here to detect clicks outside
             className="lg:hidden shadow-sm overflow-hidden brightness-95 border-x-1 border-[var(--border)] z-[1000] fixed w-full top-16 bg-[var(--surface)]"
           >

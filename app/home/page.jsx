@@ -45,7 +45,7 @@ function Page() {
             />
           </div>
 
-          <div className="lg:hidden text-center">
+          {/* <div className="lg:hidden text-center">
             <p className="text-[var(--textDark)] font-bold mt-4 text-4xl tracking-widest flex flex-col  gap-2">
               <span>
                 See Your{" "}
@@ -58,7 +58,7 @@ function Page() {
               </span>
             </p>
            
-          </div>
+          </div> */}
 
           {/* displayed image here in mobile screen */}
 
@@ -84,7 +84,7 @@ function Page() {
                 alt="person accounting"
               />
             </div>
-            <p className="text-[var(--textDark)] font-bold mt-4 text-4xl tracking-widest flex flex-col  gap-2">
+            {/* <p className="text-[var(--textDark)] font-bold mt-4 text-4xl tracking-widest flex flex-col  gap-2">
               <span>
                 See Your{" "}
                 <strong className="text-blue-600 dark:text-purple-500">
@@ -94,7 +94,7 @@ function Page() {
               <span className="text-4xl tracking-wide ">
                 Like never before.
               </span>
-            </p>
+            </p> */}
             
           </div>
         </section>
