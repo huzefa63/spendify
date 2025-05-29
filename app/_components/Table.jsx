@@ -40,21 +40,21 @@ function Row({data,i}){
       </p>
       <p className="flex lg:col-span-2 col-span-2 justify-between">
         <span
-          className="lg:flex gap-1 items-center hidden "
+          className="lg:flex gap-1 items-center hidden thin-scroll-bar"
           style={
             data.transactionType === "income"
-              ? { color: "#22c55e" }
-              : { color: "#ef4444" }
+              ? { color: "#22c55e",width:'95%',overflow:'auto' }
+              : { color: "#ef4444",width:'95%',overflow:'auto' }
           }
         >
           {formattedAmountWithFraction}
         </span>{" "}
         <span
-          className="flex gap-1  lg:hidden "
+          className="flex gap-1  lg:hidden thin-scroll-bar"
           style={
             data.transactionType === "income"
-              ? { color: "#22c55e" }
-              : { color: "#ef4444" }
+              ? { color: "#22c55e",width:'95%',overflow:'auto' }
+              : { color: "#ef4444",width:'95%',overflow:'auto' }
           }
         >
           {formattedAmountWithoutFraction}
