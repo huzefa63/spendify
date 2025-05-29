@@ -26,10 +26,10 @@ const features = [
   ]
 function Page() {
     return (
-      <main className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 px-6 py-12 space-y-24">
+      <main className="dark:bg-[var(--background)] text-gray-800 dark:text-gray-200 px-6 py-12 space-y-24">
         {/* Hero Section */}
         <section className="max-w-5xl mx-auto text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-green-600 dark:text-green-400">
+          <h1 className="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400">
             About Our Finance Tracking App
           </h1>
           <p className="text-lg md:text-xl">
@@ -60,7 +60,7 @@ function Page() {
                 key={idx}
                 className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:shadow-lg transition"
               >
-                <h3 className="text-xl font-bold mb-2 text-green-600 dark:text-green-400">
+                <h3 className="text-xl font-bold mb-2 text-blue-600 dark:text-blue-400">
                   {feature.title}
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300">
@@ -83,6 +83,9 @@ function Page() {
               React
             </span>
             <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
+              Next.js
+            </span>
+            <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
               Tailwind CSS
             </span>
             <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
@@ -102,14 +105,14 @@ function Page() {
 
         {/* Call To Action */}
         <section className="max-w-4xl mx-auto text-center space-y-4">
-          <h2 className="text-3xl font-semibold text-green-600 dark:text-green-400">
+          <h2 className="text-3xl font-semibold text-blue-600 dark:text-blue-400">
             Ready to Take Control of Your Finances?
           </h2>
           <p className="text-lg">
             Join others in building better habits, saving smarter, and spending
             consciously.
           </p>
-          <button className="mt-4 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl text-lg font-semibold transition">
+          <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-semibold transition">
             Get Started Now
           </button>
         </section>
