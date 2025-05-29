@@ -24,6 +24,8 @@ const features = [
       desc: "Enjoy a sleek, eye-friendly dark theme for late-night budget sessions.",
     },
   ]
+
+const techStack = ['React','Next.js','Tailwind CSS','Node.js','Express','MongoDb','JWT Auth'];
 function Page() {
     return (
       <main className="dark:bg-[var(--background)] text-gray-800 dark:text-gray-200 px-6 py-12 space-y-24">
@@ -55,9 +57,9 @@ function Page() {
             Key Features
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
-            {features.map((feature, idx) => (
+            {features.map((feature, i) => (
               <div
-                key={idx}
+                key={i}
                 className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:shadow-lg transition"
               >
                 <h3 className="text-xl font-bold mb-2 text-blue-600 dark:text-blue-400">
@@ -79,27 +81,14 @@ function Page() {
             scalability.
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-400">
-            <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
-              React
-            </span>
-            <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
-              Next.js
-            </span>
-            <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
-              Tailwind CSS
-            </span>
-            <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
-              Node.js
-            </span>
-            <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
-              Express
-            </span>
-            <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
-              MongoDB
-            </span>
-            <span className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
-              JWT Auth
-            </span>
+            {techStack.map((el,i) => {
+              return (
+                <span key={i} className="bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">
+                  {el}
+                </span>
+              );
+            })}
+           
           </div>
         </section>
 
