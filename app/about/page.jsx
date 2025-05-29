@@ -1,3 +1,29 @@
+const features = [
+    {
+      title: "Track Income & Expenses",
+      desc: "Log every transaction effortlessly and categorize it for better budgeting.",
+    },
+    {
+      title: "Visual Insights",
+      desc: "Interactive charts and graphs give you a clear view of your monthly and yearly trends.",
+    },
+    {
+      title: "Secure & Private",
+      desc: "Your data is encrypted and stored securely. You stay in control.",
+    },
+    {
+      title: "Real-Time Sync",
+      desc: "All your data is instantly updated across devices with blazing-fast sync.",
+    },
+    {
+      title: "Custom Categories",
+      desc: "Tailor your tracking experience with personalized income and expense categories.",
+    },
+    {
+      title: "Dark Mode",
+      desc: "Enjoy a sleek, eye-friendly dark theme for late-night budget sessions.",
+    },
+  ]
 function Page() {
     return (
       <main className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 px-6 py-12 space-y-24">
@@ -29,32 +55,7 @@ function Page() {
             Key Features
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
-            {[
-              {
-                title: "Track Income & Expenses",
-                desc: "Log every transaction effortlessly and categorize it for better budgeting.",
-              },
-              {
-                title: "Visual Insights",
-                desc: "Interactive charts and graphs give you a clear view of your monthly and yearly trends.",
-              },
-              {
-                title: "Secure & Private",
-                desc: "Your data is encrypted and stored securely. You stay in control.",
-              },
-              {
-                title: "Real-Time Sync",
-                desc: "All your data is instantly updated across devices with blazing-fast sync.",
-              },
-              {
-                title: "Custom Categories",
-                desc: "Tailor your tracking experience with personalized income and expense categories.",
-              },
-              {
-                title: "Dark Mode",
-                desc: "Enjoy a sleek, eye-friendly dark theme for late-night budget sessions.",
-              },
-            ].map((feature, idx) => (
+            {features.map((feature, idx) => (
               <div
                 key={idx}
                 className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:shadow-lg transition"
