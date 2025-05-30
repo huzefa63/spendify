@@ -40,7 +40,7 @@ const textColors = ["blue-500", "green-500", "orange-500", "red-500"]; // Add mo
 function PieChartDashboard(){
   const param = useSearchParams();
   const {data} = useQuery({
-    queryKey:['categoryDataMonthly',param.get('transactionType')],
+    queryKey:['categoryDataMonthly',param.get('transactionType'),param.get('year')],
     queryFn:()=>getPieChartData(param)
   })
   const totalAmount = data?.reduce((acc,cur) => acc + cur?.totalAmount,0);
