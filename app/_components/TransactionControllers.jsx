@@ -113,7 +113,7 @@ function TransactionControllers({ filterObj }) {
       )}
 
       <div className="lg:flex gap-4">
-        <div className="flex gap-4 justify-around px-2 lg:px-0">
+        <div className="lg:flex flex lg:gap-4 justify-evenly  px-2 lg:px-0">
           <Button
             type="secondary"
             handler={() => {
@@ -122,7 +122,7 @@ function TransactionControllers({ filterObj }) {
             }}
           >
             <span className="lg:block hidden">+ New entry</span>
-            <span className="lg:hidden text-xs">+ add</span>
+            <span className="lg:hidden text-xs px-3 ">+ add</span>
           </Button>
           <div className="relative">
             <div ref={filterButtonRef} className="buttonDiv">
@@ -131,7 +131,7 @@ function TransactionControllers({ filterObj }) {
                   setShowDropdown(!showDropdown);
                 }}
               >
-                <div className="flex gap-1 items-center ">
+                <div className="flex gap-1 items-center px-2 lg:px-0">
                   <MdFilterList size={20} /> Filter <MdKeyboardArrowDown />
                 </div>
               </Button>
@@ -196,7 +196,7 @@ function TransactionControllers({ filterObj }) {
             disabled={categoryData?.length < 1}
             value={filterObj?.category}
             onChange={(e) => filterHandler("category", e.target.value)}
-            className="bg-transparent col-span-2 lg:col-span-1 disabled:cursor-not-allowed border-[var(--border)] border-1 text-[var(--text)] lg:px-8 h-fit py-2 rounded-sm "
+            className="bg-transparent px-2 col-span-2 lg:col-span-1 disabled:cursor-not-allowed border-[var(--border)] border-1 text-[var(--text)] lg:px-8 h-fit py-2 rounded-sm "
           >
             <option
               value=""
@@ -219,11 +219,15 @@ function TransactionControllers({ filterObj }) {
         </div>
       </div>
 
-      <div className="flex relative lg:gap-5 mt-2 lg:mt-0 gap-2 lg:items-center max-w-full px-1 lg:px-0">
-        <DatePickerr label="From" type="from" />
+      <div className="lg:flex grid grid-cols-5 gap-3 relative lg:gap-5 mt-2 lg:mt-0 lg:items-center max-w-full px-1 lg:px-0">
+        <div className="col-span-2">
+          <DatePickerr label="From" type="from" />
+        </div>
         <FaArrowRightArrowLeft className="dark:text-white hidden lg:flex" />
-        <DatePickerr label="To" type="to" />
-        <div className="relative text-center lg:mt-0 lg:hidden self-end">
+        <div className="col-span-2">
+          <DatePickerr label="To" type="to" />
+        </div>
+        <div className="relative self-end lg:mt-0 lg:hidden">
           <Button
             type="primary"
             handler={() => {

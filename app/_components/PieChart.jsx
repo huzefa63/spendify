@@ -221,12 +221,18 @@ function CustomToolTip({active,payload,label}){
   const year = new URLSearchParams(params).get('year');
   const amount = formatCurrency(payload[0]?.value);
   const type = params.get("transactionType");
-  return(
+  return (
     <div className="bg-[var(--background)] space-y-3 p-5 border-1 border-[var(--border)]">
       <h1>year {year}</h1>
       <h1>category: {payload[0]?.payload?._id}</h1>
       {/* <p className="text-green-500">income: {income}</p> */}
-      <p className={type === 'income'?'text-green-500':'text-red-500'}>{type === 'income'?'amount gained':'amount spent'}: {amount}</p>
+      <p
+        className={`${
+          type === "income" ? "text-green-500" : "text-red-500"
+        }w-full break-all`}
+      >
+        {type === "income" ? "amount gained" : "amount spent"}: {amount}
+      </p>
     </div>
-  )
+  );
 }

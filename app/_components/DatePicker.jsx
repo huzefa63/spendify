@@ -26,7 +26,6 @@ export default function App({label,type}) {
   }
   function htmlDateValue(type){
     if(params.get(type)){
-      console.log("from input", new Date(params.get(type)));
       return new Date(params.get(type)).toISOString().split('T')[0];
     }
     else{
@@ -77,8 +76,8 @@ export default function App({label,type}) {
           />
         </LocalizationProvider>
       </div>
-      <div className="lg:hidden">
-        <label htmlFor="" className="text-[var(--text)] text-xs ml-1">{type}</label>
+      <div className="lg:hidden col-span-2">
+        <label htmlFor="" className="text-[var(--text)]  text-xs ml-1">{type}</label>
         <input
           onChange={handlehtmlDate}
           value={type === "from" ? htmlDateValue("from") : htmlDateValue("to")}

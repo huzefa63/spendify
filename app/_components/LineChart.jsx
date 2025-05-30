@@ -30,10 +30,10 @@ function CustomToolTip({active,payload,label}){
   const expense = formatCurrency(payload[0]?.value);
 
   return(
-    <div className="bg-[var(--background)] space-y-3 p-5 border-1 border-[var(--border)]">
+    <div className="bg-[var(--background)]  overflow-auto space-y-3 p-5 border-1 border-[var(--border)]">
       <h1>{label}, {year}</h1>
-      <p className="text-green-500">income: {income}</p>
-      <p className="text-red-500">expense: {expense}</p>
+      <p className="text-green-500 w-full break-all">income: {income}</p>
+      <p className="text-red-500 w-full break-all">expense: {expense}</p>
     </div>
   )
 }
