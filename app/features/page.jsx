@@ -9,7 +9,7 @@ const features = [
   {
     name: "Visual Charts & Graphs",
     description:
-      "Gain financial clarity with dynamic line and bar charts. Instantly visualize monthly trends, category spending, and income flow.",
+      "Gain financial clarity with dynamic line and pie charts. Instantly visualize monthly trends, category spending, and income flow.",
     icon: CloudArrowUpIcon,
   },
   {
