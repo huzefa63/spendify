@@ -17,9 +17,21 @@ async function Page({searchParams}) {
     const searchParamsObj = await searchParams;
     const {monthNumber,year} = searchParamsObj;
     const pieChartHeading =
-      monthNumber !== "fullYear"
-        ? `Each Category Income/Expense Distribution for ${month[monthNumber]} ${year}`
-        : `Each Category Income/Expense Distribution for Year ${year}`;
+      monthNumber !== "fullYear" ? (
+        <p>
+          {`Each Category Income/Expense Distribution for `}
+          <span className="text-cyan-500 font-extrabold">
+            {month[monthNumber].toUpperCase()} {year}
+          </span>{" "}
+        </p>
+      ) : (
+        <p>
+          {`Each Category Income/Expense Distribution for Year `}
+          <span className="text-cyan-500 font-extrabold">
+            {year}
+          </span>{" "}
+        </p>
+      );
     return (
       // padding top and left due to navbar and sidebar
       <div
@@ -37,7 +49,7 @@ async function Page({searchParams}) {
           <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 lg:p-5 py-5  flex flex-col">
             <div className="lg:flex justify-between items-center mb-6 ml-3">
               <h1 className="lg:text-3xl px-1">
-                Income and Expense Distribution Year {searchParamsObj?.year}
+                Income and Expense Distribution Year <span className="text-cyan-500">{year}</span>
               </h1>
               <div className="ml-auto lg:ml-0 mt-2 lg:mt-0 pl-1 lg:pl-0">
                 <FilterLineChart />
