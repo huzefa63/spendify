@@ -64,7 +64,7 @@ function Page() {
 
           <p className="text-[var(--text)] lg:w-[80%] font-semibold tracking-wider  w-[85%]">
             "Take control of your spending with ease. Our smart and simple
-            expense tracker helps you monitor every rupee, set saving goals, and
+            finance tracker helps you monitor every rupee, set saving goals, and
             build better habits — all in one place. Whether you're budgeting for
             the month or just want to know where your money goes, we’ve got you
             covered."
