@@ -227,9 +227,7 @@ function CustomToolTip({active,payload,label}){
       <h1>category: {payload[0]?.payload?._id}</h1>
       {/* <p className="text-green-500">income: {income}</p> */}
       <p
-        className={`${
-          type === "income" ? "text-green-500" : "text-red-500"
-        }w-full break-all`}
+        className={`${type === 'expense' ? 'text-red-500':'text-green-500'} break-all`}
       >
         {type === "income" ? "amount gained" : "amount spent"}: {amount}
       </p>

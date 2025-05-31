@@ -6,7 +6,7 @@ import PieChartDashboard from "../_components/PieChart";
 import DashboardLineChart from "../_components/LineChart";
 import FilterLineChart from "../_components/FilterLineChart";
 import FilterPieChart from "../_components/FilterPieChart";
-
+import { GiMoneyStack } from "react-icons/gi";
 const poppins = Poppins({
     subsets:['latin'],
     variable:'poppins',
@@ -18,7 +18,7 @@ async function Page({searchParams}) {
     const {monthNumber,year} = searchParamsObj;
     const pieChartHeading =
       monthNumber !== "fullYear" ? (
-        <p>
+        <p className="">
           {`Each Category Income/Expense Distribution for `}
           <span className="text-cyan-500 font-extrabold">
             {month[monthNumber].toUpperCase()} {year}
@@ -45,11 +45,13 @@ async function Page({searchParams}) {
           <div className="mt-5">
             <DashBoardCards params={searchParamsObj} />
           </div>
-          
+
           <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 lg:p-5 py-5  flex flex-col">
             <div className="lg:flex justify-between items-center mb-6 ml-3">
-              <h1 className="lg:text-3xl px-1">
-                Income and Expense Distribution Year <span className="text-cyan-500">{year}</span>
+              <h1 className="lg:text-3xl px-1 flex  gap-3">
+                <GiMoneyStack className="mt-1 text-lg lg:text-3xl" />
+                Income and Expense Distribution Year{" "}
+                <span className="text-cyan-500">{year}</span>
               </h1>
               <div className="ml-auto lg:ml-0 mt-2 lg:mt-0 pl-1 lg:pl-0">
                 <FilterLineChart />
@@ -61,7 +63,8 @@ async function Page({searchParams}) {
           </div>
           <div className="lg:h-[70%] h-1/2 w-full bg-[var(--surface)] mt-5 lg:p-5 py-5 px-1 flex flex-col">
             <div className="lg:flex justify-between ml-3">
-              <h1 className="lg:text-3xl  ">
+              <h1 className="lg:text-3xl  flex  gap-3">
+                <GiMoneyStack className=" mt-1 text-lg lg:text-3xl" />
                 {pieChartHeading}
               </h1>
               <div className="ml-auto lg:ml-0 mt-2 lg:mt-0">
