@@ -7,6 +7,7 @@ import DashboardLineChart from "../_components/LineChart";
 import FilterLineChart from "../_components/FilterLineChart";
 import FilterPieChart from "../_components/FilterPieChart";
 import { GiMoneyStack } from "react-icons/gi";
+import { RxDashboard } from "react-icons/rx";
 const poppins = Poppins({
     subsets:['latin'],
     variable:'poppins',
@@ -21,7 +22,7 @@ async function Page({searchParams}) {
         <p className="">
           {`Each Category Income/Expense Distribution for `}
           <span className="text-cyan-500 font-extrabold">
-            {month[monthNumber].toUpperCase()} {year}
+            {month[monthNumber]?.toUpperCase()} {year}
           </span>{" "}
         </p>
       ) : (
@@ -39,7 +40,7 @@ async function Page({searchParams}) {
       >
         <main className="w-full h-full">
           <div className="flex justify-between items-center">
-            <h1 className="lg:text-3xl text-lg">Dashboard</h1>
+            <h1 className="lg:text-3xl text-lg flex gap-3 items-center"> <RxDashboard /> Dashboard</h1>
             <DashboardFilter />
           </div>
           <div className="mt-5">
