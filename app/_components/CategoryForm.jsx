@@ -105,7 +105,7 @@ const inputStyles =
             <FaEdit className="text-blue-400" />
             Add and Delete Categories
           </h1>
-          <div className="grid lg:grid-cols-2 lg:grid-rows-1 grid-rows-2 gap-x-15 gap-y-8 px-10 py-3 border-1 border-[var(--border)] rounded-sm">
+          <div className="grid lg:grid-cols-2 bg-[var(--background)] lg:grid-rows-1 grid-rows-2 gap-x-15 gap-y-8 px-10 py-3 border border-[var(--border)] rounded-sm">
             <div className="flex flex-col gap-2">
               <label htmlFor="addCategory">add category</label>
               <div className="relative">
@@ -117,8 +117,11 @@ const inputStyles =
                   type="text"
                   className={`${inputStyles} px-10 w-full`}
                 />
-                <label htmlFor="addCategory" className="absolute text-[var(--text)] left-3 top-1/2 -translate-y-1/2">
-                  <FaRegListAlt className="text-purple-500"/>
+                <label
+                  htmlFor="addCategory"
+                  className="absolute text-[var(--text)] left-3 top-1/2 -translate-y-1/2"
+                >
+                  <FaRegListAlt className="text-purple-500" />
                 </label>
               </div>
             </div>

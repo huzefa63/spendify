@@ -41,7 +41,7 @@ export function UsernameUpdateForm() {
       }],)
   
     return (
-      <div className="px-10 py-5 w-full  rounded-sm">
+      <div className="px-10 bg-[var(--background)] border border-[var(--border)] py-5 w-full  rounded-sm">
         <form
           onSubmit={handleSubmit((data) =>
             toast.promise(
@@ -122,16 +122,18 @@ export function UpdatePasswordForm(){
       },
     ]);
     return (
-      <div className="px-10 py-5 w-full">
+      <div className="px-10 border border-[var(--border)] bg-[var(--background)] py-5 w-full">
         <form
-          onSubmit={handleSubmit((data) => toast.promise(
-            mutate.mutateAsync({data,url:'users/updatePassword'}),
-             {
-               loading: 'Updating...',
-               success: <b>password updated!</b>,
-               error: <b>failed to update password!.</b>,
-             }
-           ))}
+          onSubmit={handleSubmit((data) =>
+            toast.promise(
+              mutate.mutateAsync({ data, url: "users/updatePassword" }),
+              {
+                loading: "Updating...",
+                success: <b>password updated!</b>,
+                error: <b>failed to update password!.</b>,
+              }
+            )
+          )}
           className="grid lg:grid-cols-2 gap-x-15 lg:grid-rows-1 grid-rows-2"
         >
           {field.current.map((el, i) => {

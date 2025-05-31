@@ -94,7 +94,7 @@ function SettingsForm() {
         Update profile
       </header>
 
-      <div className="grid grid-cols-5 lg:text-inherit lg:flex py-3 px-3 border-1 border-[var(--border)] rounded-sm items-center mt-7">
+      <div className="grid bg-[var(--background)] grid-cols-5 lg:text-inherit lg:flex py-3 px-3 border-1 border-[var(--border)] rounded-sm items-center mt-7">
         {userData?.profileImage ? (
           <div className="lg:h-20 h-16 lg:w-20 w-16 overflow-hidden rounded-full relative">
             <Image
@@ -126,11 +126,13 @@ function SettingsForm() {
         </div>
         <div className="col-span-2">
           <Button
-            handler={() =>toast.promise(handleRemoveImage, {
-              loading: "Updating...",
-              success: <b>profile image removed!</b>,
-              error: <b>Could not remove profile image.</b>,
-            })}
+            handler={() =>
+              toast.promise(handleRemoveImage, {
+                loading: "Updating...",
+                success: <b>profile image removed!</b>,
+                error: <b>Could not remove profile image.</b>,
+              })
+            }
             type="secondary"
           >
             remove img
@@ -138,9 +140,9 @@ function SettingsForm() {
         </div>
       </div>
 
-      <div className="border-1 border-[var(--border)] mt-5">
+      <div className=" flex flex-col gap-3 border-[var(--border)] mt-5">
         <UsernameUpdateForm />
-        <hr className="text-[var(--border)]" />
+        {/* <hr className="text-[var(--border)]" /> */}
         <UpdatePasswordForm />
       </div>
     </div>
