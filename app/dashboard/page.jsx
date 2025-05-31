@@ -50,7 +50,7 @@ async function Page({searchParams}) {
           <div className="w-full lg:h-[70%] h-1/2 bg-[var(--surface)] mt-5 lg:p-5 py-5  flex flex-col">
             <div className="lg:flex justify-between items-center mb-6 ml-3">
               <h1 className="lg:text-3xl px-1 flex  gap-3">
-                <GiMoneyStack className="mt-1 text-lg lg:text-3xl" />
+                <GiMoneyStack className="mt-1 text-lg lg:text-3xl text-green-500" />
                 Income and Expense Distribution Year{" "}
                 <span className="text-cyan-500">{year}</span>
               </h1>
@@ -65,7 +65,7 @@ async function Page({searchParams}) {
           <div className="lg:h-[70%] h-1/2 w-full bg-[var(--surface)] mt-5 lg:p-5 py-5 px-1 flex flex-col">
             <div className="lg:flex justify-between ml-3">
               <h1 className="lg:text-3xl  flex  gap-3">
-                <GiMoneyStack className=" mt-1 text-lg lg:text-3xl" />
+                <GiMoneyStack className=" mt-1 text-lg lg:text-3xl text-green-500" />
                 {pieChartHeading}
               </h1>
               <div className="ml-auto lg:ml-0 mt-2 lg:mt-0">
