@@ -28,7 +28,7 @@ function Page() {
             </span>
             <Slide type="up" delay={0.2}>
               <span className="lg:text-5xl dark:text-purple-500 text-blue-600">
-                Expense Tracking.
+                Finance Tracking.
               </span>
             </Slide>
             {/* <RedirectFromHome /> */}
