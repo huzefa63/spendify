@@ -16,7 +16,7 @@ const poppins = Poppins({
 const month = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 async function Page({searchParams}) {
     const searchParamsObj = await searchParams;
-    const {monthNumber,year} = searchParamsObj;
+    const {monthNumber,year,category} = searchParamsObj;
     const pieChartHeading =
       monthNumber !== "fullYear" ? (
         <p className="">
@@ -51,7 +51,7 @@ async function Page({searchParams}) {
             <div className="lg:flex justify-between items-center mb-6 ml-3">
               <h1 className="lg:text-3xl px-1 flex  gap-3">
                 <GiMoneyStack className="mt-1 text-lg lg:text-3xl text-green-500" />
-                Income and Expense Distribution Year{" "}
+                Income/Expense Distribution {category && `of ${category} in `} Year{" "}
                 <span className="text-cyan-500">{year}</span>
               </h1>
               <div className="ml-auto lg:ml-0 mt-2 lg:mt-0 pl-1 lg:pl-0">
