@@ -15,8 +15,7 @@ const poppins = Poppins({
 const month = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 async function Page({searchParams}) {
     const searchParamsObj = await searchParams;
-    const monthNumber = searchParamsObj?.monthNumber;
-    const year = searchParamsObj?.year;
+    const {monthNumber,year} = searchParamsObj;
     const pieChartHeading =
       monthNumber !== "fullYear"
         ? `Each Category Income/Expense Distribution for ${month[monthNumber]} ${year}`
