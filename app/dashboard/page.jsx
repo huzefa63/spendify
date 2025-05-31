@@ -12,8 +12,15 @@ const poppins = Poppins({
     variable:'poppins',
     weight:'600'
 })
+const month = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 async function Page({searchParams}) {
     const searchParamsObj = await searchParams;
+    const monthNumber = searchParamsObj?.monthNumber;
+    const year = searchParamsObj?.year;
+    const pieChartHeading =
+      monthNumber !== "fullYear"
+        ? `Each Category Income/Expense Distribution for ${month[monthNumber]} ${year}`
+        : `Each Category Income/Expense Distribution for Year ${year}`;
     return (
       // padding top and left due to navbar and sidebar
       <div
@@ -44,8 +51,7 @@ async function Page({searchParams}) {
           <div className="lg:h-[70%] h-1/2 w-full bg-[var(--surface)] mt-5 lg:p-5 py-5 px-1 flex flex-col">
             <div className="lg:flex justify-between ml-3">
               <h1 className="lg:text-3xl  ">
-                Each Category Income and Expense Distribution For Year{" "}
-                {searchParamsObj?.year}
+                {pieChartHeading}
               </h1>
               <div className="ml-auto lg:ml-0 mt-2 lg:mt-0">
                 <FilterPieChart />
